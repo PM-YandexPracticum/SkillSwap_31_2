@@ -1,0 +1,128 @@
+.card {
+  position: relative;
+  padding: 20px;
+  width: 324px;
+  border-radius: 12px;
+  background: white;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  color: #253017;
+  text-align: left;
+}
+
+.favorite {
+  position: absolute;
+  top: 20px;
+  right: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.avatar {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatarLarge {
+  width: 100px;
+  height: 100px;
+}
+
+.name {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.22px;
+  margin: 0;
+}
+
+.meta {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+  letter-spacing: 0.24px;
+}
+
+.block {
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.label {
+  margin-bottom: 8px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.32px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tag {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  padding: 8px 12px;
+  border-radius: 20px;
+}
+
+.tagTeach {
+  background-color: #f3d6e4;
+}
+
+.tagLearn {
+  background-color: #d2f0e9;
+}
+
+.tagMore {
+  background-color: #e0e0e0;
+  color: #253017;
+}
+
+.details {
+  margin-top: 20px;
+  background-color: #abd27a;
+  color: #253017;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  border-radius: 12px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.info {
+  text-align: left;
+}
+
+.heart {
+  stroke: #253017;
+  fill: none;
+  width: 24px;
+  height: 24px;
+}
+
+.heartActive {
+  stroke: #253017;
+  fill: #253017;
+  width: 24px;
+  height: 24px;
+}

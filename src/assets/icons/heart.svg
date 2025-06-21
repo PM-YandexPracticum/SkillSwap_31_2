@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24" height="24" viewBox="0 0 24 24"
+     xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
+  <path d="M12 20.95c-.29 0-.57-.04-.8-.12C7.65 19.61 2 15.29 2 8.9
+           2 5.64 4.63 3 7.87 3c1.57 0 3.04.61 4.13 1.71C13.09 3.61
+           14.56 3 16.13 3 19.37 3 22 5.65 22 8.9c0 6.4-5.65 10.71-9.2 11.93
+           -.23.08-.51.12-.8.12Z"
+        stroke="currentColor"/>
+</svg>
