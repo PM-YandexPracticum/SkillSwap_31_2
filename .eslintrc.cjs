@@ -15,6 +15,7 @@ module.exports = {
     'plugin:import/warnings',
     'plugin:import/typescript',
     'plugin:prettier/recommended',
+    'plugin:storybook/recommended',
   ],
   settings: {
     react: {
@@ -29,6 +30,9 @@ module.exports = {
   rules: {
     // Customize as needed
     'react/react-in-jsx-scope': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'react/prop-types': 'off',
+    'react/display-name': ['off', { ignoreTranspilerName: false }],
     'import/no-extraneous-dependencies': 'off',
     '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/no-unused-vars': 'warn',
