@@ -4,293 +4,293 @@
     "name": "Лидерство",
     "description": "Научитесь эффективно управлять командой, мотивировать сотрудников и достигать целей вместе.",
     "image": "https://images.pexels.com/photos/3778680/pexels-photo-3778680.jpeg",
-    "subcategory_id": 11
+    "category_id": 11
   },
   {
     "id": 2,
     "name": "Маркетинг",
     "description": "Овладейте стратегиями маркетинга и рекламными инструментами для продвижения продуктов и брендов.",
     "image": "https://images.pexels.com/photos/590016/pexels-photo-590016.jpeg",
-    "subcategory_id": 12
+    "category_id": 12
   },
   {
     "id": 3,
     "name": "Продажи",
     "description": "Развивайте навыки ведения переговоров и техники успешных продаж для увеличения прибыли.",
     "image": "https://images.pexels.com/photos/5868722/pexels-photo-5868722.jpeg",
-    "subcategory_id": 13
+    "category_id": 13
   },
   {
     "id": 4,
     "name": "Самопрезентация",
     "description": "Создайте сильный личный бренд, чтобы выделяться в профессиональной сфере и строить репутацию.",
     "image": "https://images.pexels.com/photos/3184328/pexels-photo-3184328.jpeg",
-    "subcategory_id": 14
+    "category_id": 14
   },
   {
     "id": 5,
     "name": "Резюме",
     "description": "Узнайте, как составлять впечатляющее резюме и проходить собеседования с уверенностью.",
     "image": "https://images.pexels.com/photos/4560150/pexels-photo-4560150.jpeg",
-    "subcategory_id": 15
+    "category_id": 15
   },
   {
     "id": 6,
     "name": "Тайм-менеджмент",
     "description": "Научитесь управлять своим временем, расставлять приоритеты и достигать целей без стресса.",
     "image": "https://images.pexels.com/photos/295826/pexels-photo-295826.jpeg",
-    "subcategory_id": 16
+    "category_id": 16
   },
   {
     "id": 7,
     "name": "Управление",
     "description": "Освойте инструменты и методологии проектного управления для эффективной реализации задач.",
     "image": "https://images.pexels.com/photos/212286/pexels-photo-212286.jpeg",
-    "subcategory_id": 17
+    "category_id": 17
   },
   {
     "id": 8,
     "name": "Бизнес",
     "description": "Получите ключевые знания о запуске и развитии собственного бизнеса с нуля.",
     "image": "https://images.pexels.com/photos/32592260/pexels-photo-32592260.jpeg",
-    "subcategory_id": 18
+    "category_id": 18
   },
   {
     "id": 9,
     "name": "Рисование",
     "description": "Развивайте навыки рисования и иллюстрации, работая с различными техниками и стилями.",
     "image": "https://images.pexels.com/photos/1109393/pexels-photo-1109393.jpeg",
-    "subcategory_id": 21
+    "category_id": 21
   },
   {
     "id": 10,
     "name": "Фотосъёмка",
     "description": "Научитесь создавать профессиональные фотографии и обрабатывать их как эксперт.",
     "image": "https://images.pexels.com/photos/1264210/pexels-photo-1264210.jpeg",
-    "subcategory_id": 22
+    "category_id": 22
   },
   {
     "id": 11,
     "name": "Монтаж",
     "description": "Овладейте видеомонтажом — от базовых инструментов до продвинутых эффектов.",
     "image": "https://images.pexels.com/photos/5628244/pexels-photo-5628244.jpeg",
-    "subcategory_id": 23
+    "category_id": 23
   },
   {
     "id": 12,
     "name": "Музыка",
     "description": "Изучите основы музыки, работу со звуком и создайте собственные композиции.",
     "image": "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg",
-    "subcategory_id": 24
+    "category_id": 24
   },
   {
     "id": 13,
     "name": "Актёрство",
     "description": "Развивайте актёрское мастерство, раскрывая эмоциональность и сценическое поведение.",
     "image": "https://images.pexels.com/photos/6899920/pexels-photo-6899920.jpeg",
-    "subcategory_id": 25
+    "category_id": 25
   },
   {
     "id": 14,
     "name": "Письмо",
     "description": "Овладейте искусством креативного письма: от прозы до поэзии.",
     "image": "https://images.pexels.com/photos/1995842/pexels-photo-1995842.jpeg",
-    "subcategory_id": 26
+    "category_id": 26
   },
   {
     "id": 15,
     "name": "Арт-терапия",
     "description": "Познакомьтесь с арт-терапией как методом самовыражения и эмоциональной разгрузки.",
     "image": "https://images.pexels.com/photos/1981468/pexels-photo-1981468.jpeg",
-    "subcategory_id": 27
+    "category_id": 27
   },
   {
     "id": 16,
     "name": "Рукоделие",
     "description": "Творите своими руками: декоративные проекты и полезные вещи для дома.",
     "image": "https://images.pexels.com/photos/982657/pexels-photo-982657.jpeg",
-    "subcategory_id": 28
+    "category_id": 28
   },
   {
     "id": 17,
     "name": "Английский",
     "description": "Изучите английский язык с нуля или углубите знание грамматики и разговорной практики.",
     "image": "https://images.pexels.com/photos/258117/pexels-photo-258117.jpeg",
-    "subcategory_id": 31
+    "category_id": 31
   },
   {
     "id": 18,
     "name": "Французский",
     "description": "Погрузитесь во французский язык и культуру с помощью современных методик.",
     "image": "https://images.pexels.com/photos/1381558/pexels-photo-1381558.jpeg",
-    "subcategory_id": 32
+    "category_id": 32
   },
   {
     "id": 19,
     "name": "Испанский",
     "description": "Освойте испанский язык через лексику, аудирование и живое общение.",
     "image": "https://images.pexels.com/photos/54097/spain-flag-flutter-spanish-54097.jpeg",
-    "subcategory_id": 33
+    "category_id": 33
   },
   {
     "id": 20,
     "name": "Немецкий",
     "description": "Изучайте немецкий язык последовательно — от алфавита до сложных конструкций.",
     "image": "https://images.pexels.com/photos/53626/pexels-photo-53626.jpeg",
-    "subcategory_id": 34
+    "category_id": 34
   },
   {
     "id": 21,
     "name": "Китайский",
     "description": "Откройте для себя китайский язык: иероглифы, произношение и основы грамматики.",
     "image": "https://images.pexels.com/photos/932261/pexels-photo-932261.jpeg",
-    "subcategory_id": 35
+    "category_id": 35
   },
   {
     "id": 22,
     "name": "Японский",
     "description": "Познакомьтесь с японским языком, письменностью и особенностями построения речи.",
     "image": "https://images.pexels.com/photos/1440476/pexels-photo-1440476.jpeg",
-    "subcategory_id": 36
+    "category_id": 36
   },
   {
     "id": 23,
     "name": "Экзамены",
     "description": "Подготовьтесь к языковым экзаменам IELTS и TOEFL.",
     "image": "https://images.pexels.com/photos/7129713/pexels-photo-7129713.jpeg",
-    "subcategory_id": 37
+    "category_id": 37
   },
   {
     "id": 24,
     "name": "Развитие",
     "description": "Работайте над саморазвитием, уверенностью и достижением личных целей.",
     "image": "https://images.pexels.com/photos/4855320/pexels-photo-4855320.jpeg",
-    "subcategory_id": 41
+    "category_id": 41
   },
   {
     "id": 25,
     "name": "Обучаемость",
     "description": "Научитесь эффективно учиться, развивайте память, концентрацию и мышление.",
     "image": "https://images.pexels.com/photos/7025980/pexels-photo-7025980.jpeg",
-    "subcategory_id": 42
+    "category_id": 42
   },
   {
     "id": 26,
     "name": "Когниция",
     "description": "Освойте когнитивные техники для развития интеллекта и решения сложных задач.",
     "image": "https://images.pexels.com/photos/10626503/pexels-photo-10626503.jpeg",
-    "subcategory_id": 43
+    "category_id": 43
   },
   {
     "id": 27,
     "name": "Скорочтение",
     "description": "Развивайте скорость чтения и понимание текста с помощью проверенных методик.",
     "image": "https://images.pexels.com/photos/5710574/pexels-photo-5710574.jpeg",
-    "subcategory_id": 44
+    "category_id": 44
   },
   {
     "id": 28,
     "name": "Преподавание",
     "description": "Изучите методы преподавания и вдохновляйте других на обучение и рост.",
     "image": "https://images.pexels.com/photos/716276/pexels-photo-716276.jpeg",
-    "subcategory_id": 45
+    "category_id": 45
   },
   {
     "id": 29,
     "name": "Коучинг",
     "description": "Овладейте коучинговыми техниками для сопровождения и поддержки развития людей.",
     "image": "https://images.pexels.com/photos/1618044/pexels-photo-1618044.jpeg",
-    "subcategory_id": 46
+    "category_id": 46
   },
   {
     "id": 30,
     "name": "Уборка",
     "description": "Научитесь поддерживать чистоту и порядок дома, создавая комфортную среду.",
     "image": "https://images.pexels.com/photos/634007/pexels-photo-634007.jpeg",
-    "subcategory_id": 51
+    "category_id": 51
   },
   {
     "id": 31,
     "name": "Финансы",
     "description": "Управляйте личными финансами: планирование бюджета, экономия и инвестиции.",
     "image": "https://images.pexels.com/photos/1602726/pexels-photo-1602726.jpeg",
-    "subcategory_id": 52
+    "category_id": 52
   },
   {
     "id": 32,
     "name": "Готовка",
     "description": "Готовьте вкусно и полезно: рецепты, техники и секреты кулинарного мастерства.",
     "image": "https://images.pexels.com/photos/2696064/pexels-photo-2696064.jpeg",
-    "subcategory_id": 53
+    "category_id": 53
   },
   {
     "id": 33,
     "name": "Растения",
     "description": "Ухаживайте за домашними растениями и создайте зелёный уголок уюта.",
     "image": "https://images.pexels.com/photos/3153522/pexels-photo-3153522.jpeg",
-    "subcategory_id": 54
+    "category_id": 54
   },
   {
     "id": 34,
     "name": "Ремонт",
     "description": "Овладейте базовыми навыками ремонта и сделайте дом удобным своими руками.",
     "image": "https://images.pexels.com/photos/3181187/pexels-photo-3181187.jpeg",
-    "subcategory_id": 55
+    "category_id": 55
   },
   {
     "id": 35,
     "name": "Организация",
     "description": "Организуйте хранение вещей грамотно — функционально и красиво.",
     "image": "https://images.pexels.com/photos/670723/pexels-photo-670723.jpeg",
-    "subcategory_id": 56
+    "category_id": 56
   },
   {
     "id": 36,
     "name": "Медитация",
     "description": "Занимайтесь медитацией для укрепления тела и гармонизации сознания.",
     "image": "https://images.pexels.com/photos/1234035/pexels-photo-1234035.jpeg",
-    "subcategory_id": 61
+    "category_id": 61
   },
   {
     "id": 37,
     "name": "Питание",
     "description": "Узнайте всё о правильном питании и сбалансированном образе жизни.",
     "image": "https://images.pexels.com/photos/406152/pexels-photo-406152.jpeg",
-    "subcategory_id": 62
+    "category_id": 62
   },
   {
     "id": 38,
     "name": "Психика",
     "description": "Поддержите ментальное здоровье через самопознание и устойчивости к стрессу.",
     "image": "https://images.pexels.com/photos/185801/pexels-photo-185801.jpeg",
-    "subcategory_id": 63
+    "category_id": 63
   },
   {
     "id": 39,
     "name": "Осознанность",
     "description": "Развивайте осознанность и присутствие в моменте.",
     "image": "https://images.pexels.com/photos/2440530/pexels-photo-2440530.jpeg",
-    "subcategory_id": 64
+    "category_id": 64
   },
   {
     "id": 40,
     "name": "Тренировки",
     "description": "Укрепляйте тело с помощью физических упражнений и тренировок под руководством.",
     "image": "https://images.pexels.com/photos/2294361/pexels-photo-2294361.jpeg",
-    "subcategory_id": 65
+    "category_id": 65
   },
   {
     "id": 41,
     "name": "Сон",
     "description": "Наладьте режим сна и восстановление, чтобы быть бодрым и энергичным каждый день.",
     "image": "https://images.pexels.com/photos/5864643/pexels-photo-5864643.jpeg",
-    "subcategory_id": 66
+    "category_id": 66
   },
   {
     "id": 42,
     "name": "Баланс",
     "description": "Достигайте баланса между работой и личной жизнью, не жертвуя ни тем, ни другим.",
     "image": "https://images.pexels.com/photos/4308011/pexels-photo-4308011.jpeg",
-    "subcategory_id": 67
+    "category_id": 67
   }
 ]
