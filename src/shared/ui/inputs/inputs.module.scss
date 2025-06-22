@@ -1,4 +1,8 @@
 .container {
+    place-self: center;
+    width: 369px;
+    border: 3px solid black;
+    position: relative;
     display: flex;
     gap: 4px;
     flex-direction: column;
@@ -32,4 +36,12 @@ input {
 
 .error-border {
     border-color: #BF3920;
+}
+
+.visible-icon {
+    position: absolute;
+    top: 37px;
+    right: 20px;
+    border: none;
+    background: none;
 }
