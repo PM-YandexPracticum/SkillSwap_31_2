@@ -1,0 +1,24 @@
+.likeButton {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 3px 2px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.likeButton:hover {
+  transform: scale(1.1);
+}
+
+.likeButton:active {
+  transform: scale(0.95);
+}
+
+.heartIcon {
+  transition: fill 0.3s ease, transform 0.2s ease;
+}
