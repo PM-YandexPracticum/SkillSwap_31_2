@@ -1,5 +1,6 @@
 .container {
     display: flex;
+    gap: 4px;
     flex-direction: column;
     font-family: Roboto, sans-serif;
     font-weight: 400;
@@ -25,7 +26,10 @@ input {
     font-size: 12px;
 }
 
-.error {
+.error-text {
     color: #BF3920;
+}
+
+.error-border {
     border-color: #BF3920;
 }
