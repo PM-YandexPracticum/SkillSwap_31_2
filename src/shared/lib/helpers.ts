@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcrypt';
 
-import { saltRounds } from './constants'
+import { saltRounds } from './constants';
 
 // Хэширование пароля перед сохранением
 export async function hashPassword(plainPassword: string): Promise<string> {
@@ -9,7 +9,10 @@ export async function hashPassword(plainPassword: string): Promise<string> {
 }
 
 // Проверка пароля при входе
-export async function verifyPassword(plainPassword: string, hash: string): Promise<boolean> {
+export async function verifyPassword(
+  plainPassword: string,
+  hash: string
+): Promise<boolean> {
   const result = await bcrypt.compare(plainPassword, hash);
   return result;
 }

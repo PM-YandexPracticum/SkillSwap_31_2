@@ -38,9 +38,9 @@ export async function getUsers() {
 
 export async function getUserByEmailPassword(email: string, password: string) {
   const { data, error } = await supabase
-      .from('users')
-      .select(`
-          id,
+    .from('users')
+    .select(
+      `id,
           name,
           age,
           about,
@@ -52,9 +52,9 @@ export async function getUserByEmailPassword(email: string, password: string) {
           city:city_id(name),
           skills_ids:user_skills(skill_id),
           wishes_ids:user_wishes(skill_id),
-          password
-      `)
-      .eq('email', email);
+          password`
+    )
+    .eq('email', email);
 
   if (error) throw error;
 
@@ -74,31 +74,28 @@ export async function getUserByEmailPassword(email: string, password: string) {
   return 'aceess·denied';
 }
 
-
 export async function getSkills() {
-  const { data, error } = await supabase
-    .from('skills')
-    .select(`
-      id,
-      name,
-      description,
-      images,
-      created_at,
-      modified_at,
-      category:category_id(name),
-      subcategory:subcategory_id(name)
-    `)
+  const { data, error } = await supabase.from('skills').select(
+    `id,
+          name,
+          description,
+          images,
+          created_at,
+          modified_at,
+          category:category_id(name),
+          subcategory:subcategory_id(name)`
+  );
 
   if (error) throw error;
 
   // Преобразрование связанных полей в нужный формат
-  const result = data.map(skill => ({
+  const result = data.map((skill) => ({
     ...skill,
     category: skill.category['name'] ?? null,
     subcategory: skill.subcategory['name'] ?? null
   }));
   return result;
-};
+}
 
 export async function getCategories() {
   const { data, error } = await supabase.from('categories').select('*');
