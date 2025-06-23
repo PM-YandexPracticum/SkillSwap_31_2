@@ -8,6 +8,8 @@ const supabaseKey = process.env.REST_API_ANON!;
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+type SkillRef = { skill_id: number };
+
 export async function getUsers() {
   const { data, error } = await supabase.from('users').select(`
     id,
@@ -27,10 +29,10 @@ export async function getUsers() {
   // Преобразрование связанных полей в нужный формат
   const result = data.map((user) => ({
     ...user,
-    gender: user.gender?.['name'] ?? null,
-    city: user.city?.['name'] ?? null,
-    skills_ids: user.skills_ids.map((s: any) => s.skill_id),
-    wishes_ids: user.wishes_ids.map((s: any) => s.skill_id),
+    gender: (user.gender as { name?: string })?.name ?? null,
+    city: (user.city as { name?: string })?.name ?? null,
+    skills_ids: (user.skills_ids as SkillRef[]).map((s) => s.skill_id),
+    wishes_ids: (user.wishes_ids as SkillRef[]).map((s) => s.skill_id),
   }));
 
   return result;
@@ -61,10 +63,10 @@ export async function getUserByEmailPassword(email: string, password: string) {
   // Преобразрование связанных полей в нужный формат
   const result = data.map((user) => ({
     ...user,
-    gender: user.gender?.['name'] ?? null,
-    city: user.city?.['name'] ?? null,
-    skills_ids: user.skills_ids.map((s: any) => s.skill_id),
-    wishes_ids: user.wishes_ids.map((s: any) => s.skill_id),
+    gender: (user.gender as { name?: string })?.name ?? null,
+    city: (user.city as { name?: string })?.name ?? null,
+    skills_ids: (user.skills_ids as SkillRef[]).map((s) => s.skill_id),
+    wishes_ids: (user.wishes_ids as SkillRef[]).map((s) => s.skill_id),
   }));
 
   const user = result[0];
@@ -91,8 +93,8 @@ export async function getSkills() {
   // Преобразрование связанных полей в нужный формат
   const result = data.map((skill) => ({
     ...skill,
-    category: skill.category['name'] ?? null,
-    subcategory: skill.subcategory['name'] ?? null,
+    category: (skill.category as { name?: string })?.name ?? null,
+    subcategory: (skill.subcategory as { name?: string })?.name ?? null,
   }));
   return result;
 }
