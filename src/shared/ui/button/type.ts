@@ -1,9 +1,9 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 export type ButtonUIProps = {
   onClick?: () => void;
   type: 'Primary' | 'Secondary' | 'Tertiary';
   children?: ReactNode;
-  hmtlType?: 'button' | 'submit' | 'reset';
+  htmlType?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
   disabled?: boolean;
 };

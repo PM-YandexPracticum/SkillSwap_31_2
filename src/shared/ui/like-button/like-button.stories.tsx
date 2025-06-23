@@ -1,6 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { LikeButtonUI } from './like-button';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
+
+import { LikeButtonUI } from './like-button';
 
 const meta: Meta<typeof LikeButtonUI> = {
   title: 'Components/LikeButtonUI',
@@ -33,5 +34,3 @@ export const Default: Story = {
     initialLiked: false,
   },
 };
-
-

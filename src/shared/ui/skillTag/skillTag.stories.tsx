@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+
 import { SkillTagUI } from './skillTag';
 import { SkillTagUIProps } from './type';
 
@@ -9,39 +10,39 @@ const meta: Meta<typeof SkillTagUI> = {
   argTypes: {
     color: {
       control: 'color',
-      description: 'Background color of the tag'
+      description: 'Background color of the tag',
     },
     text: {
       control: 'text',
-      description: 'Tag display text'
-    }
-  }
+      description: 'Tag display text',
+    },
+  },
 };
 
 export default meta;
 
 const Template: StoryObj<SkillTagUIProps> = {
-  render: (args) => <SkillTagUI {...args} />
+  render: (args) => <SkillTagUI {...args} />,
 };
 
 export const English: StoryObj<SkillTagUIProps> = {
   ...Template,
   args: {
     text: 'Английский язык',
-    color: '#EBE5C5'
-  }
+    color: '#EBE5C5',
+  },
 };
 
 export const TimeManagment: StoryObj<SkillTagUIProps> = {
   args: {
     text: 'Тайм менеджмент',
-    color: '#E7F2F6'
-  }
+    color: '#E7F2F6',
+  },
 };
 
 export const Rest: StoryObj<SkillTagUIProps> = {
   args: {
     text: 'Реставрация мебели',
-    color: '#F7EBE5'
-  }
+    color: '#F7EBE5',
+  },
 };

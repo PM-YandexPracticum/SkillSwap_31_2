@@ -1,18 +1,19 @@
-import  React  from 'react';
-import { ButtonUIProps } from './type';
-import './index';
-import styles from './button.module.css';
+import React from 'react';
 import { clsx } from 'clsx';
+
+import { ButtonUIProps } from './type';
+import styles from './button.module.css';
 
 export const ButtonUI: React.FC<ButtonUIProps> = ({
   onClick,
   type = 'Primary',
   children,
-  hmtlType = 'button',
-  disabled = false
+  htmlType,
+  disabled = false,
 }) => (
   <button
-    type={hmtlType}
+    // eslint-disable-next-line react/button-has-type
+    type={htmlType}
     onClick={onClick}
     disabled={disabled}
     className={clsx(

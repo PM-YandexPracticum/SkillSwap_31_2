@@ -1,11 +1,11 @@
 import React, { FC, useState } from 'react';
+
 import { LikeButtonUIProps } from './type';
-import './index';
 import styles from './like-button.module.css';
 
 export const LikeButtonUI: FC<LikeButtonUIProps> = ({
   initialLiked = false,
-  onLikeToggle
+  onLikeToggle,
 }) => {
   const [isLiked, setIsLiked] = useState(initialLiked);
 
@@ -17,20 +17,22 @@ export const LikeButtonUI: FC<LikeButtonUIProps> = ({
 
   return (
     <button
+      type="button"
       onClick={handleClick}
       className={`${styles.likeButton} ${isLiked ? styles.liked : ''}`}
       aria-pressed={isLiked}
+      aria-label={isLiked ? 'Like' : 'Unlike'}
     >
       <svg
-        width='20'
-        height='18'
-        viewBox='0 0 20 18'
+        width="20"
+        height="18"
+        viewBox="0 0 20 18"
         fill={isLiked ? '#253017' : 'transparent'}
-        stroke='#253017'
-        xmlns='http://www.w3.org/2000/svg'
+        stroke="#253017"
+        xmlns="http://www.w3.org/2000/svg"
         className={styles.heartIcon}
       >
-        <path d='M5.95 1C3.21619 1 1 3.1521 1 5.80682C1 10.6136 6.85 14.9835 10 16C13.15 14.9835 19 10.6136 19 5.80682C19 3.1521 16.7838 1 14.05 1C12.3759 1 10.8958 1.80707 10 3.04238C9.10419 1.80707 7.62414 1 5.95 1Z' />
+        <path d="M5.95 1C3.21619 1 1 3.1521 1 5.80682C1 10.6136 6.85 14.9835 10 16C13.15 14.9835 19 10.6136 19 5.80682C19 3.1521 16.7838 1 14.05 1C12.3759 1 10.8958 1.80707 10 3.04238C9.10419 1.80707 7.62414 1 5.95 1Z" />
       </svg>
     </button>
   );

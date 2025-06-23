@@ -1,6 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { ButtonUI } from './button';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
+
+import { ButtonUI } from './button';
 
 const meta: Meta<typeof ButtonUI> = {
   title: 'Components/ButtonUI',
@@ -11,7 +12,7 @@ const meta: Meta<typeof ButtonUI> = {
       control: { type: 'select' },
       options: ['Primary', 'Secondary', 'Tertiary'],
     },
-    hmtlType: {
+    htmlType: {
       control: { type: 'select' },
       options: ['button', 'submit', 'reset'],
     },
@@ -61,6 +62,6 @@ export const SubmitButton: Story = {
   args: {
     type: 'Primary',
     children: 'Submit Button',
-    hmtlType: 'submit',
+    htmlType: 'submit',
   },
 };
