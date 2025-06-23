@@ -13,19 +13,22 @@ export const PasswordInput: React.FC<TPasswordInputInterface> = memo(
         const [showPassword, setShowPassword] = useState<boolean>(false);
         const iconSource = showPassword ? eyeIcon : eyeSlashIcon;  
 
+
         const toggleShowPassword = () => {
             setShowPassword((prev) => !prev);
         };
 
         return (
             <div className={styles.container}>
-                <label className={styles.lable}>{lable}</label>
+                <label className={styles.lable} htmlFor={`${lable}Input`}>{lable}</label>
                 <input
+                    id={`${lable}Input`}
                     type={showPassword ? 'text' : 'password'}
                     className={clsx([styles.input, !isValid && styles.errorBorder])}
                     placeholder={placeholder}
                     onChange={onChange}
-                >{value}</input>
+                >{value}    
+                </input>
                 <button className={styles.visibleIcon} type="button" onClick={toggleShowPassword}><img src={iconSource} alt="кнопка показа пароля" /></button>
                 <small className={clsx([styles.small, !isValid && styles.errorText])}>{!isValid && errorText}</small>
             </div>

@@ -8,8 +8,9 @@ export const Input: React.FC<TInputInterface> = memo(
     ({ lable, isValid, placeholder, onChange, value, errorText }) => {
         return (
             <div className={styles.container}>
-                <label className={styles.lable}>{lable}</label>
+                <label className={styles.lable} htmlFor={`${lable}Input`}>{lable}</label>
                 <input
+                    id={`${lable}Input`}
                     type='text'
                     className={clsx([styles.input, !isValid && styles.errorBorder])}
                     placeholder={placeholder}
