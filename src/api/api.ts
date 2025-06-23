@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js';
 import 'dotenv/config';
 
 import { verifyPassword } from '../shared/lib/helpers';
@@ -9,27 +9,26 @@ const supabaseKey = process.env.REST_API_ANON!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function getUsers() {
-  const { data, error } = await supabase.from('users')
-      .select(`
-      id,
-      name,
-      age,
-      about,
-      avatar_url,
-      email,
-      gender:gender_id(name),
-      city:city_id(name),
-      skills_ids:user_skills(skill_id),
-      wishes_ids:user_wishes(skill_id)
-    `);
+  const { data, error } = await supabase.from('users').select(`
+    id,
+    name,
+    age,
+    about,
+    avatar_url,
+    email,
+    gender:gender_id(name),
+    city:city_id(name),
+    skills_ids:user_skills(skill_id),
+    wishes_ids:user_wishes(skill_id)
+  `);
 
   if (error) throw error;
 
   // Преобразрование связанных полей в нужный формат
   const result = data.map((user) => ({
     ...user,
-    gender: user.gender?.["name"] ?? null,
-    city: user.city?.["name"] ?? null,
+    gender: user.gender?.['name'] ?? null,
+    city: user.city?.['name'] ?? null,
     skills_ids: user.skills_ids.map((s: any) => s.skill_id),
     wishes_ids: user.wishes_ids.map((s: any) => s.skill_id),
   }));
@@ -38,28 +37,24 @@ export async function getUsers() {
 }
 
 export async function getUserByEmailPassword(email: string, password: string) {
-  const { data, error } = await supabase
-    .from('users')
-    .select(`
-      id,
-      name,
-      age,
-      about,
-      avatar_url,
-      email,
-      created_at,
-      modified_at,
-      gender:gender_id(name),
-      city:city_id(name),
-      skills_ids:user_skills(skill_id),
-      wishes_ids:user_wishes(skill_id),
-      password
-    `)
-    .eq('email', email);
+  const { data, error } = await supabase.from('users').select(`
+    id,
+    name,
+    age,
+    about,
+    avatar_url,
+    email,
+    created_at,
+    modified_at,
+    gender:gender_id(name),
+    city:city_id(name),
+    skills_ids:user_skills(skill_id),
+    wishes_ids:user_wishes(skill_id),
+    password
+  `).eq('email', email);
   
   if (error) throw error;
-  
-  
+
   // Преобразрование связанных полей в нужный формат
   const result = data.map(user => ({
     ...user,
@@ -68,10 +63,10 @@ export async function getUserByEmailPassword(email: string, password: string) {
     skills_ids: user.skills_ids.map((s: any) => s.skill_id),
     wishes_ids: user.wishes_ids.map((s: any) => s.skill_id)
   }));
-  
+
   const user = result[0];
   if (await verifyPassword(password, user.password)) return user;
-  
+
   // Нужно обдумать формат ошибки при неправильной паре email/password
   return "aceess denied";
 }
@@ -92,7 +87,7 @@ export async function getSkills() {
     `)
 
   if (error) throw error;
-  
+
   // Преобразрование связанных полей в нужный формат
   const result = data.map(skill => ({
     ...skill,
