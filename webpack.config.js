@@ -75,6 +75,7 @@ module.exports = {
       '@ui': path.resolve(__dirname, './src/shared/ui'),
       '@wigets': path.resolve(__dirname, './src/wigets'),
       '@api': path.resolve(__dirname, './src/api/api.ts'),
+      '@styles': path.resolve(__dirname, './src/styles/constants.module.css'),
     }
   },
   output: {

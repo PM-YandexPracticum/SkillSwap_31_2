@@ -1,0 +1,81 @@
+@import url(https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap);
+
+:root {
+    /* Colors variables are named according to UI kit from figma */
+    --text-color: #253017;
+    --caption-color: #69735D;
+    --disabled-text-color: #9CA197;
+    --toggle-color: #B2B9A9;
+    --disabled-color: #E4E8DF;
+    --card-color: #FFFFFF;
+    --input-color: #FFFFFF;
+    --text-link-color: #508826;
+    --accent-color: #ABD27A;
+    --button-hover-color: #DEEBC5;
+    --background-color: #F9FAF7;
+    --alarm-color: #E0796E;
+    --error-color: #BF3920;
+    --tag-buisness-and-carrier-color: #EEE7F7;
+    --tag-creativity-and-art-color: #F7E7F2;
+    --tag-foreign-languages-color: #EBE5C5;
+    --tag-education-and-development-color: #E7F2F6;
+    --tag-home-and-comfort-color: #F7EBE5;
+    --tag-helth-and-lifestyle-color: #E9F7E7;
+    --tag-additional-color: #E8ECF7;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+}
+
+h1 {
+    font-family: 'Jost', sans-serif;
+    font-size: 32px;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 40px;
+}
+
+h2 {
+    font-family: 'Jost', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 32px;
+}
+
+h3 {
+    font-family: 'Jost', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 24px;
+}
+
+h4 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 24px;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 24px;
+}
+
+.caption-text {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 16px;
+}

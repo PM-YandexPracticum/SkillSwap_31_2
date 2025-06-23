@@ -22,6 +22,7 @@
       "@ui": ["src/shared/ui"],
       "@wigets": ["src/wigets"],
       "@api": ["src/api/api.ts"],
+      "@styles": ["src/styles/constants.module.css"],
     }
   },
   "include": ["src"]
