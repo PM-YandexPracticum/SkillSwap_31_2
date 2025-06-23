@@ -92,7 +92,7 @@ export async function getSkills() {
   const result = data.map((skill) => ({
     ...skill,
     category: skill.category['name'] ?? null,
-    subcategory: skill.subcategory['name'] ?? null
+    subcategory: skill.subcategory['name'] ?? null,
   }));
   return result;
 }
