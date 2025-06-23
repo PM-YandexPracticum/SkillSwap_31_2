@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
-import 'dotenv/config'
+import 'dotenv/config';
 
 import { verifyPassword } from '../shared/lib/helpers';
 
@@ -8,10 +8,9 @@ const supabaseKey = process.env.REST_API_ANON!;
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export async function get_users() {
-  const { data, error } = await supabase
-    .from('users')
-    .select(`
+export async function getUsers() {
+  const { data, error } = await supabase.from('users')
+      .select(`
       id,
       name,
       age,
@@ -23,22 +22,22 @@ export async function get_users() {
       skills_ids:user_skills(skill_id),
       wishes_ids:user_wishes(skill_id)
     `);
-  
+
   if (error) throw error;
-  
+
   // Преобразрование связанных полей в нужный формат
-  const result = data.map(user => ({
+  const result = data.map((user) => ({
     ...user,
-    gender: user.gender?.['name'] ?? null,
-    city: user.city?.['name'] ?? null,
+    gender: user.gender?.["name"] ?? null,
+    city: user.city?.["name"] ?? null,
     skills_ids: user.skills_ids.map((s: any) => s.skill_id),
-    wishes_ids: user.wishes_ids.map((s: any) => s.skill_id)
+    wishes_ids: user.wishes_ids.map((s: any) => s.skill_id),
   }));
 
   return result;
 }
 
-export async function get_user_by_email_password(email: string, password: string) {
+export async function getUserByEmailPassword(email: string, password: string) {
   const { data, error } = await supabase
     .from('users')
     .select(`
@@ -78,7 +77,7 @@ export async function get_user_by_email_password(email: string, password: string
 }
 
 
-export async function get_skills() {
+export async function getSkills() {
   const { data, error } = await supabase
     .from('skills')
     .select(`
@@ -103,19 +102,19 @@ export async function get_skills() {
   return result;
 };
 
-export async function get_categories() {
+export async function getCategories() {
   const { data, error } = await supabase.from('categories').select('*');
   if (error) throw error;
   return data;
 }
 
-export async function get_subcategories() {
+export async function getSubcategories() {
   const { data, error } = await supabase.from('subcategories').select('*');
   if (error) throw error;
   return data;
 }
 
-export async function get_subcategories_by_category(categoryId: string) {
+export async function getSubcategoriesByCategory(categoryId: string) {
   const { data, error } = await supabase
     .from('subcategories')
     .select('*')
