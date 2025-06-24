@@ -9,21 +9,21 @@
   cursor: pointer;
 
   &:disabled {
-    color: #E4E8DF;
+    color: #e4e8df;
     cursor: none;
   }
 
   &--primary {
     min-width: 284px;
-    background-color: #ABD27A;
+    background-color: #abd27a;
 
     &:hover {
-      background-color: #DEEBC5;
+      background-color: #deebc5;
     }
 
     &:disabled {
-      color: #69735D;
-      background-color: #E4E8DF;
+      color: #69735d;
+      background-color: #e4e8df;
       cursor: none;
     }
 
@@ -34,11 +34,11 @@
   }
 
   &--secondary {
-    border-color: #ABD27A;
+    border-color: #abd27a;
 
     &:hover {
-      color: #69735D;
-      border-color: #DEEBC5;
+      color: #69735d;
+      border-color: #deebc5;
     }
 
     &:active {
@@ -46,8 +46,8 @@
     }
 
     &:disabled {
-      color: #9CA197;
-      border-color: #E4E8DF;
+      color: #9ca197;
+      border-color: #e4e8df;
     }
   }
 
