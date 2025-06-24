@@ -1,5 +1,9 @@
-export type TButtonProps = {
-  label: string;
+import React, { ReactNode } from 'react';
+
+export type ButtonUIProps = {
   onClick?: () => void;
-  mode?: 'primary' | 'secondary' | 'tertiary';
+  type: 'Primary' | 'Secondary' | 'Tertiary';
+  children?: ReactNode;
+  htmlType?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
+  disabled?: boolean;
 };
