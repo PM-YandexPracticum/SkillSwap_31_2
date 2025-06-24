@@ -54,7 +54,7 @@ function calculateAge(birthday: string): number {
       today.getDate() >= birthDate.getDate());
 
   if (!hasHadBirthdayThisYear) {
-    age--;
+    age -= 1;
   }
 
   return age;
