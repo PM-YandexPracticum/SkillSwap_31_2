@@ -83,7 +83,7 @@ input {
     width: 100%;
     border: 1px solid #69735D;
     border-radius: 12px;
-    background-color: white;
+    background-color: #ffffff;
 }
 
 .list {
@@ -103,4 +103,44 @@ input {
 
 .disabled {
     color: #69735D;
+}
+
+.skill {
+    display: flex;
+}
+
+.skill:first-child {
+    padding-top: 50px;
+}
+
+.checkbox {
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    position: absolute;
+    
+    &:checked + .checkmark:after {
+        display: block;
+    }
+}
+
+.checkmark {
+    display: inline-block;
+    position: relative;
+    height: 24px;
+    width: 24px;
+    background: url('../../../assets/icons/checkbox.svg');
+    cursor: pointer;
+    
+    &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: url('../../../assets/icons/checkbox-active.svg');
+        height: 24px;
+        width: 24px;
+        display: none;
+    }
 }

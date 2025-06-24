@@ -7,7 +7,6 @@ import styles from '../inputs.module.scss';
 
 import chevronDown from '../../../../assets/icons/chevron-down.svg';
 import cross from '../../../../assets/icons/cross.svg';
-import { contains } from "node_modules/cypress/types/jquery";
 
 export const DropdownCity: React.FC<TCityInputInterface> = memo(
     ({ options, isValid, lable, errorText }) => {
@@ -35,11 +34,6 @@ export const DropdownCity: React.FC<TCityInputInterface> = memo(
             if (selectedCity && value !== selectedCity) {
                 setSelectedCity('');
             }
-        };
-
-        // Обработка фокуса на инпуте
-        const handleInputFocus = () => {
-            setIsOpen(true);
         };
 
         // Выбор города из списка
@@ -87,8 +81,6 @@ export const DropdownCity: React.FC<TCityInputInterface> = memo(
             };
         }, [isOpen]);
 
-        // можно переделать input на p с выбранным городом;
-        // а при нажатии на него открывалось дропменю с инпутом и списком
         return (
             <div className={styles.container} ref={dropdownRef}>
                 <label className={styles.label} htmlFor={`${lable}Dropdown`}>{lable}</label>
@@ -106,7 +98,6 @@ export const DropdownCity: React.FC<TCityInputInterface> = memo(
                             placeholder='Не указан'
                             value={displayValue}
                             onChange={handleInputChange}
-                            onFocus={handleInputFocus}
                             autoComplete="off" />
 
                         <button className={clsx([styles.visibleIcon, styles.dropdownCross])} type="button" onClick={handleClear}><img src={cross} alt="кнопка раскрытия списка" /></button>
