@@ -1,5 +1,5 @@
 import React from 'react';
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react-vite';
 
 import users from '../../../../public/db/users.json';
 import skills from '../../../../public/db/skills.json';
