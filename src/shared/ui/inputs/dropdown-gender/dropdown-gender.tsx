@@ -8,7 +8,7 @@ import styles from '../inputs.module.scss';
 import chevronDown from '../../../../assets/icons/chevron-down.svg';
 import chevronUp from '../../../../assets/icons/chevron-up.svg';
 
-export const Dropdown: React.FC<TDropdownProps> = memo(
+export const DropdownGender: React.FC<TDropdownProps> = memo(
     ({ options, lable, isValid, errorText }) => {
         const [selectedOption, setSelectedOption] = useState<string>(options[0]);
         const [isOpen, setIsOpen] = useState<boolean>(false);

@@ -19,6 +19,7 @@ p {
 }
 
 .input {
+    position: relative;
     padding: 12px 20px;
     border: 1px solid #69735D;
     border-radius: 12px;
@@ -45,16 +46,28 @@ input {
 
 .visible-icon {
     position: absolute;
+    z-index: 11;
     top: 38px;
     right: 20px;
     border: none;
     background: none;
 }
 
+.dropdown-cross {
+    top: 10px;
+}
+
 .dropdown {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
     width: 100%;
     border: 1px solid #69735D;
     border-radius: 12px;
+}
+
+.dropdown-icon {
+    margin-right: 26px;
 }
 
 .selected-option {
@@ -70,14 +83,22 @@ input {
     width: 100%;
     border: 1px solid #69735D;
     border-radius: 12px;
+    background-color: white;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    max-height: 120px;
+    overflow-y: auto;
 }
 
 .item {
     margin: 8px 20px;
 }
 
-.item:first-child {
-    padding-top: 50px;
+.item-selected {
+    margin: 8px 20px;
 }
 
 .disabled {

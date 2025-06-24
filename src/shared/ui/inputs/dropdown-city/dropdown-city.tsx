@@ -1,0 +1,124 @@
+import { memo, useState, useRef, useEffect } from "react";
+import { TCityInputInterface } from "./type";
+import { v4 as uuidv4 } from 'uuid';
+import clsx from "clsx";
+
+import styles from '../inputs.module.scss';
+
+import chevronDown from '../../../../assets/icons/chevron-down.svg';
+import cross from '../../../../assets/icons/cross.svg';
+import { contains } from "node_modules/cypress/types/jquery";
+
+export const DropdownCity: React.FC<TCityInputInterface> = memo(
+    ({ options, isValid, lable, errorText }) => {
+        const [selectedCity, setSelectedCity] = useState('');
+        const [searchValue, setSearchValue] = useState('');
+        const [isOpen, setIsOpen] = useState(false);
+        const dropdownRef = useRef<HTMLDivElement>(null);
+        const inputRef = useRef<HTMLInputElement>(null);
+
+        // Текущее значение в инпуте - либо выбранный город, либо поисковый запрос
+        const displayValue = searchValue || selectedCity;
+
+        // Фильтрация городов
+        const filteredCities = options.filter(city =>
+            city.name.toLowerCase().includes(searchValue.toLowerCase())
+        );
+
+        // Обработка изменения текста в инпуте
+        const handleInputChange = (e: any) => {
+            const value = e.target.value;
+            setSearchValue(value);
+            setIsOpen(true);
+
+            // Если начали печатать поверх выбранного города, очищаем выбор
+            if (selectedCity && value !== selectedCity) {
+                setSelectedCity('');
+            }
+        };
+
+        // Обработка фокуса на инпуте
+        const handleInputFocus = () => {
+            setIsOpen(true);
+        };
+
+        // Выбор города из списка
+        const handleCitySelect = (cityName: any) => {
+            setSelectedCity(cityName);
+            setSearchValue('');
+            setIsOpen(false);
+            inputRef.current?.blur(); // Убираем фокус с инпута
+        };
+
+        // Очистка всех значений
+        const handleClear = () => {
+            setSelectedCity('');
+            setSearchValue('');
+            inputRef.current?.focus(); // Возвращаем фокус на инпут
+        };
+
+        useEffect(() => {
+            if (isOpen && inputRef.current) {
+                inputRef.current.focus();
+            }
+            
+            const handleClickOutside = (event: any) => {
+                if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                    setIsOpen(false);
+                    setSearchValue('');
+                }
+            };
+
+            const handleEscape = (event: any) => {
+                if (event.key === 'Escape') {
+                    setIsOpen(false);
+                    inputRef.current?.blur();
+                }
+            };
+
+            if (isOpen) {
+                document.addEventListener('mousedown', handleClickOutside);
+                document.addEventListener('keydown', handleEscape);
+            } 
+
+            return () => {
+                document.removeEventListener('mousedown', handleClickOutside);
+                document.removeEventListener('keydown', handleEscape);
+            };
+        }, [isOpen]);
+
+        // можно переделать input на p с выбранным городом;
+        // а при нажатии на него открывалось дропменю с инпутом и списком
+        return (
+            <div className={styles.container} ref={dropdownRef}>
+                <label className={styles.label} htmlFor={`${lable}Dropdown`}>{lable}</label>
+                <div className={styles.dropdown} onClick={() => setIsOpen(true)} id={`${lable}Dropdown`} >
+                    <p className={styles.itemSelected}>{displayValue || 'Не указан'}</p>
+                    <img src={chevronDown} alt="" className={styles.dropdownIcon} />
+                </div>
+                {isOpen && (
+                    <div className={styles.dropdownMenu} >
+                        <input
+                            type="text"
+                            id={`${lable}Dropdown`}
+                            ref={inputRef}
+                            className={clsx([styles.input, !isValid && styles.errorBorder])}
+                            placeholder='Не указан'
+                            value={displayValue}
+                            onChange={handleInputChange}
+                            onFocus={handleInputFocus}
+                            autoComplete="off" />
+
+                        <button className={clsx([styles.visibleIcon, styles.dropdownCross])} type="button" onClick={handleClear}><img src={cross} alt="кнопка раскрытия списка" /></button>
+                        <div className={styles.list}>
+                            {filteredCities.length > 0 ? (filteredCities.map((option) => (
+                                <p className={styles.item} key={option.id} onClick={() => handleCitySelect(option.name)}>{option.name}</p>
+                            ))) : <p className={styles.item} key={uuidv4()}>Город не найден</p>}
+                        </div>
+                    </div>
+                )}
+                <small className={clsx([styles.small, !isValid && styles.errorText])}>{!isValid && errorText}</small>
+            </div>
+        );
+    }
+)
