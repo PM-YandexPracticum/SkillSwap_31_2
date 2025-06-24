@@ -26,6 +26,7 @@ type UserData = {
   created_at: string;
   modified_at: string;
   is_liked: boolean;
+  birthday: Date;
 };
 
 export async function getUserFavorites(
@@ -40,6 +41,25 @@ export async function getUserFavorites(
   return data.map((item) => item.favorite_id);
 }
 
+function calculateAge(birthday: string): number {
+  const birthDate = new Date(birthday);
+  const today = new Date();
+
+  let age = today.getFullYear() - birthDate.getFullYear();
+
+  // Уточнение: если день рождения ещё не наступил в этом году
+  const hasHadBirthdayThisYear =
+    today.getMonth() > birthDate.getMonth() ||
+    (today.getMonth() === birthDate.getMonth() &&
+      today.getDate() >= birthDate.getDate());
+
+  if (!hasHadBirthdayThisYear) {
+    age--;
+  }
+
+  return age;
+}
+
 export async function getUsers(
   email: string | null = null,
   current_user_id: string | null = null
@@ -47,7 +67,7 @@ export async function getUsers(
   const query = supabase.from('users').select(`
       id,
       name,
-      age,
+      birthday,
       about,
       avatar_url,
       email,
@@ -79,6 +99,8 @@ export async function getUsers(
     skills_ids: (user.skills_ids as SkillRef[]).map((s) => s.id),
     wishes_ids: (user.wishes_ids as WishesRef[]).map((s) => s.subcategory_id),
     is_liked: current_user_id ? likedIds.includes(user.id) : false,
+    age: calculateAge(user.birthday),
+    birthday: new Date(user.birthday),
   }));
 }
 
