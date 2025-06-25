@@ -1,6 +1,5 @@
 import { memo, useState, useRef, useEffect } from "react";
 import { TSkill, TSkillInterface } from "./type";
-import { v4 as uuidv4 } from 'uuid';
 import clsx from "clsx";
 
 import styles from '../inputs.module.scss';
@@ -101,4 +100,4 @@ export const DropdownSkill: React.FC<TSkillInterface> = memo(
             </div>
         );
     }
-)
+);
