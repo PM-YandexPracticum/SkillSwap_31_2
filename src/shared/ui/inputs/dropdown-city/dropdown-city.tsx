@@ -88,45 +88,61 @@ export const DropdownCity: React.FC<TCityInputInterface> = memo(
       <div className={styles.container} ref={dropdownRef}>
         <label className={styles.label} htmlFor={`${lable}Dropdown`}>
           {lable}
-        </label>
-        <div
-          className={styles.dropdown}
-          onClick={() => setIsOpen(true)}
-          id={`${lable}Dropdown`}
-        >
-          <p className={styles.itemSelected}>{displayValue || 'Не указан'}</p>
-          <img src={chevronDown} alt="" className={styles.dropdownIcon} />
-        </div>
-        {isOpen && (
-          <div className={styles.dropdownMenu}>
+          <div className={styles.dropdown}>
             <input
               type="text"
-              id={`${lable}Dropdown`}
-              ref={inputRef}
-              className={clsx([styles.input, !isValid && styles.errorBorder])}
-              placeholder="Не указан"
               value={displayValue}
-              onChange={handleInputChange}
-              autoComplete="off"
+              readOnly
+              id={`${lable}Dropdown`}
+              className={clsx([styles.dropdownInput, styles.cityInput])}
+              onClick={() => setIsOpen(true)}
+              placeholder="Не указан"
             />
+            <img
+              src={chevronDown}
+              alt="иконка раскрытия списка городов"
+              className={styles.visibleIcon}
+            />
+          </div>
+        </label>
+        {isOpen && (
+          <div className={styles.dropdownMenu}>
+            <label htmlFor="cityInput">
+              <input
+                type="text"
+                id="cityInput"
+                ref={inputRef}
+                className={clsx([
+                  styles.dropdownInput,
+                  styles.cityInput,
+                  !isValid && styles.errorBorder,
+                ])}
+                placeholder="Не указан"
+                value={displayValue}
+                onChange={handleInputChange}
+                autoComplete="off"
+              />
 
-            <button
-              className={clsx([styles.visibleIcon, styles.dropdownCross])}
-              type="button"
-              onClick={handleClear}
-            >
-              <img src={cross} alt="кнопка раскрытия списка" />
-            </button>
+              <button
+                className={clsx([styles.visibleIcon, styles.dropdownCross])}
+                type="button"
+                onClick={handleClear}
+              >
+                <img src={cross} alt="кнопка раскрытия списка" />
+              </button>
+            </label>
             <div className={styles.list}>
               {filteredCities.length > 0 ? (
                 filteredCities.map((option) => (
-                  <p
-                    className={styles.item}
+                  <input
                     key={option.id}
+                    type="text"
+                    value={option.name}
+                    readOnly
+                    className={styles.item}
                     onClick={() => handleCitySelect(option.name)}
-                  >
-                    {option.name}
-                  </p>
+                    id={option.id.toString()}
+                  />
                 ))
               ) : (
                 <p className={styles.item} key={uuidv4()}>

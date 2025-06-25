@@ -6,15 +6,15 @@ import styles from '../inputs.module.scss';
 import chevronDown from '../../../../assets/icons/chevron-down.svg';
 import chevronUp from '../../../../assets/icons/chevron-up.svg';
 
-import { TDropdownProps } from './type';
+import { TDropdownGender } from './type';
 
-export const DropdownGender: React.FC<TDropdownProps> = memo(
-  ({ options, lable, isValid, errorText }) => {
-    const [selectedOption, setSelectedOption] = useState<string>(options[0]);
+export const DropdownGender: React.FC<TDropdownGender> = memo(
+  ({ lable, isValid, errorText }) => {
+    const genders = ['Мужской', 'Женский'];
+
+    const [selectedOption, setSelectedOption] = useState<string>('Не указан');
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-
-    const iconSource = isOpen ? chevronUp : chevronDown;
 
     const handleOptionClick = (option: string) => {
       setSelectedOption(option);
@@ -52,38 +52,50 @@ export const DropdownGender: React.FC<TDropdownProps> = memo(
       <div className={styles.container}>
         <label className={styles.label} htmlFor={`${lable}Dropdown`}>
           {lable}
+          <div className={styles.dropdown}>
+            <input
+              type="text"
+              value={selectedOption}
+              readOnly
+              className={styles.dropdownInput}
+              onClick={() => setIsOpen((prev) => !prev)}
+              id={`${lable}Dropdown`}
+            />
+            <img
+              src={chevronDown}
+              alt="кнопка раскрытия списка полов"
+              className={styles.dropdownIcon}
+            />
+          </div>
         </label>
-        <div
-          className={styles.dropdown}
-          onClick={() => setIsOpen((prev) => !prev)}
-          id={`${lable}Dropdown`}
-        >
-          <p
-            className={clsx([
-              styles.selectedOption,
-              selectedOption === options[0] && styles.disabled,
-            ])}
-          >
-            {selectedOption}
-          </p>
-        </div>
-        <button
-          className={styles.visibleIcon}
-          type="button"
-          onClick={() => setIsOpen((prev) => !prev)}
-        >
-          <img src={iconSource} alt="кнопка раскрытия списка полов" />
-        </button>
         {isOpen && (
           <div className={styles.dropdownMenu} ref={dropdownRef}>
-            {options.map((option) => (
-              <p
-                className={styles.item}
+            <label htmlFor="genderInput">
+              <input
+                type="text"
+                value={selectedOption}
+                readOnly
+                className={styles.dropdownInput}
+                onClick={() => setIsOpen((prev) => !prev)}
+                id="genderInput"
+              />
+              <img
+                src={chevronUp}
+                alt="кнопка раскрытия списка полов"
+                className={styles.visibleIcon}
+              />
+            </label>
+
+            {genders.map((option) => (
+              <input
                 key={uuidv4()}
+                type="text"
+                value={option}
+                readOnly
+                className={styles.dropdownInput}
                 onClick={() => handleOptionClick(option)}
-              >
-                {option}
-              </p>
+                id={`${option}Gender`}
+              />
             ))}
           </div>
         )}

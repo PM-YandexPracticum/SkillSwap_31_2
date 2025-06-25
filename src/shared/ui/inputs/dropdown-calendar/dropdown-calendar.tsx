@@ -1,5 +1,6 @@
 import { memo, useState, useRef, useEffect } from 'react';
 import Calendar from 'react-calendar';
+import { v4 as uuidv4 } from 'uuid';
 
 import calendar from '../../../../assets/icons/calendar.svg';
 
@@ -111,32 +112,34 @@ export const DropdownCalendar: React.FC<TDropdownCalendar> = memo(
 
     return (
       <div className={styles.calendarDropdown} ref={dropdownRef}>
-        <label className={styles.label}>{lable}</label>
-
-        <div
-          className={`${styles.inputContainer} ${!isValid ? 'error' : ''}`}
-          onClick={toggleDropdown}
-        >
-          <input
-            type="text"
-            value={formatDate(selectedDate)}
-            placeholder={placeholder}
-            readOnly
-            className={styles.dateInput}
-          />
-          <img src={calendar} alt="" className={styles.calendarIcon} />
-        </div>
+        <label className={styles.label} htmlFor={`${lable}Dropdown`}>
+          {lable}
+          <div
+            className={`${styles.inputContainer} ${!isValid ? 'error' : ''}`}
+          >
+            <input
+              type="text"
+              value={formatDate(selectedDate)}
+              placeholder={placeholder}
+              readOnly
+              className={styles.dateInput}
+              onClick={toggleDropdown}
+              id={`${lable}Dropdown`}
+            />
+            <img src={calendar} alt="" className={styles.calendarIcon} />
+          </div>
+        </label>
 
         {isOpen && (
           <div className={styles.calendarPopup}>
             <div className={styles.calendarHeader}>
               <select
                 value={currentMonth}
-                onChange={(e) => setCurrentMonth(parseInt(e.target.value))}
+                onChange={(e) => setCurrentMonth(parseInt(e.target.value, 10))}
                 className={styles.monthSelect}
               >
                 {months.map((month, index) => (
-                  <option key={index} value={index}>
+                  <option key={uuidv4()} value={index}>
                     {month}
                   </option>
                 ))}
@@ -144,7 +147,7 @@ export const DropdownCalendar: React.FC<TDropdownCalendar> = memo(
 
               <select
                 value={currentYear}
-                onChange={(e) => setCurrentYear(parseInt(e.target.value))}
+                onChange={(e) => setCurrentYear(parseInt(e.target.value, 10))}
                 className={styles.yearSelect}
               >
                 {getYearOptions().map((year) => (
@@ -196,9 +199,7 @@ export const DropdownCalendar: React.FC<TDropdownCalendar> = memo(
           </div>
         )}
 
-        {!isValid && errorText && (
-          <small className={styles.errorText}>{errorText}</small>
-        )}
+        <small className={styles.errorText}>{!isValid && errorText}</small>
       </div>
     );
   }

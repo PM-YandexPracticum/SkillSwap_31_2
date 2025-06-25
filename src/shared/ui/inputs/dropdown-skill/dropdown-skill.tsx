@@ -75,41 +75,52 @@ export const DropdownSkill: React.FC<TSkillInterface> = memo(
       <div className={styles.container} ref={dropdownRef}>
         <label className={styles.label} htmlFor={`${lable}Dropdown`}>
           {lable}
+          <div className={styles.dropdown}>
+            <input
+              type="text"
+              value={getDisplayText()}
+              readOnly
+              id={`${lable}Dropdown`}
+              className={styles.dropdownInput}
+              onClick={toggleDropdown}
+            />
+            <img src={chevronDown} alt="" className={styles.dropdownIcon} />
+          </div>
         </label>
-        <div
-          className={styles.dropdown}
-          onClick={toggleDropdown}
-          id={`${lable}Dropdown`}
-        >
-          <p className={styles.itemSelected}>{getDisplayText()}</p>
-          <img src={chevronDown} alt="" className={styles.dropdownIcon} />
-        </div>
         {isOpen && (
           <div className={styles.dropdownMenu}>
-            <p className={styles.itemSelected} onClick={toggleDropdown}>
-              {getDisplayText()}
-            </p>
+            <label htmlFor="skillInput">
+              <input
+                type="text"
+                value={getDisplayText()}
+                readOnly
+                className={styles.dropdownInput}
+                onClick={toggleDropdown}
+                id="skillInput"
+              />
+              <img
+                src={chevronUp}
+                alt="кнопка раскрытия списка"
+                className={styles.visibleIcon}
+              />
+            </label>
             {options.map((option) => (
               <label
                 key={option.id}
                 className={clsx([styles.skill, styles.item])}
+                htmlFor={`${option.id}`}
               >
                 <input
                   type="checkbox"
                   checked={isOptionSelected(option)}
                   onChange={() => handleOptionToggle(option)}
                   className={styles.checkbox}
+                  id={`${option.id}`}
                 />
                 <span className={styles.checkmark} />
                 <span>{option.name}</span>
               </label>
             ))}
-            <button
-              className={clsx([styles.visibleIcon, styles.dropdownCross])}
-              type="button"
-            >
-              <img src={chevronUp} alt="кнопка раскрытия списка" />
-            </button>
           </div>
         )}
         <small className={clsx([styles.small, !isValid && styles.errorText])}>
