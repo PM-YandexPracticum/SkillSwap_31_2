@@ -1,11 +1,11 @@
 export interface TCityInputInterface {
-    options: TCity[];
-    isValid: boolean;
-    lable: string;
-    errorText?: string;
+  options: TCity[];
+  isValid: boolean;
+  lable: string;
+  errorText?: string;
 }
 
 export type TCity = {
-    id: number;
-    name: string;
-}
+  id: number;
+  name: string;
+};

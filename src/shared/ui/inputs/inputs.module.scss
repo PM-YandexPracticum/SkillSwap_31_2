@@ -4,18 +4,18 @@ p {
 }
 
 .container {
-    place-self: center;
-    width: 369px;
-    border: 3px solid black;
     position: relative;
     display: flex;
-    gap: 4px;
     flex-direction: column;
-    font-family: Roboto, sans-serif;
+    gap: 4px;
+    width: 369px;
+    color: #253017;
     font-weight: 400;
     font-size: 16px;
+    font-family: "Roboto", sans-serif;
     line-height: 24px;
-    color: #253017;
+    border: 3px solid black;
+    place-self: center;
 }
 
 .input {
@@ -26,10 +26,10 @@ p {
 }
 
 input {
-    font-family: inherit;
-    font-size: 16px;
-    font-weight: 400;
     color: #253017;
+    font-weight: 400;
+    font-size: 16px;
+    font-family: inherit;
 }
 
 .small {
@@ -46,11 +46,11 @@ input {
 
 .visible-icon {
     position: absolute;
-    z-index: 11;
     top: 38px;
     right: 20px;
-    border: none;
+    z-index: 11;
     background: none;
+    border: none;
 }
 
 .dropdown-cross {
@@ -76,14 +76,14 @@ input {
 
 .dropdown-menu {
     position: absolute;
-    z-index: 10;
     top: 28px;
+    z-index: 10;
     display: flex;
     flex-direction: column;
     width: 100%;
+    background-color: #ffffff;
     border: 1px solid #69735D;
     border-radius: 12px;
-    background-color: #ffffff;
 }
 
 .list {
@@ -114,33 +114,33 @@ input {
 }
 
 .checkbox {
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
     position: absolute;
+    width: 0;
+    height: 0;
+    cursor: pointer;
+    opacity: 0;
     
-    &:checked + .checkmark:after {
+    &:checked + .checkmark::after {
         display: block;
     }
 }
 
 .checkmark {
-    display: inline-block;
     position: relative;
-    height: 24px;
+    display: inline-block;
     width: 24px;
+    height: 24px;
     background: url('../../../assets/icons/checkbox.svg');
     cursor: pointer;
     
-    &:after {
-        content: "";
+    &::after {
         position: absolute;
         top: 0;
         left: 0;
-        background: url('../../../assets/icons/checkbox-active.svg');
-        height: 24px;
-        width: 24px;
         display: none;
+        width: 24px;
+        height: 24px;
+        background: url('../../../assets/icons/checkbox-active.svg');
+        content: "";
     }
 }
