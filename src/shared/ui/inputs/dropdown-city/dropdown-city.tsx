@@ -1,4 +1,4 @@
-import { memo, useState, useRef, useEffect } from 'react';
+import { memo, useState, useRef, useEffect, ChangeEvent } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import clsx from 'clsx';
 
@@ -25,7 +25,7 @@ export const DropdownCity: React.FC<TCityInputInterface> = memo(
     );
 
     // Обработка изменения текста в инпуте
-    const handleInputChange = (e: KeyboardEvent) => {
+    const handleInputChange = (e: ChangeEvent) => {
       const { value } = e.target as HTMLInputElement;
       setSearchValue(value);
       setIsOpen(true);
