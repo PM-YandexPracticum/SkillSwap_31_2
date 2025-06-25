@@ -28,8 +28,6 @@
 .react-calendar *::before,
 .react-calendar *::after {
     box-sizing: border-box;
-    box-sizing: border-box;
-    box-sizing: border-box;
 }
 
 .react-calendar button {
