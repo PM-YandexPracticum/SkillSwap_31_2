@@ -1,0 +1,22 @@
+.logotype {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    width: auto;
+    text-decoration: none;
+}
+
+.logotype_image {
+    width: auto;
+    height: 40px;
+}
+
+.logotype_title {
+    color: #253017;
+    font-weight: 500;
+    font-size: 24px;
+    font-family: "Jost", sans-serif;
+    line-height: 32px;
+    letter-spacing: -0.01em;
+}
