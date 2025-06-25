@@ -1,0 +1,1 @@
+export { LogotypeUi } from './LogotypeUi';
