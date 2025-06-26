@@ -99,8 +99,8 @@ export async function getUsers(
     skills_ids: (user.skills_ids as SkillRef[]).map((s) => s.id),
     wishes_ids: (user.wishes_ids as WishesRef[]).map((s) => s.subcategory_id),
     is_liked: current_user_id ? likedIds.includes(user.id) : false,
-    age: user.birthday ? calculateAge(user.birthday): null,
-    birthday: user.birthday ? new Date(user.birthday): null,
+    age: user.birthday ? calculateAge(user.birthday) : null,
+    birthday: user.birthday ? new Date(user.birthday) : null,
   }));
 }
 
@@ -125,10 +125,10 @@ export async function getUserByEmailPassword({
 
 export async function addUser(
   email: string,
-  password: string,
+  password: string
 ): Promise<string> {
-  const hashedPassword = await hashPassword(password)
-  
+  const hashedPassword = await hashPassword(password);
+
   const { data, error } = await supabase
     .from('users')
     .insert({
@@ -138,8 +138,8 @@ export async function addUser(
     .select('id')
     .single();
 
-    if (error) throw error;
-    return data.id;
+  if (error) throw error;
+  return data.id;
 }
 
 export async function patchUser({
@@ -162,8 +162,6 @@ export async function patchUser({
   email?: string | null;
   password?: string | null;
   birthday?: Date | string | null;
-
-
 }): Promise<void> {
   const changedParameters: Record<string, any> = {};
 
@@ -173,16 +171,18 @@ export async function patchUser({
   if (about !== null) changedParameters.about = about;
   if (avatar_url !== null) changedParameters.avatar_url = avatar_url;
   if (email !== null) changedParameters.email = email;
-  if (password !== null) changedParameters.password = await hashPassword(password);
+  if (password !== null)
+    changedParameters.password = await hashPassword(password);
   if (birthday !== null) changedParameters.birthday = new Date(birthday);
-  if (Object.keys(changedParameters).length > 0) changedParameters.modified_at = new Date();
+  if (Object.keys(changedParameters).length > 0)
+    changedParameters.modified_at = new Date();
 
   const { error } = await supabase
-      .from('users')
-      .update(changedParameters)
-      .eq('id', user_id);
+    .from('users')
+    .update(changedParameters)
+    .eq('id', user_id);
 
-    if (error) throw error;
+  if (error) throw error;
 }
 
 type SkillData = {
@@ -227,20 +227,18 @@ export async function addSkill(
   name: string,
   description: string,
   current_user_id: string,
-  images: string[] = [],
+  images: string[] = []
 ): Promise<void> {
-  const { error: insertError } = await supabase
-      .from('skills')
-      .insert({
-      category_id: category_id,
-      subcategory_id: subcategory_id,
-      name: name,
-      description: description,
-      owner_id: current_user_id,
-      images: images
-    });
+  const { error: insertError } = await supabase.from('skills').insert({
+    category_id,
+    subcategory_id,
+    name,
+    description,
+    owner_id: current_user_id,
+    images,
+  });
 
-    if (insertError) throw insertError;
+  if (insertError) throw insertError;
 }
 
 export async function patchSkill({
@@ -261,26 +259,22 @@ export async function patchSkill({
   const changedParameters: Record<string, any> = {};
 
   if (category_id !== null) changedParameters.category_id = category_id;
-  if (subcategory_id !== null) changedParameters.subcategory_id = subcategory_id;
+  if (subcategory_id !== null)
+    changedParameters.subcategory_id = subcategory_id;
   if (name !== null) changedParameters.name = name;
   if (description !== null) changedParameters.description = description;
   if (images.length > 0) changedParameters.images = images;
 
   const { error } = await supabase
-      .from('skills')
-      .update(changedParameters)
-      .eq('id', skill_id);
+    .from('skills')
+    .update(changedParameters)
+    .eq('id', skill_id);
 
-    if (error) throw error;
+  if (error) throw error;
 }
 
-export async function removeSkill(
-  skill_id: string,
-): Promise<void> {
-  const { error } = await supabase
-    .from('skills')
-    .delete()
-    .eq('id', skill_id);
+export async function removeSkill(skill_id: string): Promise<void> {
+  const { error } = await supabase.from('skills').delete().eq('id', skill_id);
 
   if (error) throw error;
 }
@@ -317,21 +311,19 @@ export async function getSubcategories(
 
 export async function addUserFavorites(
   current_user_id: string,
-  favorite_id: string,
+  favorite_id: string
 ): Promise<void> {
-    const { error: insertError } = await supabase
-      .from('favorites')
-      .insert({
-      user_id: current_user_id,
-      favorite_id,
-    });
+  const { error: insertError } = await supabase.from('favorites').insert({
+    user_id: current_user_id,
+    favorite_id,
+  });
 
-    if (insertError) throw insertError;
+  if (insertError) throw insertError;
 }
 
 export async function removeUserFavorites(
   current_user_id: string,
-  favorite_id: string,
+  favorite_id: string
 ): Promise<void> {
   const { error: deleteError } = await supabase
     .from('favorites')
@@ -354,13 +346,10 @@ type SuggestionData = {
   skill: string | null;
 };
 
-
 export async function getSuggestions(
-  current_user_id: string,
+  current_user_id: string
 ): Promise<SuggestionData[]> {
-  const { data, error } = await supabase
-    .from('suggestions')
-    .select(`
+  const { data, error } = await supabase.from('suggestions').select(`
       id,
       accepted,
       who_ask:who_ask_id (
@@ -371,12 +360,14 @@ export async function getSuggestions(
         id,
         owner_id
       )
-    `)
+    `);
 
   if (error) throw error;
-  
+
   return (data ?? [])
-    .filter((s) => (s.skill as { owner_id?: string })?.owner_id === current_user_id)
+    .filter(
+      (s) => (s.skill as { owner_id?: string })?.owner_id === current_user_id
+    )
     .map((suggestion) => ({
       id: suggestion.id,
       accepted: suggestion.accepted,
@@ -385,14 +376,30 @@ export async function getSuggestions(
     }));
 }
 
+export async function addNotification(
+  current_user_id: string,
+  user_id: string,
+  suggestion_id: string
+): Promise<void> {
+  const toInsert = {
+    sender_id: current_user_id,
+    user_id,
+    suggestion_id,
+  };
+  const { error: insertError } = await supabase
+    .from('notifications')
+    .insert(toInsert);
+
+  if (insertError) throw insertError;
+}
+
 export async function addSuggestion(
   current_user_id: string,
-  skill_id: string,
+  skill_id: string
 ): Promise<void> {
   const { data, error } = await supabase
     .from('suggestions')
-    .insert({ who_ask_id: current_user_id, skill_id })
-    .select(`
+    .insert({ who_ask_id: current_user_id, skill_id }).select(`
       id,
       who_ask_id,
       skill_id (
@@ -404,18 +411,17 @@ export async function addSuggestion(
   if (error) throw error;
 
   const suggestion = data?.[0];
-  const owner_id = (suggestion?.skill_id as { owner_id?: string })?.owner_id;
+  const ownerId = (suggestion?.skill_id as { owner_id?: string })?.owner_id;
 
-  if (!suggestion || !owner_id) {
+  if (!suggestion || !ownerId) {
     throw new Error('Не удалось получить owner_id для уведомления');
   }
-  console.log(owner_id);
-  await addNotification(current_user_id, owner_id, suggestion.id);
+  await addNotification(current_user_id, ownerId, suggestion.id);
 }
 
 export async function acceptSuggestion(
   current_user_id: string,
-  suggestion_id: string,
+  suggestion_id: string
 ): Promise<void> {
   const { data, error } = await supabase
     .from('suggestions')
@@ -423,7 +429,7 @@ export async function acceptSuggestion(
     .eq('id', suggestion_id)
     .select('who_ask_id');
   if (error) throw error;
-  
+
   const suggestion = data?.[0];
 
   if (!suggestion || !suggestion.who_ask_id) {
@@ -440,51 +446,35 @@ type NotificationData = {
 };
 
 export async function getNotifications(
-  current_user_id: string,
+  current_user_id: string
 ): Promise<NotificationData[]> {
   const { data, error } = await supabase
     .from('notifications')
-    .select(`
+    .select(
+      `
       id,
       created_at,
       is_read,
       user_id,
       sender_id,
       suggestion_id
-    `)
+    `
+    )
     .eq('user_id', current_user_id);
 
   if (error) throw error;
 
-  return (data ?? [])
-    .map((notification) => ({
-      id: notification.id,
-      is_read: notification.is_read,
-      sender_id: notification.sender_id,
-      suggestion_id: notification.suggestion_id,
-    }));
-}
-
-export async function addNotification(
-  current_user_id: string,
-  user_id: string,
-  suggestion_id: string,
-): Promise<void> {
-  const toInsert = {
-    sender_id: current_user_id,
-    user_id: user_id,
-    suggestion_id: suggestion_id,
-  };
-  const { error: insertError } = await supabase
-    .from('notifications')
-    .insert(toInsert);
-
-  if (insertError) throw insertError;
+  return (data ?? []).map((notification) => ({
+    id: notification.id,
+    is_read: notification.is_read,
+    sender_id: notification.sender_id,
+    suggestion_id: notification.suggestion_id,
+  }));
 }
 
 export async function readNotifications(
   current_user_id: string,
-  notification_id: string | null = null,
+  notification_id: string | null = null
 ): Promise<void> {
   const query = supabase.from('notifications').update({ is_read: true });
 
@@ -496,7 +486,7 @@ export async function readNotifications(
 }
 
 export async function removeNotifications(
-  current_user_id: string,
+  current_user_id: string
 ): Promise<void> {
   const { error } = await supabase
     .from('notifications')
