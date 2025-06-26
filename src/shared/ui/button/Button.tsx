@@ -1,28 +1,28 @@
-import React, { memo } from 'react';
-import clsx from 'clsx';
+import React from 'react';
+import { clsx } from 'clsx';
 
-import styles from './button.module.scss';
+import { ButtonUIProps } from './type';
+import styles from './button.module.css';
 
-import { TButtonProps } from '@ui/button/type';
-
-/** Primary UI component for user interaction */
-export const Button: React.FC<TButtonProps> = memo(
-  ({ label, mode = 'primary', onClick, ...props }) => {
-    let modeClass = styles.buttonPrimary;
-    if (mode === 'secondary') {
-      modeClass = styles.buttonSecondary;
-    } else if (mode === 'tertiary') {
-      modeClass = styles.buttonTertiary;
-    }
-    return (
-      <button
-        type="button"
-        className={clsx([styles.button, modeClass])}
-        onClick={onClick}
-        {...props}
-      >
-        {label}
-      </button>
-    );
-  }
+export const ButtonUI: React.FC<ButtonUIProps> = ({
+  onClick,
+  type = 'Primary',
+  children,
+  htmlType,
+  disabled = false,
+}) => (
+  <button
+    // eslint-disable-next-line react/button-has-type
+    type={htmlType}
+    onClick={onClick}
+    disabled={disabled}
+    className={clsx(
+      styles.button,
+      { [styles.buttonprimary]: type === 'Primary' },
+      { [styles.buttonsecondary]: type === 'Secondary' },
+      { [styles.buttontertiary]: type === 'Tertiary' }
+    )}
+  >
+    {children}
+  </button>
 );

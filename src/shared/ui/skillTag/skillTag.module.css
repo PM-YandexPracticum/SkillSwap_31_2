@@ -1,0 +1,13 @@
+.skillTag{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    max-width: 147px;
+    height: 16px;
+    margin: 0;
+    padding: 8px 12px;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    border-radius: 20px;
+}
