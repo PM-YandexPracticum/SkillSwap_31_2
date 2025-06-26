@@ -1,8 +1,8 @@
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+
 import { SearchUI } from './search';
 import { SearchUIProps } from './type';
-
 
 const meta: Meta<typeof SearchUI> = {
   title: 'Components/SearchUI',
@@ -32,7 +32,9 @@ export default meta;
 
 type Story = StoryObj<typeof SearchUI>;
 
-const InteractiveSearchUI = (props: Omit<SearchUIProps, 'value' | 'onChange' | 'onClear'>) => {
+const InteractiveSearchUI = (
+  props: Omit<SearchUIProps, 'value' | 'onChange' | 'onClear'>
+) => {
   const [value, setValue] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,7 +64,8 @@ export const InteractiveExample: Story = {
 
 export const WithLongText: Story = {
   args: {
-    value: 'Очень длинный текст поискового запроса, который не помещается в поле',
+    value:
+      'Очень длинный текст поискового запроса, который не помещается в поле',
     placeholder: 'Искать навык',
   },
 };
