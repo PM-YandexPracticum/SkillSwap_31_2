@@ -55,6 +55,9 @@ export default tseslint.config({
 ### Создание БД:
 
 ```sql
+-- WARNING: This schema is for context only and is not meant to be run.
+-- Table order and constraints may not be valid for execution.
+
 CREATE TABLE public.categories (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
   name text NOT NULL UNIQUE,
@@ -70,13 +73,25 @@ CREATE TABLE public.favorites (
   user_id uuid NOT NULL,
   favorite_id uuid NOT NULL,
   CONSTRAINT favorites_pkey PRIMARY KEY (id),
-  CONSTRAINT favorites_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id),
-  CONSTRAINT favorites_favorite_id_fkey FOREIGN KEY (favorite_id) REFERENCES public.users(id)
+  CONSTRAINT favorites_favorite_id_fkey FOREIGN KEY (favorite_id) REFERENCES public.users(id),
+  CONSTRAINT favorites_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id)
 );
 CREATE TABLE public.gender (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
   name text NOT NULL UNIQUE,
   CONSTRAINT gender_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.notifications (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  suggestion_id uuid NOT NULL,
+  user_id uuid NOT NULL,
+  is_read boolean NOT NULL DEFAULT false,
+  sender_id uuid NOT NULL,
+  CONSTRAINT notifications_pkey PRIMARY KEY (id),
+  CONSTRAINT notifications_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id),
+  CONSTRAINT notifications_sender_id_fkey FOREIGN KEY (sender_id) REFERENCES public.users(id),
+  CONSTRAINT notifications_suggestion_id_fkey FOREIGN KEY (suggestion_id) REFERENCES public.suggestions(id)
 );
 CREATE TABLE public.skills (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
@@ -89,9 +104,9 @@ CREATE TABLE public.skills (
   name text NOT NULL,
   owner_id uuid NOT NULL,
   CONSTRAINT skills_pkey PRIMARY KEY (id),
+  CONSTRAINT skills_owner_id_fkey FOREIGN KEY (owner_id) REFERENCES public.users(id),
   CONSTRAINT skills_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.categories(id),
-  CONSTRAINT skills_subcategory_id_fkey FOREIGN KEY (subcategory_id) REFERENCES public.subcategories(id),
-  CONSTRAINT skills_owner_id_fkey FOREIGN KEY (owner_id) REFERENCES public.users(id)
+  CONSTRAINT skills_subcategory_id_fkey FOREIGN KEY (subcategory_id) REFERENCES public.subcategories(id)
 );
 CREATE TABLE public.subcategories (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
@@ -99,6 +114,17 @@ CREATE TABLE public.subcategories (
   category_id uuid NOT NULL,
   CONSTRAINT subcategories_pkey PRIMARY KEY (id),
   CONSTRAINT subcategories_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.categories(id)
+);
+CREATE TABLE public.suggestions (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  skill_id uuid NOT NULL,
+  who_ask_id uuid NOT NULL,
+  accepted boolean NOT NULL DEFAULT false,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  modified_at timestamp without time zone NOT NULL DEFAULT now(),
+  CONSTRAINT suggestions_pkey PRIMARY KEY (id),
+  CONSTRAINT suggestions_who_ask_id_fkey FOREIGN KEY (who_ask_id) REFERENCES public.users(id),
+  CONSTRAINT suggestions_skill_id_fkey FOREIGN KEY (skill_id) REFERENCES public.skills(id)
 );
 CREATE TABLE public.user_wishes (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
@@ -117,11 +143,11 @@ CREATE TABLE public.users (
   email text NOT NULL UNIQUE,
   gender_id uuid,
   city_id uuid,
-  name text NOT NULL UNIQUE,
+  name text UNIQUE,
   password text NOT NULL,
-  birthday date NOT NULL,
+  birthday date,
   CONSTRAINT users_pkey PRIMARY KEY (id),
-  CONSTRAINT users_city_id_fkey FOREIGN KEY (city_id) REFERENCES public.cities(id),
-  CONSTRAINT users_gender_id_fkey FOREIGN KEY (gender_id) REFERENCES public.gender(id)
+  CONSTRAINT users_gender_id_fkey FOREIGN KEY (gender_id) REFERENCES public.gender(id),
+  CONSTRAINT users_city_id_fkey FOREIGN KEY (city_id) REFERENCES public.cities(id)
 );
 ```

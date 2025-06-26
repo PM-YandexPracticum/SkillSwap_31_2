@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import 'dotenv/config';
 
-import { verifyPassword } from '../shared/lib/helpers';
+import { verifyPassword, hashPassword } from '../shared/lib/helpers';
 
 const supabaseUrl = process.env.REST_API_URL!;
 const supabaseKey = process.env.REST_API_ANON!;
@@ -18,7 +18,7 @@ type UserData = {
   wishes_ids: string[];
   id: string;
   name: string;
-  age: number;
+  age: number | null;
   about: string;
   avatar_url: string;
   email: string;
@@ -26,7 +26,7 @@ type UserData = {
   created_at: string;
   modified_at: string;
   is_liked: boolean;
-  birthday: Date;
+  birthday: Date | null;
 };
 
 export async function getUserFavorites(
@@ -99,8 +99,8 @@ export async function getUsers(
     skills_ids: (user.skills_ids as SkillRef[]).map((s) => s.id),
     wishes_ids: (user.wishes_ids as WishesRef[]).map((s) => s.subcategory_id),
     is_liked: current_user_id ? likedIds.includes(user.id) : false,
-    age: calculateAge(user.birthday),
-    birthday: new Date(user.birthday),
+    age: user.birthday ? calculateAge(user.birthday): null,
+    birthday: user.birthday ? new Date(user.birthday): null,
   }));
 }
 
@@ -121,6 +121,68 @@ export async function getUserByEmailPassword({
 
   // Нужно обдумать формат ошибки при неправильной паре email/password
   return 'aceess·denied';
+}
+
+export async function addUser(
+  email: string,
+  password: string,
+): Promise<string> {
+  const hashedPassword = await hashPassword(password)
+  
+  const { data, error } = await supabase
+    .from('users')
+    .insert({
+      email,
+      password: hashedPassword,
+    })
+    .select('id')
+    .single();
+
+    if (error) throw error;
+    return data.id;
+}
+
+export async function patchUser({
+  user_id,
+  gender_id = null,
+  city_id = null,
+  name = null,
+  about = null,
+  avatar_url = null,
+  email = null,
+  password = null,
+  birthday = null,
+}: {
+  user_id: string;
+  gender_id?: string | null;
+  city_id?: string | null;
+  name?: string | null;
+  about?: string | null;
+  avatar_url?: string | null;
+  email?: string | null;
+  password?: string | null;
+  birthday?: Date | string | null;
+
+
+}): Promise<void> {
+  const changedParameters: Record<string, any> = {};
+
+  if (gender_id !== null) changedParameters.gender_id = gender_id;
+  if (city_id !== null) changedParameters.city_id = city_id;
+  if (name !== null) changedParameters.name = name;
+  if (about !== null) changedParameters.about = about;
+  if (avatar_url !== null) changedParameters.avatar_url = avatar_url;
+  if (email !== null) changedParameters.email = email;
+  if (password !== null) changedParameters.password = await hashPassword(password);
+  if (birthday !== null) changedParameters.birthday = new Date(birthday);
+  if (Object.keys(changedParameters).length > 0) changedParameters.modified_at = new Date();
+
+  const { error } = await supabase
+      .from('users')
+      .update(changedParameters)
+      .eq('id', user_id);
+
+    if (error) throw error;
 }
 
 type SkillData = {
@@ -159,6 +221,70 @@ export async function getSkills(): Promise<SkillData[]> {
   return result;
 }
 
+export async function addSkill(
+  category_id: string,
+  subcategory_id: string,
+  name: string,
+  description: string,
+  current_user_id: string,
+  images: string[] = [],
+): Promise<void> {
+  const { error: insertError } = await supabase
+      .from('skills')
+      .insert({
+      category_id: category_id,
+      subcategory_id: subcategory_id,
+      name: name,
+      description: description,
+      owner_id: current_user_id,
+      images: images
+    });
+
+    if (insertError) throw insertError;
+}
+
+export async function patchSkill({
+  skill_id,
+  category_id = null,
+  subcategory_id = null,
+  name = null,
+  description = null,
+  images = [],
+}: {
+  skill_id: string;
+  category_id?: string | null;
+  subcategory_id?: string | null;
+  name?: string | null;
+  description?: string | null;
+  images?: string[];
+}): Promise<void> {
+  const changedParameters: Record<string, any> = {};
+
+  if (category_id !== null) changedParameters.category_id = category_id;
+  if (subcategory_id !== null) changedParameters.subcategory_id = subcategory_id;
+  if (name !== null) changedParameters.name = name;
+  if (description !== null) changedParameters.description = description;
+  if (images.length > 0) changedParameters.images = images;
+
+  const { error } = await supabase
+      .from('skills')
+      .update(changedParameters)
+      .eq('id', skill_id);
+
+    if (error) throw error;
+}
+
+export async function removeSkill(
+  skill_id: string,
+): Promise<void> {
+  const { error } = await supabase
+    .from('skills')
+    .delete()
+    .eq('id', skill_id);
+
+  if (error) throw error;
+}
+
 type CategoryData = {
   id: string;
   name: string;
@@ -189,36 +315,194 @@ export async function getSubcategories(
   return data;
 }
 
-export async function patchUserFavorites(
+export async function addUserFavorites(
   current_user_id: string,
-  favorite_ids: string[]
+  favorite_id: string,
 ): Promise<void> {
-  const currentFavoriteIds = await getUserFavorites(current_user_id);
-  const toAdd = favorite_ids.filter((id) => !currentFavoriteIds.includes(id));
-  const toRemove = currentFavoriteIds.filter(
-    (id) => !favorite_ids.includes(id)
-  );
-
-  if (toRemove.length > 0) {
-    const { error: deleteError } = await supabase
-      .from('favorites')
-      .delete()
-      .eq('user_id', current_user_id)
-      .in('favorite_id', toRemove);
-
-    if (deleteError) throw deleteError;
-  }
-
-  if (toAdd.length > 0) {
-    const toInsert = toAdd.map((favorite_id) => ({
-      user_id: current_user_id,
-      favorite_id,
-    }));
-
     const { error: insertError } = await supabase
       .from('favorites')
-      .insert(toInsert);
+      .insert({
+      user_id: current_user_id,
+      favorite_id,
+    });
 
     if (insertError) throw insertError;
+}
+
+export async function removeUserFavorites(
+  current_user_id: string,
+  favorite_id: string,
+): Promise<void> {
+  const { error: deleteError } = await supabase
+    .from('favorites')
+    .delete()
+    .eq('user_id', current_user_id)
+    .eq('favorite_id', favorite_id);
+
+  if (deleteError) throw deleteError;
+}
+
+type WhoAskRef = {
+  id: string;
+  name: string;
+};
+
+type SuggestionData = {
+  id: string;
+  accepted: boolean;
+  who_ask: WhoAskRef[];
+  skill: string | null;
+};
+
+
+export async function getSuggestions(
+  current_user_id: string,
+): Promise<SuggestionData[]> {
+  const { data, error } = await supabase
+    .from('suggestions')
+    .select(`
+      id,
+      accepted,
+      who_ask:who_ask_id (
+        id,
+        name
+      ),
+      skill:skill_id (
+        id,
+        owner_id
+      )
+    `)
+
+  if (error) throw error;
+  
+  return (data ?? [])
+    .filter((s) => (s.skill as { owner_id?: string })?.owner_id === current_user_id)
+    .map((suggestion) => ({
+      id: suggestion.id,
+      accepted: suggestion.accepted,
+      who_ask: suggestion.who_ask,
+      skill: (suggestion.skill as { id?: string })?.id ?? null,
+    }));
+}
+
+export async function addSuggestion(
+  current_user_id: string,
+  skill_id: string,
+): Promise<void> {
+  const { data, error } = await supabase
+    .from('suggestions')
+    .insert({ who_ask_id: current_user_id, skill_id })
+    .select(`
+      id,
+      who_ask_id,
+      skill_id (
+        id,
+        owner_id
+      )
+    `);
+
+  if (error) throw error;
+
+  const suggestion = data?.[0];
+  const owner_id = (suggestion?.skill_id as { owner_id?: string })?.owner_id;
+
+  if (!suggestion || !owner_id) {
+    throw new Error('Не удалось получить owner_id для уведомления');
   }
+  console.log(owner_id);
+  await addNotification(current_user_id, owner_id, suggestion.id);
+}
+
+export async function acceptSuggestion(
+  current_user_id: string,
+  suggestion_id: string,
+): Promise<void> {
+  const { data, error } = await supabase
+    .from('suggestions')
+    .update({ accepted: true })
+    .eq('id', suggestion_id)
+    .select('who_ask_id');
+  if (error) throw error;
+  
+  const suggestion = data?.[0];
+
+  if (!suggestion || !suggestion.who_ask_id) {
+    throw new Error('Не удалось получить who_ask_id');
+  }
+  await addNotification(current_user_id, suggestion.who_ask_id, suggestion_id);
+}
+
+type NotificationData = {
+  id: string;
+  is_read: boolean;
+  sender_id: string;
+  suggestion_id: string;
+};
+
+export async function getNotifications(
+  current_user_id: string,
+): Promise<NotificationData[]> {
+  const { data, error } = await supabase
+    .from('notifications')
+    .select(`
+      id,
+      created_at,
+      is_read,
+      user_id,
+      sender_id,
+      suggestion_id
+    `)
+    .eq('user_id', current_user_id);
+
+  if (error) throw error;
+
+  return (data ?? [])
+    .map((notification) => ({
+      id: notification.id,
+      is_read: notification.is_read,
+      sender_id: notification.sender_id,
+      suggestion_id: notification.suggestion_id,
+    }));
+}
+
+export async function addNotification(
+  current_user_id: string,
+  user_id: string,
+  suggestion_id: string,
+): Promise<void> {
+  const toInsert = {
+    sender_id: current_user_id,
+    user_id: user_id,
+    suggestion_id: suggestion_id,
+  };
+  const { error: insertError } = await supabase
+    .from('notifications')
+    .insert(toInsert);
+
+  if (insertError) throw insertError;
+}
+
+export async function readNotifications(
+  current_user_id: string,
+  notification_id: string | null = null,
+): Promise<void> {
+  const query = supabase.from('notifications').update({ is_read: true });
+
+  const { error } = notification_id
+    ? await query.eq('id', notification_id)
+    : await query.eq('user_id', current_user_id);
+
+  if (error) throw error;
+}
+
+export async function removeNotifications(
+  current_user_id: string,
+): Promise<void> {
+  const { error } = await supabase
+    .from('notifications')
+    .delete()
+    .eq('is_read', true)
+    .eq('user_id', current_user_id);
+
+  if (error) throw error;
 }
