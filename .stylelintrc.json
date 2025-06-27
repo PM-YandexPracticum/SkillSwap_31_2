@@ -1,5 +1,8 @@
 {
   "extends": ["stylelint-config-standard"],
+    "ignoreFiles": [
+      "src/index.css"
+    ],
   "plugins": ["stylelint-order"],
   "rules": {
     "color-no-invalid-hex": true,
