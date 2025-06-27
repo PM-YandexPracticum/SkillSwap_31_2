@@ -3,6 +3,7 @@
   top: 50%;
   left: 50%;
   z-index: 9999;
+  width: 556px;
   min-width: 556px;
   margin: auto;
   background-color: #FFFFFF;
@@ -10,29 +11,7 @@
   transform: translate(-50%, -50%);
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding-inline: 36px;
-  height: 80px;
-    
-}
-
-.title {
-  height: 40px;
-  margin: 0;
-  font-weight: 600;
-  font-size: 24px;
-}
-
-.button {
-  color: #6b7280;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
 .content {
     padding-inline: 60px;
+    padding-block: 80px;
 }
