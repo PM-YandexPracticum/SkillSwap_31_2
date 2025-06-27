@@ -163,6 +163,7 @@ export async function patchUser({
   password?: string | null;
   birthday?: Date | string | null;
 }): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changedParameters: Record<string, any> = {};
 
   if (gender_id !== null) changedParameters.gender_id = gender_id;
@@ -256,6 +257,7 @@ export async function patchSkill({
   description?: string | null;
   images?: string[];
 }): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changedParameters: Record<string, any> = {};
 
   if (category_id !== null) changedParameters.category_id = category_id;
