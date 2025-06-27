@@ -1,0 +1,163 @@
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 369px;
+    color: #253017;
+    font-weight: 400;
+    font-size: 16px;
+    font-family: "Roboto", sans-serif;
+    line-height: 24px;
+    border: 3px solid black;
+    place-self: center;
+}
+
+input {
+    color: #253017;
+    font-weight: 400;
+    font-size: 16px;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.input {
+    position: relative;
+    padding: 12px 20px;
+    border: 1px solid #69735D;
+    border-radius: 12px;
+}
+
+.city-input {
+    cursor: text;
+}
+
+.small {
+    font-size: 12px;
+}
+
+.error-text {
+    color: #BF3920;
+}
+
+.error-border {
+    border-color: #BF3920;
+}
+
+.visible-icon {
+    position: absolute;
+    top: 8px;
+    right: 26px;
+    background: none;
+    border: none;
+}
+
+.dropdown-cross {
+    top: 10px;
+    right: 20px;
+}
+
+.dropdown {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 4px;
+    border: 1px solid #69735D;
+    border-radius: 12px;
+}
+
+.dropdown-input {
+    position: relative;
+    height: 100%;
+    margin: 8px 20px;
+    border: none;
+    outline: none;
+}
+
+.dropdown-icon {
+    margin-right: 26px;
+}
+
+.selected-option {
+    margin: 9px 20px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 28px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #69735D;
+    border-radius: 12px;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+.item {
+    margin: 8px 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.item-selected {
+    margin: 8px 20px;
+}
+
+.disabled {
+    color: #69735D;
+}
+
+.skill {
+    display: flex;
+}
+
+.skill:first-child {
+    padding-top: 50px;
+}
+
+.checkmark {
+    position: relative;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background: url('../../../assets/icons/checkbox.svg');
+    cursor: pointer;
+    
+    &::after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: none;
+        width: 24px;
+        height: 24px;
+        background: url('../../../assets/icons/checkbox-active.svg');
+        content: "";
+    }
+}
+
+.checkbox {
+    position: absolute;
+    width: 0;
+    height: 0;
+    cursor: pointer;
+    opacity: 0;
+    
+    &:checked + .checkmark::after {
+        display: block;
+    }
+}
