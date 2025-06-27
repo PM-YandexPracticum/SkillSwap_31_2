@@ -1,6 +1,5 @@
 import React from 'react';
 
-import logo from '../../assets/icons/logo.svg';
 import dropdownIcon from '../../assets/icons/dropdown-icon.svg';
 import moon from '../../assets/icons/moon.svg';
 import tagClose from '../../assets/icons/tag-close.svg';
@@ -9,23 +8,20 @@ import radioInactive from '../../assets/icons/radio-inactive.svg';
 
 import styles from './home.module.scss';
 
+import { Logotype } from '@app/widgets';
+
 export const Home = () => {
   return (
     <div className={styles.homePage}>
       <header className={styles.header}>
-        <div className={styles.headerLogo}>
-          <span className={styles.logoSvg}>
-            <img src={logo} width={40} height={40} alt="logo" />
-          </span>
-          <span className={styles.logoText}>SkillSwap</span>
-        </div>
+        <Logotype />
         <nav className={styles.headerNav}>
           <ul className={styles.headerMenu}>
             <li>
-              <a href="#">О проекте</a>
+              <a href="/">О проекте</a>
             </li>
             <li className={styles.dropdown}>
-              <a href="#">
+              <a href="/">
                 Все навыки{' '}
                 <span className={styles.dropdownIcon}>
                   <img
@@ -39,15 +35,25 @@ export const Home = () => {
             </li>
           </ul>
           <div className={styles.headerActions}>
-            <button className={styles.themeSwitcher} title="Переключить тему">
+            <button
+              type="button"
+              className={styles.themeSwitcher}
+              title="Переключить тему"
+            >
               <span className={styles.moonSvg}>
                 <img src={moon} width={24} height={24} alt="moon" />
               </span>
             </button>
-            <button className={`${styles.authBtn} ${styles.login}`}>
+            <button
+              type="button"
+              className={`${styles.authBtn} ${styles.login}`}
+            >
               Войти
             </button>
-            <button className={`${styles.authBtn} ${styles.register}`}>
+            <button
+              type="button"
+              className={`${styles.authBtn} ${styles.register}`}
+            >
               Зарегистрироваться
             </button>
           </div>
@@ -57,7 +63,7 @@ export const Home = () => {
         <div className={styles.filterPanelContainer}>
           <div className={styles.filterBar}>
             <span className={styles.filterTitle}>Фильтры</span>
-            <button className={styles.filterReset}>
+            <button type="button" className={styles.filterReset}>
               Сбросить
               <span className={styles.resetIcon}>
                 <img src={tagClose} alt="закрыть" width={24} height={24} />
@@ -65,14 +71,14 @@ export const Home = () => {
             </button>
           </div>
           <div className={styles.filterRadioGroup}>
-            <label className={styles.filterRadio}>
+            <span className={styles.filterRadio}>
               <input type="radio" name="filter" defaultChecked={false} />
               <span className={styles.radioIcon}>
                 <img src={radioInactive} width={24} height={24} alt="radio" />
               </span>
               <span className={styles.radioLabel}>Всё</span>
-            </label>
-            <label className={`${styles.filterRadio} ${styles.active}`}>
+            </span>
+            <span className={`${styles.filterRadio} ${styles.active}`}>
               <input type="radio" name="filter" defaultChecked />
               <span className={styles.radioIcon}>
                 <img
@@ -83,14 +89,14 @@ export const Home = () => {
                 />
               </span>
               <span className={styles.radioLabel}>Хочу научиться</span>
-            </label>
-            <label className={styles.filterRadio}>
+            </span>
+            <span className={styles.filterRadio}>
               <input type="radio" name="filter" defaultChecked={false} />
               <span className={styles.radioIcon}>
                 <img src={radioInactive} width={24} height={24} alt="radio" />
               </span>
               <span className={styles.radioLabel}>Могу научить</span>
-            </label>
+            </span>
           </div>
           <div className={styles.filtersSection}>
             <div className={styles.filtersGroup}>
@@ -99,24 +105,24 @@ export const Home = () => {
             </div>
             <div className={styles.filtersGroup}>
               <div className={styles.filtersTitle}>Пол автора</div>
-              <label className={styles.filterRadio}>
+              <span className={styles.filterRadio}>
                 <span className={styles.radioIcon}>
                   <img src={radioInactive} width={24} height={24} alt="radio" />
                 </span>
                 <span className={styles.radioLabel}>Не имеет значения</span>
-              </label>
-              <label className={styles.filterRadio}>
+              </span>
+              <span className={styles.filterRadio}>
                 <span className={styles.radioIcon}>
                   <img src={radioInactive} width={24} height={24} alt="radio" />
                 </span>
                 <span className={styles.radioLabel}>Мужской</span>
-              </label>
-              <label className={styles.filterRadio}>
+              </span>
+              <span className={styles.filterRadio}>
                 <span className={styles.radioIcon}>
                   <img src={radioInactive} width={24} height={24} alt="radio" />
                 </span>
                 <span className={styles.radioLabel}>Женский</span>
-              </label>
+              </span>
             </div>
             <div className={styles.filtersGroup}>
               <div className={styles.filtersTitle}>Город</div>
@@ -127,7 +133,7 @@ export const Home = () => {
         <div className={styles.resultsSection}>
           <div className={styles.resultsHeaderContainer}>
             <div className={styles.filterTags}>
-              <button className={styles.filterTagBtn}>
+              <button type="button" className={styles.filterTagBtn}>
                 <span className={styles.tagCloseIcon}>
                   <img src={tagClose} alt="закрыть" width={24} height={24} />
                 </span>
@@ -135,7 +141,7 @@ export const Home = () => {
             </div>
             <div className={styles.resultsHeaderRow}>
               <div className={styles.resultsTitle}>Подходящие предложения:</div>
-              <button className={styles.resultsSortBtn}>
+              <button type="button" className={styles.resultsSortBtn}>
                 <span>
                   {/* SVG иконка сортировки */}
                   <svg
@@ -210,19 +216,16 @@ export const Home = () => {
                 </div>
               </div>
               <div className={`${styles.cardBlock} ${styles.cardBlockBottom}`}>
-                <button className={styles.cardBtn}>Подробнее</button>
+                <button type="button" className={styles.cardBtn}>
+                  Подробнее
+                </button>
               </div>
             </div>
           </div>
         </div>
       </main>
       <footer className={styles.footer}>
-        <div className={styles.footerLogoBlock}>
-          <span className={styles.logoSvg}>
-            <img src={logo} width={40} height={40} alt="logo" />
-          </span>
-          <span className={styles.logoText}>SkillSwap</span>
-        </div>
+        <Logotype />
         <nav className={styles.footerMenu}>
           <ul>
             <li>О проекте</li>
