@@ -156,6 +156,10 @@ input {
     height: 0;
     cursor: pointer;
     opacity: 0;
+
+    &:checked + .checkmark {
+        background: none;
+    }
     
     &:checked + .checkmark::after {
         display: block;

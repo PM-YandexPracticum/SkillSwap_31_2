@@ -1,0 +1,82 @@
+.skill-lable {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: relative;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background: url('../../../assets/icons/checkbox.svg') no-repeat center;
+    cursor: pointer;
+    
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: none;
+        width: 24px;
+        height: 24px;
+        background: url('../../../assets/icons/checkbox-active.svg') no-repeat center;
+    }
+}
+
+.checkbox {
+    position: absolute;
+    width: 0;
+    height: 0;
+    cursor: pointer;
+    opacity: 0;
+
+    &:checked + .checkmark {
+        background: none;
+    }
+
+    &:indeterminate + .checkmark {
+        background: url('../../../assets/icons/checkbox-indeterminate.svg') no-repeat center;
+    }
+    
+    &:checked + .checkmark::after {
+        display: block;
+    }
+}
+
+.expande-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    padding: 0;
+    color: #262B26;
+    font-size: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.show-all-container {
+    display: flex;
+    justify-content: start;
+    margin-top: 10px;
+}
+
+.show-all-button {
+    color: #508826;
+    font-weight: 400;
+    font-size: 16px;
+    font-family: "Roboto", sans-serif;
+    background: none;
+    border: none;
+}
