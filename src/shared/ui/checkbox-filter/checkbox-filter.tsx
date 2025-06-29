@@ -6,6 +6,8 @@ import chevronUp from '../../../assets/icons/chevron-up.svg';
 import styles from './checkbox-filter.module.scss';
 import { TCheckboxFilter, TCheckboxOptions } from './types';
 
+import { ButtonUI } from '@ui/button';
+
 export const CheckboxFilter: React.FC<TCheckboxFilter> = memo(
   ({ options, title }) => {
     const [checkedItems, setCheckedItems] = useState(new Set());
@@ -128,21 +130,19 @@ export const CheckboxFilter: React.FC<TCheckboxFilter> = memo(
             {skill.label}
 
             {hasChildren && (
-              <button
-                className={styles.expandeButton}
+              <ButtonUI
+                type="Custom"
+                classes={styles.expandeButton}
                 onClick={(e) => {
                   e.preventDefault();
                   toggleExpanded(skill.id);
                 }}
-                type="button"
-                tabIndex={-1}
-                id={`expand-button-${skill.id}`}
               >
                 <img
                   src={isExpanded ? chevronUp : chevronDown}
                   alt="иконка раскрытия или скрытия списка"
                 />
-              </button>
+              </ButtonUI>
             )}
           </label>
 
@@ -166,28 +166,24 @@ export const CheckboxFilter: React.FC<TCheckboxFilter> = memo(
           {displayedItems.map((skill: TCheckboxOptions) => renderSkill(skill))}
         </ul>
         {!showAll && options.length > 5 && (
-          <div className={styles.showAllContainer}>
-            <button
-              type="button"
-              className={styles.showAllButton}
-              onClick={() => setShowAll(true)}
-            >
-              Показать все
-            </button>
+          <ButtonUI
+            type="Custom"
+            classes={styles.showAllButton}
+            onClick={() => setShowAll(true)}
+          >
+            Показать все
             <img src={chevronDown} alt="" />
-          </div>
+          </ButtonUI>
         )}
         {showAll && (
-          <div className={styles.showAllContainer}>
-            <button
-              type="button"
-              className={styles.showAllButton}
-              onClick={() => setShowAll(false)}
-            >
-              Скрыть все
-            </button>
+          <ButtonUI
+            type="Custom"
+            classes={styles.showAllButton}
+            onClick={() => setShowAll(false)}
+          >
+            Скрыть все
             <img src={chevronUp} alt="" />
-          </div>
+          </ButtonUI>
         )}
       </div>
     );

@@ -8,6 +8,8 @@ import { TCheckboxOptions } from '../checkbox-filter/types';
 
 import styles from './aside.module.scss';
 
+import { ButtonUI } from '@ui/button';
+
 export const Aside = memo(() => {
   const mainFilter: TRadioList = {
     title: '',
@@ -88,13 +90,13 @@ export const Aside = memo(() => {
       <div className={styles.filterBar}>
         <h2 className={styles.title}>Фильтры</h2>
         {/* Здесь нужен счётчик. Нет глобального состояния */}
-        <button type="button" className={styles.filterReset}>
+        <ButtonUI type="Tertiary" classes={styles.filterReset}>
           {/* Для сброса тоже нужно глобальное состояние */}
           Сбросить
           <span className={styles.resetIcon}>
             <img src={tagClose} alt="закрыть" width={24} height={24} />
           </span>
-        </button>
+        </ButtonUI>
       </div>
 
       <div className={styles.filters}>
