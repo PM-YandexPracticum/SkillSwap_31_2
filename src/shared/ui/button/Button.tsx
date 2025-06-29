@@ -9,7 +9,9 @@ export const ButtonUI: React.FC<ButtonUIProps> = ({
   type = 'Primary',
   children,
   htmlType,
+  classes,
   disabled = false,
+  ...extraProps
 }) => (
   <button
     // eslint-disable-next-line react/button-has-type
@@ -17,11 +19,13 @@ export const ButtonUI: React.FC<ButtonUIProps> = ({
     onClick={onClick}
     disabled={disabled}
     className={clsx(
-      styles.button,
+      { [styles.button]: type !== 'Custom' },
       { [styles.buttonprimary]: type === 'Primary' },
       { [styles.buttonsecondary]: type === 'Secondary' },
-      { [styles.buttontertiary]: type === 'Tertiary' }
+      { [styles.buttontertiary]: type === 'Tertiary' },
+      classes
     )}
+    {...extraProps}
   >
     {children}
   </button>

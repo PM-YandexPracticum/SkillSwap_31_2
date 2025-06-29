@@ -3,12 +3,11 @@ import React from 'react';
 import dropdownIcon from '../../assets/icons/dropdown-icon.svg';
 import moon from '../../assets/icons/moon.svg';
 import tagClose from '../../assets/icons/tag-close.svg';
-import radioActive from '../../assets/icons/radio-active.svg';
-import radioInactive from '../../assets/icons/radio-inactive.svg';
 
 import styles from './home.module.scss';
 
 import { Logotype } from '@app/widgets';
+import { Aside } from '@app/shared/ui/aside/aside';
 
 export const Home = () => {
   return (
@@ -60,76 +59,7 @@ export const Home = () => {
         </nav>
       </header>
       <main className={styles.content}>
-        <div className={styles.filterPanelContainer}>
-          <div className={styles.filterBar}>
-            <span className={styles.filterTitle}>Фильтры</span>
-            <button type="button" className={styles.filterReset}>
-              Сбросить
-              <span className={styles.resetIcon}>
-                <img src={tagClose} alt="закрыть" width={24} height={24} />
-              </span>
-            </button>
-          </div>
-          <div className={styles.filterRadioGroup}>
-            <span className={styles.filterRadio}>
-              <input type="radio" name="filter" defaultChecked={false} />
-              <span className={styles.radioIcon}>
-                <img src={radioInactive} width={24} height={24} alt="radio" />
-              </span>
-              <span className={styles.radioLabel}>Всё</span>
-            </span>
-            <span className={`${styles.filterRadio} ${styles.active}`}>
-              <input type="radio" name="filter" defaultChecked />
-              <span className={styles.radioIcon}>
-                <img
-                  src={radioActive}
-                  width={24}
-                  height={24}
-                  alt="radio active"
-                />
-              </span>
-              <span className={styles.radioLabel}>Хочу научиться</span>
-            </span>
-            <span className={styles.filterRadio}>
-              <input type="radio" name="filter" defaultChecked={false} />
-              <span className={styles.radioIcon}>
-                <img src={radioInactive} width={24} height={24} alt="radio" />
-              </span>
-              <span className={styles.radioLabel}>Могу научить</span>
-            </span>
-          </div>
-          <div className={styles.filtersSection}>
-            <div className={styles.filtersGroup}>
-              <div className={styles.filtersTitle}>Навыки</div>
-              <div className={styles.skillsList} />
-            </div>
-            <div className={styles.filtersGroup}>
-              <div className={styles.filtersTitle}>Пол автора</div>
-              <span className={styles.filterRadio}>
-                <span className={styles.radioIcon}>
-                  <img src={radioInactive} width={24} height={24} alt="radio" />
-                </span>
-                <span className={styles.radioLabel}>Не имеет значения</span>
-              </span>
-              <span className={styles.filterRadio}>
-                <span className={styles.radioIcon}>
-                  <img src={radioInactive} width={24} height={24} alt="radio" />
-                </span>
-                <span className={styles.radioLabel}>Мужской</span>
-              </span>
-              <span className={styles.filterRadio}>
-                <span className={styles.radioIcon}>
-                  <img src={radioInactive} width={24} height={24} alt="radio" />
-                </span>
-                <span className={styles.radioLabel}>Женский</span>
-              </span>
-            </div>
-            <div className={styles.filtersGroup}>
-              <div className={styles.filtersTitle}>Город</div>
-              <div className={styles.citiesList} />
-            </div>
-          </div>
-        </div>
+        <Aside />
         <div className={styles.resultsSection}>
           <div className={styles.resultsHeaderContainer}>
             <div className={styles.filterTags}>
