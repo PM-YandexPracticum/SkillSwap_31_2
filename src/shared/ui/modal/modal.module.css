@@ -1,0 +1,17 @@
+.container {
+ position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 9999;
+  width: 556px;
+  min-width: 556px;
+  margin: auto;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  transform: translate(-50%, -50%);
+}
+
+.content {
+    padding-inline: 60px;
+    padding-block: 80px;
+}

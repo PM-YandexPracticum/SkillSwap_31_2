@@ -1,53 +1,28 @@
-import React from 'react';
-import { Meta, StoryObj } from '@storybook/react-vite';
-
-import users from '../../../../public/db/users.json';
-import skills from '../../../../public/db/skills.json';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { UserCard } from './UserCard';
 
-interface Skill {
-  id: number;
-  name: string;
-  category_id: number;
-}
-
-interface User {
-  name: string;
-  avatar_url: string;
-  city: string;
-  age: number;
-  skills_ids: number[];
-  wishes_ids: number[];
-}
-
 const meta: Meta<typeof UserCard> = {
-  title: 'shared/UserCard',
+  title: 'Components/UserCard',
   component: UserCard,
 };
 
 export default meta;
 
-const user: User = users[11];
-const skillList: Skill[] = skills;
+type Story = StoryObj<typeof UserCard>;
 
-const resolveSkills = (ids: number[]) =>
-  ids
-    .map((id: number) => {
-      const skill = skillList.find((s) => s.id === id);
-      return skill ? { name: skill.name, categoryId: skill.category_id } : null;
-    })
-    .filter((s): s is { name: string; categoryId: number } => s !== null);
-
-export const FromJson: StoryObj<typeof UserCard> = {
-  render: () => (
-    <UserCard
-      avatarUrl={user.avatar_url}
-      name={user.name}
-      city={user.city}
-      age={user.age}
-      skillsToTeach={resolveSkills(user.skills_ids)}
-      wishesIds={user.wishes_ids}
-    />
-  ),
+export const Default: Story = {
+  args: {
+    name: 'Иван',
+    city: 'Санкт-Петербург',
+    age: 34,
+    avatar_url: 'https://i.pravatar.cc/100?u=ivan',
+    skills: [{ name: 'Игра на барабанах', color: '#f7e7f2' }],
+    wishes: [
+      { name: 'Тайм-менеджмент', color: '#e7f2f6' },
+      { name: 'Медитация', color: '#e9f7e7' },
+      { name: 'Тайм-менеджмент', color: '#e7f2f6' },
+      { name: 'Медитация', color: '#e9f7e7' },
+    ],
+  },
 };

@@ -1,127 +1,100 @@
 import React from 'react';
+import clsx from 'clsx';
 
 import HeartIcon from '../../../assets/icons/heart.svg?react';
-import {
-  getColorByNameOrCategory,
-  getSkillsFromCategoryIds,
-} from '../../lib/userCardUtils';
 
 import styles from './UserCard.module.css';
 
-interface Skill {
+interface Tag {
   name: string;
-  categoryId: number;
+  color: string;
 }
 
 interface UserCardProps {
-  avatarUrl: string;
   name: string;
   city: string;
   age: number;
-  skillsToTeach: Skill[];
-  wishesIds: number[];
+  avatar_url: string;
+  skills: Tag[];
+  wishes: Tag[];
 }
 
 export const UserCard: React.FC<UserCardProps> = ({
-  avatarUrl,
   name,
   city,
   age,
-  skillsToTeach,
-  wishesIds,
+  avatar_url,
+  skills,
+  wishes,
 }) => {
-  const skillsToWish = getSkillsFromCategoryIds(wishesIds);
+  const visibleSkills = skills.slice(0, 2);
+  const extraSkillsCount = skills.length > 2 ? skills.length - 2 : 0;
 
-  const displayedTeachSkills = skillsToTeach.slice(0, 2);
-  const remainingTeachCount =
-    skillsToTeach.length - displayedTeachSkills.length;
-
-  const displayedWishSkills = skillsToWish.slice(0, 2);
-  const remainingWishCount = skillsToWish.length - displayedWishSkills.length;
+  const visibleWishes = wishes.slice(0, 2);
+  const extraWishesCount = wishes.length > 2 ? wishes.length - 2 : 0;
 
   return (
     <div className={styles.card}>
-      <button
-        className={styles.favorite}
-        aria-label="Добавить в избранное"
-        type="button"
-      >
-        <HeartIcon className={styles.heart} />
-      </button>
-
       <div className={styles.header}>
-        <img
-          src={avatarUrl}
-          alt={`${name}'s avatar`}
-          className={styles.avatar}
-        />
-        <div>
-          <h3 className={styles.name}>{name}</h3>
-          <p className={styles.meta}>
-            {city}, {age} лет
-          </p>
+        <div className={styles.profile}>
+          <img src={avatar_url} alt={name} className={styles.avatar} />
+          <div>
+            <h2 className={styles.name}>{name}</h2>
+            <p className={styles.meta}>
+              {city}, {age} года
+            </p>
+          </div>
         </div>
+        <button
+          type="button"
+          aria-label="Добавить в избранное"
+          className={styles.likeButton}
+        >
+          <HeartIcon width={20} height={20} />
+        </button>
       </div>
 
       <div>
-        <p className={styles.label}>Может научить:</p>
+        <p className={styles.sectionTitle}>Может научить:</p>
         <div className={styles.tags}>
-          {displayedTeachSkills.map((skill) => (
+          {visibleSkills.map((skill) => (
             <span
-              key={`${skill.name}-${skill.categoryId}`}
+              key={skill.name}
               className={styles.tag}
-              style={{
-                backgroundColor: getColorByNameOrCategory(skill.name),
-              }}
+              style={{ backgroundColor: skill.color }}
             >
               {skill.name}
             </span>
           ))}
-          {remainingTeachCount > 0 && (
-            <span
-              className={styles.tag}
-              style={{
-                backgroundColor: getColorByNameOrCategory('more_tags'),
-              }}
-            >
-              +{remainingTeachCount}
+          {extraSkillsCount > 0 && (
+            <span className={clsx(styles.tag, styles.moreTag)}>
+              +{extraSkillsCount}
             </span>
           )}
         </div>
       </div>
 
-      <div>
-        <p className={styles.label}>Хочет научиться:</p>
+      <div className={styles.section}>
+        <p className={styles.sectionTitle}>Хочет научиться:</p>
         <div className={styles.tags}>
-          {displayedWishSkills.map((skill) => (
+          {visibleWishes.map((wish) => (
             <span
-              key={`${skill.name}-${skill.categoryId}`}
+              key={wish.name}
               className={styles.tag}
-              style={{
-                backgroundColor: getColorByNameOrCategory(skill.name),
-              }}
+              style={{ backgroundColor: wish.color }}
             >
-              {skill.name}
+              {wish.name}
             </span>
           ))}
-          {remainingWishCount > 0 && (
-            <span
-              className={styles.tag}
-              style={{
-                backgroundColor: getColorByNameOrCategory('more_tags'),
-              }}
-            >
-              +{remainingWishCount}
+          {extraWishesCount > 0 && (
+            <span className={clsx(styles.tag, styles.moreTag)}>
+              +{extraWishesCount}
             </span>
           )}
         </div>
       </div>
 
-      <button
-        className={styles.details}
-        aria-label={`Подробнее о пользователе ${name}`}
-        type="button"
-      >
+      <button type="button" className={styles.button}>
         Подробнее
       </button>
     </div>
