@@ -31,6 +31,7 @@ export default defineConfig({
       '@ui': path.resolve(__dirname, 'src/shared/ui'),
       '@hooks': path.resolve(__dirname, 'src/shared/hooks'),
       '@lib': path.resolve(__dirname, 'src/shared/lib'),
+      '@services': path.resolve(__dirname, 'src/services'),
     },
   },
   css: {

@@ -1,33 +1,15 @@
 import { createClient } from '@supabase/supabase-js';
-import 'dotenv/config';
 
-import { verifyPassword, hashPassword } from '../shared/lib/helpers';
+import { verifyPassword, hashPassword } from '@lib/helpers';
+import { TUser, TLoginData } from '@entities/user';
 
-const supabaseUrl = process.env.REST_API_URL!;
-const supabaseKey = process.env.REST_API_ANON!;
+const supabaseUrl = import.meta.env.VITE_REST_API_URL!;
+const supabaseKey = import.meta.env.VITE_REST_API_ANON!;
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 type SkillRef = { id: string };
 type WishesRef = { subcategory_id: string };
-
-type UserData = {
-  gender: string | null;
-  city: string | null;
-  skills_ids: string[];
-  wishes_ids: string[];
-  id: string;
-  name: string;
-  age: number | null;
-  about: string;
-  avatar_url: string;
-  email: string;
-  password: string;
-  created_at: string;
-  modified_at: string;
-  is_liked: boolean;
-  birthday: Date | null;
-};
 
 export async function getUserFavorites(
   current_user_id: string
@@ -63,7 +45,7 @@ function calculateAge(birthday: string): number {
 export async function getUsers(
   email: string | null = null,
   current_user_id: string | null = null
-): Promise<UserData[]> {
+): Promise<TUser[]> {
   const query = supabase.from('users').select(`
       id,
       name,
@@ -83,7 +65,7 @@ export async function getUsers(
   if (email) {
     query.eq('email', email);
   }
-  const { data, error } = email ? await query.eq('email', email) : await query;
+  const { data, error } = await query;
 
   if (error) throw error;
 
@@ -104,23 +86,24 @@ export async function getUsers(
   }));
 }
 
-type LoginData = {
-  email: string;
-  password: string;
-};
-
 export async function getUserByEmailPassword({
   email,
   password,
-}: LoginData): Promise<UserData | string> {
+}: TLoginData): Promise<TUser> {
   const users = await getUsers(email);
+
+  if (!users.length) {
+    throw new Error('User not found');
+  }
+
   const user = users[0];
 
-  if (!user) return 'access·denied';
-  if (await verifyPassword(password, user.password)) return user;
+  const isValidPassword = await verifyPassword(password, user.password);
+  if (!isValidPassword) {
+    throw new Error('Access denied');
+  }
 
-  // Нужно обдумать формат ошибки при неправильной паре email/password
-  return 'aceess·denied';
+  return user;
 }
 
 export async function addUser(
