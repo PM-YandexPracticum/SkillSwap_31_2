@@ -2,13 +2,15 @@
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import { getUserByEmailPassword } from '@api/api';
+import { getUserByEmailPassword, getUsers } from '@api/api';
 import { TUser, TLoginData } from '@entities/user';
 
 export type TUserState = {
   user: TUser | null;
   isInit: boolean;
   isLoading: boolean;
+  users: TUser[] | [];
+  isUsersLoading: boolean,
   error: string | null;
 };
 
@@ -16,6 +18,8 @@ const initialState: TUserState = {
   user: null,
   isInit: false,
   isLoading: false,
+  users: [],
+  isUsersLoading: false,
   error: null,
 };
 
@@ -32,16 +36,7 @@ export const loginUserThunk = createAsyncThunk(
 
 export const getUsersThunk = createAsyncThunk(
   'user/fetch',
-  async (_, { rejectWithValue, getState }) => {
-    try {
-      const state = getState() as { auth: TUserState };
-      const currentUserId = state.auth.user?.id ?? null;
-      const users = await getUsers(null, currentUserId);
-      return users;
-    } catch (error) {
-      return rejectWithValue((error as Error).message || 'Unknown error');
-    }
-  }
+  async () => await getUsers()
 );
 
 export const authSlice = createSlice({
@@ -70,6 +65,20 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload;
         state.isInit = true;
+      })
+
+      // Получение пользователей
+      .addCase(getUsersThunk.pending, (state) => {
+        state.isUsersLoading = true;
+        state.error = null;
+      })
+      .addCase(getUsersThunk.rejected, (state, action) => {
+        state.isUsersLoading = false;
+        state.error = action.error.message || 'Get Users failed';
+      })
+      .addCase(getUsersThunk.fulfilled, (state, action) => {
+        state.isUsersLoading = false;
+        state.users = action.payload;
       })
   },
 });

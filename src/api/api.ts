@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 
 import { verifyPassword, hashPassword } from '@lib/helpers';
 import { TUser, TLoginData } from '@entities/user';
+import { TSkill } from '@entities/skills';
 
 const supabaseUrl = import.meta.env.VITE_REST_API_URL!;
 const supabaseKey = import.meta.env.VITE_REST_API_ANON!;
@@ -150,20 +151,6 @@ export async function patchUser({
   if (error) throw error;
 }
 
-type SkillData = {
-  category: string | null;
-  subcategory: string | null;
-  id: string;
-  name: string;
-  description: string;
-  images: string[];
-  owner_id: string;
-  created_at: string;
-  modified_at: string;
-  is_liked: boolean;
-};
-
-
 export async function getUserFavoritesSkills(
   currentUserId: string | null = null
 ): Promise<string[]> {
@@ -176,7 +163,7 @@ export async function getUserFavoritesSkills(
   return data.map((item) => item.favorite_id);
 }
 
-export async function getSkills(currentUserId: string | null = null): Promise<SkillData[]> {
+export async function getSkills(currentUserId: string | null = null): Promise<TSkill[]> {
   const { data, error } = await supabase.from('skills').select(
     `id,
     name,

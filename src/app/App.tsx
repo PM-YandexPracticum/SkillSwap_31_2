@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import { Favorites, Home, Profile, Skill } from '@app/pages';
 import { useDispatch } from '@services/store';
-import { loginUserThunk } from '@features/authSlice';
+import { loginUserThunk, getUsersThunk } from '@features/authSlice';
 import { getSkillsThunk } from '@features/sklillsSlice';
 
 export const App = () => {
@@ -20,7 +20,10 @@ export const App = () => {
       .unwrap()
       .then(() => {
         dispatch(getSkillsThunk());
-      });
+      })
+      .then(() => {
+        dispatch(getUsersThunk());
+      });;
   }, [dispatch]);
 
   return (
