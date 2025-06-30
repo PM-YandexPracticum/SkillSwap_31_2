@@ -6,9 +6,11 @@ import {
 } from 'react-redux';
 
 import auth from '@features/authSlice';
+import skills from '@features/sklillsSlice';
 
 export const rootReducer = combineReducers({
   auth,
+  skills,
 });
 
 export const store = configureStore({

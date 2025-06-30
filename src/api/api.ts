@@ -11,18 +11,6 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 type SkillRef = { id: string };
 type WishesRef = { subcategory_id: string };
 
-export async function getUserFavorites(
-  current_user_id: string
-): Promise<string[]> {
-  const { data, error } = await supabase
-    .from('favorites')
-    .select('*')
-    .eq('user_id', current_user_id);
-
-  if (error) throw error;
-  return data.map((item) => item.favorite_id);
-}
-
 function calculateAge(birthday: string): number {
   const birthDate = new Date(birthday);
   const today = new Date();
@@ -44,7 +32,6 @@ function calculateAge(birthday: string): number {
 
 export async function getUsers(
   email: string | null = null,
-  current_user_id: string | null = null
 ): Promise<TUser[]> {
   const query = supabase.from('users').select(`
       id,
@@ -69,18 +56,12 @@ export async function getUsers(
 
   if (error) throw error;
 
-  // Получаем список id лайкнутых пользователей текущим юзером (если current_user_id есть)
-  const likedIds = current_user_id
-    ? await getUserFavorites(current_user_id)
-    : [];
-
   return (data ?? []).map((user) => ({
     ...user,
     gender: (user.gender as { name?: string })?.name ?? null,
     city: (user.city as { name?: string })?.name ?? null,
     skills_ids: (user.skills_ids as SkillRef[]).map((s) => s.id),
     wishes_ids: (user.wishes_ids as WishesRef[]).map((s) => s.subcategory_id),
-    is_liked: current_user_id ? likedIds.includes(user.id) : false,
     age: user.birthday ? calculateAge(user.birthday) : null,
     birthday: user.birthday ? new Date(user.birthday) : null,
   }));
@@ -179,9 +160,23 @@ type SkillData = {
   owner_id: string;
   created_at: string;
   modified_at: string;
+  is_liked: boolean;
 };
 
-export async function getSkills(): Promise<SkillData[]> {
+
+export async function getUserFavoritesSkills(
+  currentUserId: string | null = null
+): Promise<string[]> {
+  const { data, error } = await supabase
+    .from('user_favorites_skills')
+    .select('*')
+    .eq('user_id', currentUserId);
+
+  if (error) throw error;
+  return data.map((item) => item.favorite_id);
+}
+
+export async function getSkills(currentUserId: string | null = null): Promise<SkillData[]> {
   const { data, error } = await supabase.from('skills').select(
     `id,
     name,
@@ -196,11 +191,17 @@ export async function getSkills(): Promise<SkillData[]> {
 
   if (error) throw error;
 
+  // Получаем список id лайкнутых пользователей текущим юзером (если currentUserId есть)
+  const likedIds = currentUserId
+    ? await getUserFavoritesSkills(currentUserId)
+    : [];
+
   // Преобразрование связанных полей в нужный формат
   const result = data.map((skill) => ({
     ...skill,
     category: (skill.category as { name?: string })?.name ?? null,
     subcategory: (skill.subcategory as { name?: string })?.name ?? null,
+    is_liked: currentUserId ? likedIds.includes(skill.id) : false,
   }));
   return result;
 }
@@ -210,7 +211,7 @@ export async function addSkill(
   subcategory_id: string,
   name: string,
   description: string,
-  current_user_id: string,
+  currentUserId: string,
   images: string[] = []
 ): Promise<void> {
   const { error: insertError } = await supabase.from('skills').insert({
@@ -218,7 +219,7 @@ export async function addSkill(
     subcategory_id,
     name,
     description,
-    owner_id: current_user_id,
+    owner_id: currentUserId,
     images,
   });
 
@@ -295,11 +296,11 @@ export async function getSubcategories(
 }
 
 export async function addUserFavorites(
-  current_user_id: string,
+  currentUserId: string,
   favorite_id: string
 ): Promise<void> {
   const { error: insertError } = await supabase.from('favorites').insert({
-    user_id: current_user_id,
+    user_id: currentUserId,
     favorite_id,
   });
 
@@ -307,13 +308,13 @@ export async function addUserFavorites(
 }
 
 export async function removeUserFavorites(
-  current_user_id: string,
+  currentUserId: string,
   favorite_id: string
 ): Promise<void> {
   const { error: deleteError } = await supabase
     .from('favorites')
     .delete()
-    .eq('user_id', current_user_id)
+    .eq('user_id', currentUserId)
     .eq('favorite_id', favorite_id);
 
   if (deleteError) throw deleteError;
@@ -332,7 +333,7 @@ type SuggestionData = {
 };
 
 export async function getSuggestions(
-  current_user_id: string
+  currentUserId: string
 ): Promise<SuggestionData[]> {
   const { data, error } = await supabase.from('suggestions').select(`
       id,
@@ -351,7 +352,7 @@ export async function getSuggestions(
 
   return (data ?? [])
     .filter(
-      (s) => (s.skill as { owner_id?: string })?.owner_id === current_user_id
+      (s) => (s.skill as { owner_id?: string })?.owner_id === currentUserId
     )
     .map((suggestion) => ({
       id: suggestion.id,
@@ -362,12 +363,12 @@ export async function getSuggestions(
 }
 
 export async function addNotification(
-  current_user_id: string,
+  currentUserId: string,
   user_id: string,
   suggestion_id: string
 ): Promise<void> {
   const toInsert = {
-    sender_id: current_user_id,
+    sender_id: currentUserId,
     user_id,
     suggestion_id,
   };
@@ -379,12 +380,12 @@ export async function addNotification(
 }
 
 export async function addSuggestion(
-  current_user_id: string,
+  currentUserId: string,
   skill_id: string
 ): Promise<void> {
   const { data, error } = await supabase
     .from('suggestions')
-    .insert({ who_ask_id: current_user_id, skill_id }).select(`
+    .insert({ who_ask_id: currentUserId, skill_id }).select(`
       id,
       who_ask_id,
       skill_id (
@@ -401,11 +402,11 @@ export async function addSuggestion(
   if (!suggestion || !ownerId) {
     throw new Error('Не удалось получить owner_id для уведомления');
   }
-  await addNotification(current_user_id, ownerId, suggestion.id);
+  await addNotification(currentUserId, ownerId, suggestion.id);
 }
 
 export async function acceptSuggestion(
-  current_user_id: string,
+  currentUserId: string,
   suggestion_id: string
 ): Promise<void> {
   const { data, error } = await supabase
@@ -420,7 +421,7 @@ export async function acceptSuggestion(
   if (!suggestion || !suggestion.who_ask_id) {
     throw new Error('Не удалось получить who_ask_id');
   }
-  await addNotification(current_user_id, suggestion.who_ask_id, suggestion_id);
+  await addNotification(currentUserId, suggestion.who_ask_id, suggestion_id);
 }
 
 type NotificationData = {
@@ -431,7 +432,7 @@ type NotificationData = {
 };
 
 export async function getNotifications(
-  current_user_id: string
+  currentUserId: string
 ): Promise<NotificationData[]> {
   const { data, error } = await supabase
     .from('notifications')
@@ -445,7 +446,7 @@ export async function getNotifications(
       suggestion_id
     `
     )
-    .eq('user_id', current_user_id);
+    .eq('user_id', currentUserId);
 
   if (error) throw error;
 
@@ -458,26 +459,26 @@ export async function getNotifications(
 }
 
 export async function readNotifications(
-  current_user_id: string,
+  currentUserId: string,
   notification_id: string | null = null
 ): Promise<void> {
   const query = supabase.from('notifications').update({ is_read: true });
 
   const { error } = notification_id
     ? await query.eq('id', notification_id)
-    : await query.eq('user_id', current_user_id);
+    : await query.eq('user_id', currentUserId);
 
   if (error) throw error;
 }
 
 export async function removeNotifications(
-  current_user_id: string
+  currentUserId: string
 ): Promise<void> {
   const { error } = await supabase
     .from('notifications')
     .delete()
     .eq('is_read', true)
-    .eq('user_id', current_user_id);
+    .eq('user_id', currentUserId);
 
   if (error) throw error;
 }

@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 
 import { Favorites, Home, Profile, Skill } from '@app/pages';
 import { useDispatch } from '@services/store';
-import { getUsersThunk, loginUserThunk } from '@features/authSlice';
+import { loginUserThunk } from '@features/authSlice';
+import { getSkillsThunk } from '@features/sklillsSlice';
 
 export const App = () => {
   const location = useLocation();
@@ -13,12 +14,12 @@ export const App = () => {
   useEffect(() => {
     // временное решение, чтобы грузил пользователя перед тем как
     // будет получать список пользователей. Это для проставления
-    // у всех пользователей is_liked.
+    // у всех скилов is_liked.
 
     dispatch(loginUserThunk({ email: 'ivan@mail.ru', password: '123' }))
       .unwrap()
       .then(() => {
-        dispatch(getUsersThunk());
+        dispatch(getSkillsThunk());
       });
   }, [dispatch]);
 

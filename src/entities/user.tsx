@@ -12,7 +12,6 @@ export type TUser = {
   password: string;
   created_at: string;
   modified_at: string;
-  is_liked: boolean;
   birthday: Date | null;
 };
 

@@ -2,24 +2,20 @@
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import { getUsers, getUserByEmailPassword } from '@api/api';
+import { getUserByEmailPassword } from '@api/api';
 import { TUser, TLoginData } from '@entities/user';
 
-type TUserState = {
+export type TUserState = {
   user: TUser | null;
   isInit: boolean;
-  isUserLoading: boolean;
-  users: TUser[] | [];
-  isUsersLoading: boolean;
+  isLoading: boolean;
   error: string | null;
 };
 
 const initialState: TUserState = {
   user: null,
   isInit: false,
-  isUserLoading: false,
-  users: [],
-  isUsersLoading: false,
+  isLoading: false,
   error: null,
 };
 
@@ -63,32 +59,18 @@ export const authSlice = createSlice({
     builder
       // Логин
       .addCase(loginUserThunk.pending, (state) => {
-        state.isUserLoading = true;
+        state.isLoading = true;
         state.error = null;
       })
       .addCase(loginUserThunk.rejected, (state, action) => {
-        state.isUserLoading = false;
+        state.isLoading = false;
         state.error = action.error.message || 'Login failed';
       })
       .addCase(loginUserThunk.fulfilled, (state, action) => {
-        state.isUserLoading = false;
+        state.isLoading = false;
         state.user = action.payload;
         state.isInit = true;
       })
-
-      // Получение пользователей
-      .addCase(getUsersThunk.pending, (state) => {
-        state.isUsersLoading = true;
-        state.error = null;
-      })
-      .addCase(getUsersThunk.rejected, (state, action) => {
-        state.isUsersLoading = false;
-        state.error = action.error.message || 'Get Users failed';
-      })
-      .addCase(getUsersThunk.fulfilled, (state, action) => {
-        state.isUsersLoading = false;
-        state.users = action.payload;
-      });
   },
 });
 
