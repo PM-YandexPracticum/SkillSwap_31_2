@@ -603,3 +603,25 @@ body, .home, .header, .footer, .content, .footer-menu, .footer-menu ul, .footer-
   font-family: 'Roboto', sans-serif;
   line-height: 16px;
 }
+
+.dropdownBtn {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 4px 0;
+  color: #253017;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  line-height: 24px;
+  letter-spacing: 2%;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+  gap: 4px;
+}
+
+.dropdownBtn:hover {
+  color: #7bb86f;
+}

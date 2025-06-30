@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 
 import dropdownIcon from '../../assets/icons/dropdown-icon.svg';
 import moon from '../../assets/icons/moon.svg';
@@ -8,8 +8,20 @@ import styles from './home.module.scss';
 
 import { Logotype } from '@app/widgets';
 import { Aside } from '@app/shared/ui/aside/aside';
+import { WidgetCategoriesModal } from '../../widgets/WidgetCategoriesModal/WidgetCategoriesModal';
 
 export const Home = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const closeTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = () => {
+    if (closeTimeout.current) clearTimeout(closeTimeout.current);
+    setModalOpen(true);
+  };
+  const handleMouseLeave = () => {
+    closeTimeout.current = setTimeout(() => setModalOpen(false), 250);
+  };
+
   return (
     <div className={styles.homePage}>
       <header className={styles.header}>
@@ -19,8 +31,12 @@ export const Home = () => {
             <li>
               <a href="/">О проекте</a>
             </li>
-            <li className={styles.dropdown}>
-              <a href="/">
+            <li
+              className={styles.dropdown}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <span className={styles.dropdownBtn} tabIndex={0}>
                 Все навыки{' '}
                 <span className={styles.dropdownIcon}>
                   <img
@@ -30,7 +46,7 @@ export const Home = () => {
                     alt="dropdown"
                   />
                 </span>
-              </a>
+              </span>
             </li>
           </ul>
           <div className={styles.headerActions}>
@@ -58,6 +74,12 @@ export const Home = () => {
           </div>
         </nav>
       </header>
+      <WidgetCategoriesModal 
+        open={modalOpen} 
+        onClose={() => setModalOpen(false)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      />
       <main className={styles.content}>
         <Aside />
         <div className={styles.resultsSection}>
