@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { getSkills } from '@api/api';
 import { TSkill } from '@entities/skills';
-import { TUserState } from '@features/authSlice'
+import { TUserState } from '@features/authSlice';
 
 type TSkillState = {
   skills: TSkill[] | [];
@@ -21,11 +21,12 @@ const initialState: TSkillState = {
 export const getSkillsThunk = createAsyncThunk(
   'get/skills',
   async (_, { rejectWithValue, getState }) => {
-    try {const state = getState() as { auth: TUserState };
-    const currentUserId = state.auth.user?.id ?? null;
-    const skills = await getSkills(currentUserId);
-    return skills;
-  } catch (error) {
+    try {
+      const state = getState() as { auth: TUserState };
+      const currentUserId = state.auth.user?.id ?? null;
+      const skills = await getSkills(currentUserId);
+      return skills;
+    } catch (error) {
       return rejectWithValue((error as Error).message || 'Unknown error');
     }
   }
@@ -53,8 +54,7 @@ export const skillSlice = createSlice({
       .addCase(getSkillsThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.skills = action.payload;
-      })
-
+      });
   },
 });
 

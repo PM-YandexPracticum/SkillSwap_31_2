@@ -10,7 +10,7 @@ export type TUserState = {
   isInit: boolean;
   isLoading: boolean;
   users: TUser[] | [];
-  isUsersLoading: boolean,
+  isUsersLoading: boolean;
   error: string | null;
 };
 
@@ -34,9 +34,8 @@ export const loginUserThunk = createAsyncThunk(
   }
 );
 
-export const getUsersThunk = createAsyncThunk(
-  'user/fetch',
-  async () => await getUsers()
+export const getUsersThunk = createAsyncThunk('user/fetch', async () =>
+  getUsers()
 );
 
 export const authSlice = createSlice({
@@ -79,7 +78,7 @@ export const authSlice = createSlice({
       .addCase(getUsersThunk.fulfilled, (state, action) => {
         state.isUsersLoading = false;
         state.users = action.payload;
-      })
+      });
   },
 });
 

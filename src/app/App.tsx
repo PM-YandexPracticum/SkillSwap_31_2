@@ -23,7 +23,7 @@ export const App = () => {
       })
       .then(() => {
         dispatch(getUsersThunk());
-      });;
+      });
   }, [dispatch]);
 
   return (

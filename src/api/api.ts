@@ -31,9 +31,7 @@ function calculateAge(birthday: string): number {
   return age;
 }
 
-export async function getUsers(
-  email: string | null = null,
-): Promise<TUser[]> {
+export async function getUsers(email: string | null = null): Promise<TUser[]> {
   const query = supabase.from('users').select(`
       id,
       name,
@@ -163,7 +161,9 @@ export async function getUserFavoritesSkills(
   return data.map((item) => item.favorite_id);
 }
 
-export async function getSkills(currentUserId: string | null = null): Promise<TSkill[]> {
+export async function getSkills(
+  currentUserId: string | null = null
+): Promise<TSkill[]> {
   const { data, error } = await supabase.from('skills').select(
     `id,
     name,
