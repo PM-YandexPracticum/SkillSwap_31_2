@@ -156,9 +156,8 @@ export async function getUserFavoritesSkills(
     .from('user_favorites_skills')
     .select('*')
     .eq('user_id', currentUserId);
-
   if (error) throw error;
-  return data.map((item) => item.favorite_id);
+  return data.map((item) => item.skill_id);
 }
 
 export async function getSkills(
