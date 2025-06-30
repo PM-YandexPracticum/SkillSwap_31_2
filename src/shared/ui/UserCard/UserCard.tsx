@@ -1,7 +1,8 @@
 import React from 'react';
-import clsx from 'clsx';
 
-import HeartIcon from '../../../assets/icons/heart.svg?react';
+import { ButtonUI } from '../button';
+import { LikeButtonUI } from '../like-button';
+import { SkillTagUI } from '../skillTag';
 
 import styles from './UserCard.module.css';
 
@@ -44,32 +45,23 @@ export const UserCard: React.FC<UserCardProps> = ({
               {city}, {age} года
             </p>
           </div>
+          <div className={styles.likebutton}>
+            <LikeButtonUI initialLiked={false} />
+          </div>
         </div>
-        <button
-          type="button"
-          aria-label="Добавить в избранное"
-          className={styles.likeButton}
-        >
-          <HeartIcon width={20} height={20} />
-        </button>
       </div>
-
       <div>
         <p className={styles.sectionTitle}>Может научить:</p>
         <div className={styles.tags}>
           {visibleSkills.map((skill) => (
-            <span
+            <SkillTagUI
               key={skill.name}
-              className={styles.tag}
-              style={{ backgroundColor: skill.color }}
-            >
-              {skill.name}
-            </span>
+              text={skill.name}
+              color={skill.color}
+            />
           ))}
           {extraSkillsCount > 0 && (
-            <span className={clsx(styles.tag, styles.moreTag)}>
-              +{extraSkillsCount}
-            </span>
+            <SkillTagUI text={`+${extraSkillsCount}`} color="#E8ECF7" />
           )}
         </div>
       </div>
@@ -78,25 +70,17 @@ export const UserCard: React.FC<UserCardProps> = ({
         <p className={styles.sectionTitle}>Хочет научиться:</p>
         <div className={styles.tags}>
           {visibleWishes.map((wish) => (
-            <span
-              key={wish.name}
-              className={styles.tag}
-              style={{ backgroundColor: wish.color }}
-            >
-              {wish.name}
-            </span>
+            <SkillTagUI key={wish.name} text={wish.name} color={wish.color} />
           ))}
           {extraWishesCount > 0 && (
-            <span className={clsx(styles.tag, styles.moreTag)}>
-              +{extraWishesCount}
-            </span>
+            <SkillTagUI text={`+${extraWishesCount}`} color="#E8ECF7" />
           )}
         </div>
       </div>
 
-      <button type="button" className={styles.button}>
+      <ButtonUI type="Primary" htmlType="button" classes={styles.button}>
         Подробнее
-      </button>
+      </ButtonUI>
     </div>
   );
 };

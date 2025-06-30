@@ -12,15 +12,6 @@
   font-family: 'Roboto', sans-serif;
 }
 
-.likeButton {
-  position: absolute;
-  top: 20px;
-  right: 15px;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
 .profile {
   display: flex;
   align-items: center;
@@ -70,28 +61,11 @@
   gap: 4px;
 }
 
-.tag {
-  padding: 8px 12px;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1.33;
-  border-radius: 20px;
-}
-
-.moreTag {
- background-color: #e8ecf7;
-}
-
 .button {
   width: 100%;
   margin-top: 20px;
-  padding: 12px 24px;
-  color: #253017;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.5;
-  background-color: #abd27a;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
+}
+
+.likebutton{
+  align-self:self-start;
 }
