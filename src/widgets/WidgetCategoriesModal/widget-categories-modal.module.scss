@@ -2,35 +2,36 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.18);
   z-index: 1000;
   display: flex;
-  align-items: flex-start;
   justify-content: flex-start;
+  align-items: flex-start;
+  width: 100vw;
+  height: 100vh;
+  background: rgb(0 0 0 / 18%);
 }
 
 .widget {
-  width: 1136px;
-  height: 1040px;
   position: absolute;
   top: 94px;
   left: 36px;
-  background: #fff;
-  color: #253017;
-  border-radius: 12px;
-  border: 1px solid #E0E0E0;
-  padding: 60px;
-  box-sizing: border-box;
-  font-family: 'Inter', Arial, sans-serif;
+  z-index: 1001;
   display: flex;
   flex-direction: row;
   gap: 40px;
-  z-index: 1001;
+  box-sizing: border-box;
+  width: 1136px;
+  height: 1040px;
+  padding: 60px;
+  color: #253017;
+  font-family: 'Inter', 'Arial', sans-serif;
+  background: #ffffff;
+  border: 1px solid #E0E0E0;
+  border-radius: 12px;
 }
 
 .widgetColumns {
+  z-index: 1001;
   display: flex;
   flex-direction: row;
   gap: 40px;
@@ -38,66 +39,73 @@
 }
 
 .widgetColumn {
-  width: 488px;
-  height: 920px;
   display: flex;
   flex-direction: column;
+  gap: 40px;
+  width: 488px;
+  height: 920px;
 }
 
 .widgetTitle {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
-  font-family: 'Jost', Arial, sans-serif;
+  margin-bottom: 0;
   font-weight: 500;
   font-size: 24px;
+  font-family: 'Jost', 'Arial', sans-serif;
   line-height: 28px;
-  letter-spacing: -0.011em;
+  letter-spacing: -0.01em;
   vertical-align: middle;
-  margin-bottom: 0;
 }
 
 .iconBg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 48px;
   height: 48px;
+  margin-top: 2px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .widget ul {
-  list-style: none;
-  padding-left: 60px;
   margin-top: 0;
   margin-bottom: 0;
+  padding-left: 60px;
+  list-style: none;
 }
 
 .widget li {
-  font-family: 'Roboto', Arial, sans-serif;
+  margin-top: 0;
+  margin-bottom: 12px;
   font-weight: 400;
   font-size: 16px;
+  font-family: 'Roboto', 'Arial', sans-serif;
   line-height: 24px;
   letter-spacing: 0.02em;
   vertical-align: middle;
-  margin-top: 0;
-  margin-bottom: 12px;
+}
+
+.widgetColumn > div {
+  margin-bottom: 0;
 }
 
 .widgetSubcategoryBtn {
-  background: none;
-  border: none;
+  margin: 0;
+  padding: 0;
   color: #253017;
-  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 400;
   font-size: 16px;
+  font-family: 'Roboto', 'Arial', sans-serif;
   line-height: 24px;
   letter-spacing: 0.02em;
-  font-weight: 400;
+  background: none;
+  border: none;
   cursor: pointer;
-  padding: 0;
-  margin: 0;
   transition: color 0.2s;
 }
+
 .widgetSubcategoryBtn:hover {
   color: #7bb86f;
 } 

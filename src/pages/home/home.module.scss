@@ -607,6 +607,7 @@ body, .home, .header, .footer, .content, .footer-menu, .footer-menu ul, .footer-
 .dropdownBtn {
   display: flex;
   align-items: center;
+  gap: 4px;
   height: 40px;
   padding: 4px 0;
   color: #253017;
@@ -619,7 +620,6 @@ body, .home, .header, .footer, .content, .footer-menu, .footer-menu ul, .footer-
   border: none;
   cursor: pointer;
   transition: color 0.2s;
-  gap: 4px;
 }
 
 .dropdownBtn:hover {
