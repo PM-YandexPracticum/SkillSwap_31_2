@@ -2,7 +2,6 @@ import tagClose from '../../assets/icons/tag-close.svg';
 
 import styles from './home.module.scss';
 
-import { Logotype } from '@app/widgets';
 import { Aside } from '@ui/aside/aside';
 
 export const Home = () => {
@@ -104,20 +103,6 @@ export const Home = () => {
           </div>
         </div>
       </main>
-      <footer className={styles.footer}>
-        <Logotype />
-        <nav className={styles.footerMenu}>
-          <ul>
-            <li>О проекте</li>
-            <li>Контакты</li>
-            <li>Политика конфиденциальности</li>
-            <li>Все навыки</li>
-            <li>Блог</li>
-            <li>Пользовательское соглашение</li>
-          </ul>
-        </nav>
-        <div className={styles.footerCopyright}>SkillSwap — 2025</div>
-      </footer>
     </div>
   );
 };
