@@ -17,14 +17,17 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.8.2",
     "@supabase/supabase-js": "^2.50.0",
-    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
     "clsx": "^2.1.1",
     "dotenv": "^16.5.0",
     "react": "^19.1.0",
     "react-calendar": "^6.0.0",
     "react-dom": "^19.1.0",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.2",
+    "redux": "^5.0.1",
     "uuid": "^11.1.0"
   },
   "devDependencies": {

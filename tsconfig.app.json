@@ -24,7 +24,8 @@
       "@ui/*": ["src/shared/ui/*"],
       "@hooks/*": ["src/shared/hooks/*"],
       "@lib/*": ["src/shared/lib/*"],
-      "@assets/*": ["src/assets/*"]
+      "@assets/*": ["src/assets/*"],
+      "@services/*": ["src/services/*"]
     },
     "strict": true,
     "noUnusedLocals": false,
