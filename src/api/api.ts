@@ -281,27 +281,29 @@ export async function getSubcategories(
   return data;
 }
 
-export async function addUserFavorites(
+export async function addUserFavoriteSkill(
   currentUserId: string,
-  favorite_id: string
+  skill_id: string
 ): Promise<void> {
-  const { error: insertError } = await supabase.from('favorites').insert({
-    user_id: currentUserId,
-    favorite_id,
-  });
+  const { error: insertError } = await supabase
+    .from('user_favorites_skills')
+    .insert({
+      user_id: currentUserId,
+      skill_id,
+    });
 
   if (insertError) throw insertError;
 }
 
-export async function removeUserFavorites(
+export async function removeUserFavoriteSkill(
   currentUserId: string,
-  favorite_id: string
+  skill_id: string
 ): Promise<void> {
   const { error: deleteError } = await supabase
-    .from('favorites')
+    .from('user_favorites_skills')
     .delete()
     .eq('user_id', currentUserId)
-    .eq('favorite_id', favorite_id);
+    .eq('skill_id', skill_id);
 
   if (deleteError) throw deleteError;
 }
