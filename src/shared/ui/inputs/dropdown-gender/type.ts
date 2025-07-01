@@ -1,5 +1,5 @@
 export interface TDropdownGender {
-  lable: string;
+  label: string;
   isValid: boolean;
   errorText?: string;
 }

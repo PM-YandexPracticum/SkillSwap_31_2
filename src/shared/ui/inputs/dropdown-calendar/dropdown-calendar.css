@@ -1,4 +1,8 @@
-/* Стили для react-calendar */
+.react-calendar *,
+.react-calendar *::before,
+.react-calendar *::after {
+    box-sizing: border-box;
+}
 
 .react-calendar {
     width: 100%;
@@ -24,11 +28,6 @@
     margin: 0.5em;
 }
 
-.react-calendar *,
-.react-calendar *::before,
-.react-calendar *::after {
-    box-sizing: border-box;
-}
 
 .react-calendar button {
     margin: 0;
