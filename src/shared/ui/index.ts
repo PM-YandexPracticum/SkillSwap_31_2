@@ -1,1 +1,2 @@
-export { LogotypeUi } from './LogotypeUi';
+export * from './LogotypeUi';
+export * from './app-header';
