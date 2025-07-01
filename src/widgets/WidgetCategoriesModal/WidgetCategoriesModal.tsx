@@ -1,4 +1,6 @@
+/* eslint-disable react/require-default-props */
 import React, { useState, useEffect, useRef } from 'react';
+
 import styles from './widget-categories-modal.module.scss';
 
 interface Category {
@@ -16,7 +18,38 @@ interface Props {
   onMouseLeave?: () => void;
 }
 
-export const WidgetCategoriesModal: React.FC<Props> = ({ open, onClose, onMouseEnter, onMouseLeave }) => {
+// Вспомогательный компонент для блока категории
+const CategoryBlock = ({ mainCat, getSubcategories, widgetStyles }: any) => (
+  <div>
+    <div className={widgetStyles.widgetTitle}>
+      {mainCat.icon && (
+        <span
+          className={widgetStyles.iconBg}
+          style={{ background: mainCat.color || undefined }}
+        >
+          <img src={mainCat.icon} alt={mainCat.name} width={40} height={40} />
+        </span>
+      )}
+      {mainCat.name}
+    </div>
+    <ul>
+      {getSubcategories(mainCat.id).map((subCat: any) => (
+        <li key={subCat.id}>
+          <button type="button" className={widgetStyles.widgetSubcategoryBtn}>
+            {subCat.name}
+          </button>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+export const WidgetCategoriesModal: React.FC<Props> = ({
+  open,
+  onClose,
+  onMouseEnter = () => {},
+  onMouseLeave = () => {},
+}) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const modalRef = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
@@ -28,7 +61,7 @@ export const WidgetCategoriesModal: React.FC<Props> = ({ open, onClose, onMouseE
   }, []);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) return undefined;
     const handleClick = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
         setTimeout(() => {
@@ -48,18 +81,18 @@ export const WidgetCategoriesModal: React.FC<Props> = ({ open, onClose, onMouseE
     categories.filter((cat) => cat.parent_id === parentId);
 
   // Определяем нужные категории по названиям
-  const leftNames = [
-    'Бизнес и карьера',
-    'Иностранные языки',
-    'Дом и уют',
-  ];
+  const leftNames = ['Бизнес и карьера', 'Иностранные языки', 'Дом и уют'];
   const rightNames = [
     'Творчество и искусство',
     'Образование и развитие',
     'Здоровье и лайфстайл',
   ];
-  const leftCategories = mainCategories.filter(cat => leftNames.includes(cat.name));
-  const rightCategories = mainCategories.filter(cat => rightNames.includes(cat.name));
+  const leftCategories = mainCategories.filter((cat) =>
+    leftNames.includes(cat.name)
+  );
+  const rightCategories = mainCategories.filter((cat) =>
+    rightNames.includes(cat.name)
+  );
 
   return (
     <div
@@ -72,55 +105,25 @@ export const WidgetCategoriesModal: React.FC<Props> = ({ open, onClose, onMouseE
       <div className={styles.widgetColumns}>
         <div className={styles.widgetColumn}>
           {leftCategories.map((mainCat) => (
-            <div key={mainCat.id}>
-              <div
-                className={styles.widgetTitle}
-              >
-                {mainCat.icon && (
-                  <span className={styles.iconBg} style={{ background: mainCat.color || undefined }}>
-                    <img src={mainCat.icon} alt={mainCat.name} width={40} height={40} />
-                  </span>
-                )}
-                {mainCat.name}
-              </div>
-              <ul>
-                {getSubcategories(mainCat.id).map((subCat) => (
-                  <li key={subCat.id}>
-                    <button type="button" className={styles.widgetSubcategoryBtn}>
-                      {subCat.name}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <CategoryBlock
+              key={mainCat.id}
+              mainCat={mainCat}
+              getSubcategories={getSubcategories}
+              widgetStyles={styles}
+            />
           ))}
         </div>
         <div className={styles.widgetColumn}>
           {rightCategories.map((mainCat) => (
-            <div key={mainCat.id}>
-              <div
-                className={styles.widgetTitle}
-              >
-                {mainCat.icon && (
-                  <span className={styles.iconBg} style={{ background: mainCat.color || undefined }}>
-                    <img src={mainCat.icon} alt={mainCat.name} width={40} height={40} />
-                  </span>
-                )}
-                {mainCat.name}
-              </div>
-              <ul>
-                {getSubcategories(mainCat.id).map((subCat) => (
-                  <li key={subCat.id}>
-                    <button type="button" className={styles.widgetSubcategoryBtn}>
-                      {subCat.name}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <CategoryBlock
+              key={mainCat.id}
+              mainCat={mainCat}
+              getSubcategories={getSubcategories}
+              widgetStyles={styles}
+            />
           ))}
         </div>
       </div>
     </div>
   );
-}; 
+};

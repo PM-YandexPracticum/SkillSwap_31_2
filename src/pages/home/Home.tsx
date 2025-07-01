@@ -3,12 +3,12 @@ import React, { useState, useRef } from 'react';
 import dropdownIcon from '../../assets/icons/dropdown-icon.svg';
 import moon from '../../assets/icons/moon.svg';
 import tagClose from '../../assets/icons/tag-close.svg';
+import { WidgetCategoriesModal } from '../../widgets/WidgetCategoriesModal/WidgetCategoriesModal';
 
 import styles from './home.module.scss';
 
 import { Logotype } from '@app/widgets';
 import { Aside } from '@app/shared/ui/aside/aside';
-import { WidgetCategoriesModal } from '../../widgets/WidgetCategoriesModal/WidgetCategoriesModal';
 
 export const Home = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -36,7 +36,7 @@ export const Home = () => {
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
-              <span className={styles.dropdownBtn} tabIndex={0}>
+              <span className={styles.dropdownBtn}>
                 Все навыки{' '}
                 <span className={styles.dropdownIcon}>
                   <img
@@ -74,8 +74,8 @@ export const Home = () => {
           </div>
         </nav>
       </header>
-      <WidgetCategoriesModal 
-        open={modalOpen} 
+      <WidgetCategoriesModal
+        open={modalOpen}
         onClose={() => setModalOpen(false)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
