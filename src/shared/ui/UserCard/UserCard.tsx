@@ -1,22 +1,26 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import HeartIcon from '../../../assets/icons/heart.svg?react';
-
 import styles from './UserCard.module.css';
 
-interface Tag {
-  name: string;
-  color: string;
-}
+import HeartIcon from '@assets/icons/heart.svg?react';
+import { TSkill } from '@entities/skills';
+
+// в бд не хранится цвет, цвет можно задать через css,
+//  каждому элементу другой цвет. Это будет соотвествовать макету
+// (цвета в каждой карточке в одном порядке)
+// interface Tag {
+//  name: string;
+//  color: string;
+// }
 
 interface UserCardProps {
-  name: string;
-  city: string;
-  age: number;
-  avatar_url: string;
-  skills: Tag[];
-  wishes: Tag[];
+  name: string | undefined;
+  city: string | undefined;
+  age: number | undefined;
+  avatar_url: string | undefined;
+  skills: TSkill[];
+  wishes: TSkill[];
 }
 
 export const UserCard: React.FC<UserCardProps> = ({
@@ -61,7 +65,7 @@ export const UserCard: React.FC<UserCardProps> = ({
             <span
               key={skill.name}
               className={styles.tag}
-              style={{ backgroundColor: skill.color }}
+              // style={{ backgroundColor: skill.color }}
             >
               {skill.name}
             </span>
@@ -81,7 +85,7 @@ export const UserCard: React.FC<UserCardProps> = ({
             <span
               key={wish.name}
               className={styles.tag}
-              style={{ backgroundColor: wish.color }}
+              // style={{ backgroundColor: wish.color }}
             >
               {wish.name}
             </span>

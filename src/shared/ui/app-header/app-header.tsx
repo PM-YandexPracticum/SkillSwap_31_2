@@ -41,7 +41,8 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
           </button>
           {user ? (
             <>
-              <button
+              <Link
+                to="/notifications"
                 type="button"
                 className={styles.themeSwitcher}
                 title="Напоминания"
@@ -49,8 +50,9 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
                 <span className={styles.bell}>
                   <img src={bell} width={24} height={24} alt="bell" />
                 </span>
-              </button>
-              <button
+              </Link>
+              <Link
+                to="/favorites"
                 type="button"
                 className={styles.themeSwitcher}
                 title="Избранное"
@@ -58,7 +60,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
                 <span className={styles.themeSwitcher}>
                   <img src={like} width={24} height={24} alt="like" />
                 </span>
-              </button>
+              </Link>
               <Link to="/profile" className={styles.profileLink}>
                 <span className={styles.themeSwitcher}>
                   <span>{user.name}</span>
