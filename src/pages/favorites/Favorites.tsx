@@ -1,4 +1,4 @@
-import styles from './favorites.module.scss';
+// import styles from './favorites.module.scss';
 
 import { SkillsList } from '@pages/skills-list';
 
