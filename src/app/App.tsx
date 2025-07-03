@@ -1,7 +1,14 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
-import { Favorites, Home, Profile, Skill } from '@app/pages';
+import {
+  Favorites,
+  Home,
+  Profile,
+  Skill,
+  AppHeader,
+  AppFooter,
+} from '@app/pages';
 import { useDispatch } from '@services/store';
 import { loginUserThunk, getUsersThunk } from '@features/authSlice';
 import { getSkillsThunk } from '@features/sklillsSlice';
@@ -28,6 +35,8 @@ export const App = () => {
 
   return (
     <div className="app" data-cy="app">
+      <AppHeader />
+
       <Routes location={background || location}>
         <Route path="/" element={<Home />} />
         <Route path="/favorites" element={<Favorites />} />
@@ -39,6 +48,8 @@ export const App = () => {
           <Route path="/skill:id" element={<Skill />} />
         </Routes>
       )}
+
+      <AppFooter />
     </div>
   );
 };
