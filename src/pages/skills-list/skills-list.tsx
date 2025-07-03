@@ -4,35 +4,33 @@ import { useSelector } from '@services/store';
 import { SkillsListUI } from '@ui/index';
 import { getUsers, getSkills } from '@services/selectors';
 import { TUserWithSkills } from '@app/entities/user';
+import { getUsersWithSkills, getFavoriteUsersWithSkills } from '@lib/helpers';
 
-export const SkillsList: FC = () => {
+interface SkillsListProps {
+  type: {
+    title: string;
+    size?: number;
+    isFavorites?: boolean;
+  };
+}
+
+export const SkillsList: FC<SkillsListProps> = ({ type }) => {
   const users = useSelector(getUsers);
   const skills = useSelector(getSkills);
 
   if (!users || !skills) return null;
 
   // Преобразуем пользователей
-  const usersWithSkills: TUserWithSkills[] = users.map((user) => {
-    const userSkills = skills.filter((skill) =>
-      user.skills_ids.includes(skill.id)
-    );
-    const userWishes = skills.filter((skill) =>
-      user.wishes_ids.includes(skill.id)
-    );
-
-    return {
-      ...user,
-      skills: userSkills,
-      wishes: userWishes,
-    };
-  });
+  let usersWithSkills: TUserWithSkills[] = getUsersWithSkills(users, skills);
 
   // Фильтруем только тех, у кого есть хотя бы один is_liked skill
-  const filteredUsers = usersWithSkills.filter((user) =>
-    user.skills.some((skill) => skill.is_liked)
-  );
+  if (type.isFavorites) {
+    usersWithSkills = getFavoriteUsersWithSkills(usersWithSkills);
+  }
 
-  if (!filteredUsers) return null;
+  if (type.size) {
+    usersWithSkills = usersWithSkills.slice(0, type.size);
+  }
 
-  return <SkillsListUI usersWithSkills={filteredUsers} />;
+  return <SkillsListUI usersWithSkills={usersWithSkills} title={type.title} />;
 };
