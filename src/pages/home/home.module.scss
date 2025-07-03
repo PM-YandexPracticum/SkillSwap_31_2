@@ -94,6 +94,7 @@ body,
   font-family: 'Roboto', sans-serif;
   line-height: 24px;
 }
+
 .filter-radio:last-child {
   margin-bottom: 0;
 }
@@ -103,9 +104,11 @@ body,
   align-items: center;
   margin-right: 8px;
 }
+
 .radio-label {
   vertical-align: middle;
 }
+
 .filter-radio input[type='radio'] {
   display: none;
 }
@@ -164,6 +167,7 @@ body,
     color 0.2s,
     border 0.2s;
 }
+
 .filter-tag-btn:hover {
   background: #eaf6e2;
 }
