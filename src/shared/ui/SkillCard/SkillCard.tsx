@@ -1,10 +1,13 @@
 import React from 'react';
-import clsx from 'clsx';
 
-import styles from './UserCard.module.css';
+import { ButtonUI } from '../button';
+import { LikeButtonUI } from '../like-button';
+import { SkillTagUI } from '../skillTag';
+import type { SkillTagUIProps } from '../skillTag/type';
 
-import HeartIcon from '@assets/icons/heart.svg?react';
-import { TSkill } from '@entities/skills';
+import styles from './SkillCard.module.css';
+
+// import HeartIcon from '@assets/icons/heart.svg?react';
 
 // в бд не хранится цвет, цвет можно задать через css,
 //  каждому элементу другой цвет. Это будет соотвествовать макету
@@ -14,16 +17,16 @@ import { TSkill } from '@entities/skills';
 //  color: string;
 // }
 
-interface UserCardProps {
+interface SkillCardProps {
   name: string | undefined;
   city: string | undefined;
   age: number | undefined;
   avatar_url: string | undefined;
-  skills: TSkill[];
-  wishes: TSkill[];
+  skills: SkillTagUIProps[];
+  wishes: SkillTagUIProps[];
 }
 
-export const UserCard: React.FC<UserCardProps> = ({
+export const SkillCard: React.FC<SkillCardProps> = ({
   name,
   city,
   age,
@@ -48,32 +51,23 @@ export const UserCard: React.FC<UserCardProps> = ({
               {city}, {age} года
             </p>
           </div>
+          <div className={styles.likebutton}>
+            <LikeButtonUI initialLiked={false} />
+          </div>
         </div>
-        <button
-          type="button"
-          aria-label="Добавить в избранное"
-          className={styles.likeButton}
-        >
-          <HeartIcon width={20} height={20} />
-        </button>
       </div>
-
       <div>
         <p className={styles.sectionTitle}>Может научить:</p>
         <div className={styles.tags}>
           {visibleSkills.map((skill) => (
-            <span
-              key={skill.name}
-              className={styles.tag}
-              // style={{ backgroundColor: skill.color }}
-            >
-              {skill.name}
-            </span>
+            <SkillTagUI
+              key={skill.text}
+              text={skill.text}
+              color={skill.color}
+            />
           ))}
           {extraSkillsCount > 0 && (
-            <span className={clsx(styles.tag, styles.moreTag)}>
-              +{extraSkillsCount}
-            </span>
+            <SkillTagUI text={`+${extraSkillsCount}`} color="#E8ECF7" />
           )}
         </div>
       </div>
@@ -82,25 +76,21 @@ export const UserCard: React.FC<UserCardProps> = ({
         <p className={styles.sectionTitle}>Хочет научиться:</p>
         <div className={styles.tags}>
           {visibleWishes.map((wish) => (
-            <span
-              key={wish.name}
-              className={styles.tag}
-              // style={{ backgroundColor: wish.color }}
-            >
-              {wish.name}
-            </span>
+            <SkillTagUI
+              key={wish.text}
+              text={wish.text || ''}
+              color={wish.color || '#E8ECF7'}
+            />
           ))}
           {extraWishesCount > 0 && (
-            <span className={clsx(styles.tag, styles.moreTag)}>
-              +{extraWishesCount}
-            </span>
+            <SkillTagUI text={`+${extraWishesCount}`} color="#E8ECF7" />
           )}
         </div>
       </div>
 
-      <button type="button" className={styles.button}>
+      <ButtonUI type="Primary" htmlType="button" classes={styles.button}>
         Подробнее
-      </button>
+      </ButtonUI>
     </div>
   );
 };

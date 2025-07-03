@@ -3,7 +3,7 @@ import { FC } from 'react';
 import styles from './skills-list.module.css';
 import { SkillsListUIProps } from './type';
 
-import { UserCard } from '@ui/UserCard';
+import { SkillCard } from '@widgets/SkillCard';
 import { SkillsListHeaderUI } from '@ui/skill-list-header';
 
 export const SkillsListUI: FC<SkillsListUIProps> = ({
@@ -14,7 +14,7 @@ export const SkillsListUI: FC<SkillsListUIProps> = ({
     <SkillsListHeaderUI title={title} />
     <ul className={styles.cardsRow}>
       {usersWithSkills.map((user) => (
-        <UserCard
+        <SkillCard
           key={user.id}
           name={user.name ?? undefined}
           city={user.city ?? undefined}
