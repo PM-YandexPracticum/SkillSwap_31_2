@@ -3,8 +3,11 @@ import { useState } from 'react';
 import styles from './home.module.scss';
 
 import { Aside } from '@ui/aside/aside';
+import { FilterButtonsPanelUI } from '@ui/filter-buttons-panel';
+
 import { SkillsList } from '@pages/skills-list';
 import { skillListTypes } from '@lib/constants';
+import tagClose from '@assets/icons/tag-close.svg';
 
 export const Home = () => {
   // надо реализовать изменение при использовании фильтра
@@ -17,7 +20,10 @@ export const Home = () => {
 
         {/* Выдаем страницу подходящих предложений, если есть фильтр */}
         {filtered ? (
-          <SkillsList type={skillListTypes.appropriate} />
+          <>
+            <FilterButtonsPanelUI />
+            <SkillsList type={skillListTypes.appropriate} />
+          </>
         ) : (
           <div className={styles.resultsSection}>
             <SkillsList type={skillListTypes.popular} />

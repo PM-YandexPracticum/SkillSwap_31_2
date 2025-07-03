@@ -3,17 +3,8 @@ import { FC } from 'react';
 import styles from './skills-list-header.module.css';
 import { SkillsListHeaderUIProps } from './type';
 
-import tagClose from '@assets/icons/tag-close.svg';
-
 export const SkillsListHeaderUI: FC<SkillsListHeaderUIProps> = ({ title }) => (
   <div className={styles.resultsHeaderContainer}>
-    <div className={styles.filterTags}>
-      <button type="button" className={styles.filterTagBtn}>
-        <span className={styles.tagCloseIcon}>
-          <img src={tagClose} alt="закрыть" width={24} height={24} />
-        </span>
-      </button>
-    </div>
     <div className={styles.resultsHeaderRow}>
       <div className={styles.resultsTitle}>{title}</div>
       <button type="button" className={styles.resultsSortBtn}>
