@@ -5,7 +5,7 @@ import { LikeButtonUI } from '../like-button';
 import { SkillTagUI } from '../skillTag';
 import type { SkillTagUIProps } from '../skillTag/type';
 
-import styles from './UserCard.module.css';
+import styles from './SkillCard.module.css';
 
 // import HeartIcon from '@assets/icons/heart.svg?react';
 
@@ -17,7 +17,7 @@ import styles from './UserCard.module.css';
 //  color: string;
 // }
 
-interface UserCardProps {
+interface SkillCardProps {
   name: string | undefined;
   city: string | undefined;
   age: number | undefined;
@@ -26,7 +26,7 @@ interface UserCardProps {
   wishes: SkillTagUIProps[];
 }
 
-export const UserCard: React.FC<UserCardProps> = ({
+export const SkillCard: React.FC<SkillCardProps> = ({
   name,
   city,
   age,

@@ -2,7 +2,7 @@ import tagClose from '../../assets/icons/tag-close.svg';
 
 import styles from './home.module.scss';
 
-import { UserCard } from '@app/shared/ui/UserCard';
+import { SkillCard } from '@ui/SkillCard';
 import { Aside } from '@ui/aside/aside';
 
 export const Home = () => {
@@ -61,7 +61,7 @@ export const Home = () => {
             </div>
           </div>
           <div className={styles.cardsRow}>
-            <UserCard
+            <SkillCard
               name="Иван"
               city="Санкт-Петербург"
               age={35}
