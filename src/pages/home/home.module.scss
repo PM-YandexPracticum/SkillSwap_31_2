@@ -1,6 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@600&family=Roboto:wght@400&display=swap');
 
-body, .home, .header, .footer, .content, .footer-menu, .footer-menu ul, .footer-menu li {
+body,
+.home,
+.header,
+.footer,
+.content,
+.footer-menu,
+.footer-menu ul,
+.footer-menu li {
   color: #253017;
 }
 
@@ -17,7 +24,7 @@ body, .home, .header, .footer, .content, .footer-menu, .footer-menu ul, .footer-
   align-items: flex-start;
   width: 100%;
   height: 100%;
-  background-color: #F9FAF7;
+  background-color: #f9faf7;
 }
 
 /* ====== Фильтры ====== */
@@ -87,15 +94,21 @@ body, .home, .header, .footer, .content, .footer-menu, .footer-menu ul, .footer-
   font-family: 'Roboto', sans-serif;
   line-height: 24px;
 }
-.filter-radio:last-child { margin-bottom: 0; }
+.filter-radio:last-child {
+  margin-bottom: 0;
+}
 
 .radio-icon {
   display: flex;
   align-items: center;
   margin-right: 8px;
 }
-.radio-label { vertical-align: middle; }
-.filter-radio input[type="radio"] { display: none; }
+.radio-label {
+  vertical-align: middle;
+}
+.filter-radio input[type='radio'] {
+  display: none;
+}
 
 .filters-section {
   display: flex;
@@ -146,9 +159,14 @@ body, .home, .header, .footer, .content, .footer-menu, .footer-menu ul, .footer-
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s, border 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border 0.2s;
 }
-.filter-tag-btn:hover { background: #eaf6e2; }
+.filter-tag-btn:hover {
+  background: #eaf6e2;
+}
 
 .tag-close-icon {
   display: flex;
@@ -342,7 +360,7 @@ body, .home, .header, .footer, .content, .footer-menu, .footer-menu ul, .footer-
   line-height: 16px;
   letter-spacing: 2%;
   vertical-align: middle;
-  background: #F7E7F2;
+  background: #f7e7f2;
   border-radius: 20px;
 }
 
@@ -365,11 +383,14 @@ body, .home, .header, .footer, .content, .footer-menu, .footer-menu ul, .footer-
   font-family: 'Roboto', sans-serif;
   line-height: 24px;
   letter-spacing: 2%;
-  background: #ABD27A;
-  border: 1.5px solid #ABD27A;
+  background: #abd27a;
+  border: 1.5px solid #abd27a;
   border-radius: 12px;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s, border 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border 0.2s;
 }
 
 .card-btn:hover {
@@ -458,7 +479,7 @@ body, .home, .header, .footer, .content, .footer-menu, .footer-menu ul, .footer-
   align-items: center;
   width: 98px;
   height: 16px;
-  color: #69735D;
+  color: #69735d;
   font-size: 12px;
   font-family: 'Roboto', sans-serif;
   line-height: 16px;

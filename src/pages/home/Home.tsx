@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import styles from './home.module.scss';
+
 import { Aside } from '@ui/aside/aside';
 import { SkillsList } from '@pages/skills-list';
 import { skillListTypes } from '@lib/constants';

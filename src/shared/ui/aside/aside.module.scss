@@ -1,8 +1,8 @@
 .aside {
-    width: 324px;
-    margin: 32px 24px 0 36px;
-    font-family: "Jost", sans-serif;
-    background: #ffffff;
+  width: 324px;
+  margin: 32px 24px 0 36px;
+  font-family: 'Jost', sans-serif;
+  background: #ffffff;
 }
 
 .filter-bar {
@@ -14,9 +14,9 @@
 }
 
 .title {
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 28px;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 28px;
 }
 
 .aside .filter-reset {
@@ -30,11 +30,11 @@
 }
 
 .filters {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-    margin: 20px;
-    font-weight: 400;
-    font-size: 16px;
-    font-family: "Roboto", sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin: 20px;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
 }

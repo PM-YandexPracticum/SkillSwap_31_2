@@ -32,11 +32,11 @@ export const SkillsList: FC<SkillsListProps> = ({ type }) => {
   if (type.size) {
     usersWithSkills = usersWithSkills.slice(0, type.size);
   }
-  
+
   // добавляем к title количество записей, если фильтр применен
   const title = type.isFiltred
     ? `${type.title}${usersWithSkills.length}`
     : type.title;
-  
+
   return <SkillsListUI usersWithSkills={usersWithSkills} title={title} />;
 };
