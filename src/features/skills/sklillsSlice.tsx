@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { getSkills } from '@api/api';
 import { TSkill } from '@entities/skills';
-import { TUserState } from '@app/features/auth/authSlice';
+import { TUserState } from '@features/auth/authSlice';
 
 type TSkillState = {
   skills: TSkill[] | [];
