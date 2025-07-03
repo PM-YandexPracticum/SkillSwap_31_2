@@ -4,10 +4,8 @@ import styles from './home.module.scss';
 
 import { Aside } from '@ui/aside/aside';
 import { FilterButtonsPanelUI } from '@ui/filter-buttons-panel';
-
 import { SkillsList } from '@pages/skills-list';
 import { skillListTypes } from '@lib/constants';
-import tagClose from '@assets/icons/tag-close.svg';
 
 export const Home = () => {
   // надо реализовать изменение при использовании фильтра
