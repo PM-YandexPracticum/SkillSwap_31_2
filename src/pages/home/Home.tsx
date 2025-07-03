@@ -1,64 +1,20 @@
-import React from 'react';
-
-import dropdownIcon from '../../assets/icons/dropdown-icon.svg';
-import moon from '../../assets/icons/moon.svg';
 import tagClose from '../../assets/icons/tag-close.svg';
 
 import styles from './home.module.scss';
 
-import { Logotype } from '@app/widgets';
-import { Aside } from '@app/shared/ui/aside/aside';
 import { UserCard } from '@app/shared/ui/UserCard';
+import { Aside } from '@ui/aside/aside';
 
 export const Home = () => {
+  const wishes = [
+    { text: 'Тайм менеджмент', color: '#E7F2F6' },
+    { text: 'Медитация', color: '#E9F7E7' },
+    { text: 'Английский язык', color: '#EBE5C5' },
+    { text: 'Английский язык', color: '#EBE5C5' },
+  ];
+  const skills = [{ text: 'Английский язык', color: '#EBE5C5' }];
   return (
     <div className={styles.homePage}>
-      <header className={styles.header}>
-        <Logotype />
-        <nav className={styles.headerNav}>
-          <ul className={styles.headerMenu}>
-            <li>
-              <a href="/">О проекте</a>
-            </li>
-            <li className={styles.dropdown}>
-              <a href="/">
-                Все навыки{' '}
-                <span className={styles.dropdownIcon}>
-                  <img
-                    src={dropdownIcon}
-                    width={24}
-                    height={24}
-                    alt="dropdown"
-                  />
-                </span>
-              </a>
-            </li>
-          </ul>
-          <div className={styles.headerActions}>
-            <button
-              type="button"
-              className={styles.themeSwitcher}
-              title="Переключить тему"
-            >
-              <span className={styles.moonSvg}>
-                <img src={moon} width={24} height={24} alt="moon" />
-              </span>
-            </button>
-            <button
-              type="button"
-              className={`${styles.authBtn} ${styles.login}`}
-            >
-              Войти
-            </button>
-            <button
-              type="button"
-              className={`${styles.authBtn} ${styles.register}`}
-            >
-              Зарегистрироваться
-            </button>
-          </div>
-        </nav>
-      </header>
       <main className={styles.content}>
         <Aside />
         <div className={styles.resultsSection}>
@@ -110,31 +66,12 @@ export const Home = () => {
               city="Санкт-Петербург"
               age={35}
               avatar_url="https://i.pravatar.cc/100"
-              skills={[{ name: 'Английский язык', color: '#EBE5C5' }]}
-              wishes={[
-                { name: 'Тайм менеджмент', color: '#E7F2F6' },
-                { name: 'Медитация', color: '#E9F7E7' },
-                { name: 'Английский язык', color: '#EBE5C5' },
-                { name: 'Английский язык', color: '#EBE5C5' },
-              ]}
+              skills={skills}
+              wishes={wishes}
             />
           </div>
         </div>
       </main>
-      <footer className={styles.footer}>
-        <Logotype />
-        <nav className={styles.footerMenu}>
-          <ul>
-            <li>О проекте</li>
-            <li>Контакты</li>
-            <li>Политика конфиденциальности</li>
-            <li>Все навыки</li>
-            <li>Блог</li>
-            <li>Пользовательское соглашение</li>
-          </ul>
-        </nav>
-        <div className={styles.footerCopyright}>SkillSwap — 2025</div>
-      </footer>
     </div>
   );
 };

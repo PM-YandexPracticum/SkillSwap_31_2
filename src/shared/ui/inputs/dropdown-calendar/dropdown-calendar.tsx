@@ -6,9 +6,10 @@ import calendar from '../../../../assets/icons/calendar.svg';
 
 import { TDropdownCalendar, ValuePiece, Value } from './type';
 import styles from './dropdown-calendar.module.scss';
+import './dropdown-calendar.css';
 
 export const DropdownCalendar: React.FC<TDropdownCalendar> = memo(
-  ({ isValid, lable, errorText }) => {
+  ({ isValid, label, errorText }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState<ValuePiece>(null);
     const [currentMonth, setCurrentMonth] = useState<number>(
@@ -112,8 +113,8 @@ export const DropdownCalendar: React.FC<TDropdownCalendar> = memo(
 
     return (
       <div className={styles.calendarDropdown} ref={dropdownRef}>
-        <label className={styles.label} htmlFor={`${lable}Dropdown`}>
-          {lable}
+        <label className={styles.label} htmlFor={`${label}Dropdown`}>
+          {label}
           <div
             className={`${styles.inputContainer} ${!isValid ? 'error' : ''}`}
           >
@@ -124,7 +125,7 @@ export const DropdownCalendar: React.FC<TDropdownCalendar> = memo(
               readOnly
               className={styles.dateInput}
               onClick={toggleDropdown}
-              id={`${lable}Dropdown`}
+              id={`${label}Dropdown`}
             />
             <img src={calendar} alt="" className={styles.calendarIcon} />
           </div>

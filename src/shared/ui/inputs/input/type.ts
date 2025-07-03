@@ -1,5 +1,5 @@
 export interface TInputInterface {
-  lable: string;
+  label: string;
   placeholder: string;
   isValid: boolean;
   errorText?: string;

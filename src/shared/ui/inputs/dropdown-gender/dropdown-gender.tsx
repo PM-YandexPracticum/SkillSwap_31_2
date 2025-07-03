@@ -9,7 +9,7 @@ import chevronUp from '../../../../assets/icons/chevron-up.svg';
 import { TDropdownGender } from './type';
 
 export const DropdownGender: React.FC<TDropdownGender> = memo(
-  ({ lable, isValid, errorText }) => {
+  ({ label, isValid, errorText }) => {
     const genders = ['Мужской', 'Женский'];
 
     const [selectedOption, setSelectedOption] = useState<string>('Не указан');
@@ -50,8 +50,8 @@ export const DropdownGender: React.FC<TDropdownGender> = memo(
 
     return (
       <div className={styles.container}>
-        <label className={styles.label} htmlFor={`${lable}Dropdown`}>
-          {lable}
+        <label className={styles.label} htmlFor={`${label}Dropdown`}>
+          {label}
           <div className={styles.dropdown}>
             <input
               type="text"
@@ -59,7 +59,7 @@ export const DropdownGender: React.FC<TDropdownGender> = memo(
               readOnly
               className={styles.dropdownInput}
               onClick={() => setIsOpen((prev) => !prev)}
-              id={`${lable}Dropdown`}
+              id={`${label}Dropdown`}
             />
             <img
               src={chevronDown}
@@ -70,7 +70,7 @@ export const DropdownGender: React.FC<TDropdownGender> = memo(
         </label>
         {isOpen && (
           <div className={styles.dropdownMenu} ref={dropdownRef}>
-            <label htmlFor="genderInput">
+            <label htmlFor="genderInput" className={styles.dropdownLabel}>
               <input
                 type="text"
                 value={selectedOption}

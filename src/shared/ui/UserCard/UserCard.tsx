@@ -3,21 +3,27 @@ import React from 'react';
 import { ButtonUI } from '../button';
 import { LikeButtonUI } from '../like-button';
 import { SkillTagUI } from '../skillTag';
+import type { SkillTagUIProps } from '../skillTag/type';
 
 import styles from './UserCard.module.css';
 
-interface Tag {
-  name: string;
-  color: string;
-}
+// import HeartIcon from '@assets/icons/heart.svg?react';
+
+// в бд не хранится цвет, цвет можно задать через css,
+//  каждому элементу другой цвет. Это будет соотвествовать макету
+// (цвета в каждой карточке в одном порядке)
+// interface Tag {
+//  name: string;
+//  color: string;
+// }
 
 interface UserCardProps {
-  name: string;
-  city: string;
-  age: number;
-  avatar_url: string;
-  skills: Tag[];
-  wishes: Tag[];
+  name: string | undefined;
+  city: string | undefined;
+  age: number | undefined;
+  avatar_url: string | undefined;
+  skills: SkillTagUIProps[];
+  wishes: SkillTagUIProps[];
 }
 
 export const UserCard: React.FC<UserCardProps> = ({
@@ -55,8 +61,8 @@ export const UserCard: React.FC<UserCardProps> = ({
         <div className={styles.tags}>
           {visibleSkills.map((skill) => (
             <SkillTagUI
-              key={skill.name}
-              text={skill.name}
+              key={skill.text}
+              text={skill.text}
               color={skill.color}
             />
           ))}
@@ -70,7 +76,11 @@ export const UserCard: React.FC<UserCardProps> = ({
         <p className={styles.sectionTitle}>Хочет научиться:</p>
         <div className={styles.tags}>
           {visibleWishes.map((wish) => (
-            <SkillTagUI key={wish.name} text={wish.name} color={wish.color} />
+            <SkillTagUI
+              key={wish.text}
+              text={wish.text || ''}
+              color={wish.color || '#E8ECF7'}
+            />
           ))}
           {extraWishesCount > 0 && (
             <SkillTagUI text={`+${extraWishesCount}`} color="#E8ECF7" />

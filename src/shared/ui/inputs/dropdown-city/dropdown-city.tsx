@@ -9,7 +9,7 @@ import cross from '../../../../assets/icons/cross.svg';
 import { TCityInputInterface } from './type';
 
 export const DropdownCity: React.FC<TCityInputInterface> = memo(
-  ({ options, isValid, lable, errorText }) => {
+  ({ options, isValid, label, errorText }) => {
     const [selectedCity, setSelectedCity] = useState('');
     const [searchValue, setSearchValue] = useState('');
     const [isOpen, setIsOpen] = useState(false);
@@ -86,14 +86,14 @@ export const DropdownCity: React.FC<TCityInputInterface> = memo(
 
     return (
       <div className={styles.container} ref={dropdownRef}>
-        <label className={styles.label} htmlFor={`${lable}Dropdown`}>
-          {lable}
+        <label className={styles.label} htmlFor={`${label}Dropdown`}>
+          {label}
           <div className={styles.dropdown}>
             <input
               type="text"
               value={displayValue}
               readOnly
-              id={`${lable}Dropdown`}
+              id={`${label}Dropdown`}
               className={clsx([styles.dropdownInput, styles.cityInput])}
               onClick={() => setIsOpen(true)}
               placeholder="Не указан"
@@ -107,7 +107,7 @@ export const DropdownCity: React.FC<TCityInputInterface> = memo(
         </label>
         {isOpen && (
           <div className={styles.dropdownMenu}>
-            <label htmlFor="cityInput">
+            <label htmlFor="cityInput" className={styles.dropdownLabel}>
               <input
                 type="text"
                 id="cityInput"

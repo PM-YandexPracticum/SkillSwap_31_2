@@ -4,6 +4,6 @@ export type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 export interface TDropdownCalendar {
   isValid: boolean;
-  lable: string;
+  label: string;
   errorText?: string;
 }

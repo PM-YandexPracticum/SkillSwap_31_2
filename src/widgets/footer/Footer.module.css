@@ -1,0 +1,68 @@
+:global(*),
+:global(*::before),
+:global(*::after) {
+  box-sizing: border-box;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  max-width: 1440px;
+  padding: 32px 36px;
+}
+
+.footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footerLogo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.footerLogo span {
+  color: #253017;
+  font-weight: 600;
+  font-size: 24px;
+  font-family: 'Jost', sans-serif;
+  line-height: 1.33;
+  letter-spacing: -0.26px;
+}
+
+.footerNav {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 32px;
+}
+
+.footerNav ul {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  width: 334px;
+  margin: 0;
+  padding: 0;
+  color: #253017;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.5;
+  letter-spacing: 0.32px;
+  list-style: none;
+}
+
+.footerCopyright {
+  color: #69735D;
+  font-weight: 400;
+  font-size: 12px;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.33;
+  letter-spacing: 0.24px;
+}
+
+.footerCopyright p {
+  margin: 0;
+}

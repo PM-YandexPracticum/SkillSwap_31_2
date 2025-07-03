@@ -1,7 +1,7 @@
 export interface TCityInputInterface {
   options: TCity[];
   isValid: boolean;
-  lable: string;
+  label: string;
   errorText?: string;
 }
 

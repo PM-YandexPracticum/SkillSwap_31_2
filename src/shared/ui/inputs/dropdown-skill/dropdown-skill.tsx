@@ -8,7 +8,7 @@ import chevronUp from '../../../../assets/icons/chevron-up.svg';
 import { TSkill, TSkillInterface } from './type';
 
 export const DropdownSkill: React.FC<TSkillInterface> = memo(
-  ({ options, isValid, lable, errorText }) => {
+  ({ options, isValid, label, errorText }) => {
     const [selectedSkill, setSelectedSkill] = useState<TSkill[]>([]);
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -73,14 +73,14 @@ export const DropdownSkill: React.FC<TSkillInterface> = memo(
 
     return (
       <div className={styles.container} ref={dropdownRef}>
-        <label className={styles.label} htmlFor={`${lable}Dropdown`}>
-          {lable}
+        <label className={styles.label} htmlFor={`${label}Dropdown`}>
+          {label}
           <div className={styles.dropdown}>
             <input
               type="text"
               value={getDisplayText()}
               readOnly
-              id={`${lable}Dropdown`}
+              id={`${label}Dropdown`}
               className={styles.dropdownInput}
               onClick={toggleDropdown}
             />
@@ -89,7 +89,7 @@ export const DropdownSkill: React.FC<TSkillInterface> = memo(
         </label>
         {isOpen && (
           <div className={styles.dropdownMenu}>
-            <label htmlFor="skillInput">
+            <label htmlFor="skillInput" className={styles.dropdownLabel}>
               <input
                 type="text"
                 value={getDisplayText()}
