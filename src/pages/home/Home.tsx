@@ -6,6 +6,7 @@ import { SkillsList } from '@pages/skills-list';
 import { skillListTypes } from '@lib/constants';
 
 export const Home = () => {
+  // надо реализовать изменение при использовании фильтра
   const [filtered, setFiltered] = useState<boolean>(false);
 
   return (
