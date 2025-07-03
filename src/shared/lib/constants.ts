@@ -5,5 +5,5 @@ export const skillListTypes = {
   new: { title: 'Новое', size: 3 },
   recommended: { title: 'Рекомендуем', size: 6 },
   favorites: { title: 'Избранное', isFavorites: true },
-  appropriate: { title: 'Подходящие' },
+  appropriate: { title: 'Подходящие предложения: ', isFiltred: true },
 };

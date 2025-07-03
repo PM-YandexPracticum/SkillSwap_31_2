@@ -11,6 +11,7 @@ interface SkillsListProps {
     title: string;
     size?: number;
     isFavorites?: boolean;
+    isFiltred?: boolean;
   };
 }
 
@@ -31,6 +32,11 @@ export const SkillsList: FC<SkillsListProps> = ({ type }) => {
   if (type.size) {
     usersWithSkills = usersWithSkills.slice(0, type.size);
   }
-
-  return <SkillsListUI usersWithSkills={usersWithSkills} title={type.title} />;
+  
+  // добавляем к title количество записей, если фильтр применен
+  const title = type.isFiltred
+    ? `${type.title}${usersWithSkills.length}`
+    : type.title;
+  
+  return <SkillsListUI usersWithSkills={usersWithSkills} title={title} />;
 };
