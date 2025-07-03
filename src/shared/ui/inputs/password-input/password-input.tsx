@@ -8,7 +8,7 @@ import eyeSlashIcon from '../../../../assets/icons/eye-slash.svg';
 import { TPasswordInputInterface } from './type';
 
 export const PasswordInput: React.FC<TPasswordInputInterface> = memo(
-  ({ lable, isValid, placeholder, onChange, errorText }) => {
+  ({ label, isValid, placeholder, onChange, errorText }) => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const iconSource = showPassword ? eyeIcon : eyeSlashIcon;
 
@@ -18,18 +18,18 @@ export const PasswordInput: React.FC<TPasswordInputInterface> = memo(
 
     return (
       <div className={styles.container}>
-        <label className={styles.lable} htmlFor={`${lable}Input`}>
-          {lable}
+        <label className={styles.lable} htmlFor={`${label}Input`}>
+          {label}
         </label>
         <input
-          id={`${lable}Input`}
+          id={`${label}Input`}
           type={showPassword ? 'text' : 'password'}
           className={clsx([styles.input, !isValid && styles.errorBorder])}
           placeholder={placeholder}
           onChange={onChange}
         />
         <button
-          className={styles.visibleIcon}
+          className={clsx([styles.visibleIcon, styles.eyeIcon])}
           type="button"
           onClick={toggleShowPassword}
         >
