@@ -10,8 +10,8 @@ import {
   AppFooter,
 } from '@app/pages';
 import { useDispatch } from '@services/store';
-import { loginUserThunk, getUsersThunk } from '@features/authSlice';
-import { getSkillsThunk } from '@features/sklillsSlice';
+import { loginUserThunk, getUsersThunk } from '@features/auth/authSlice';
+import { getSkillsThunk } from '@features/skills/sklillsSlice';
 
 export const App = () => {
   const location = useLocation();

@@ -5,8 +5,8 @@ import {
   useSelector as selectorHook,
 } from 'react-redux';
 
-import auth from '@features/authSlice';
-import skills from '@features/sklillsSlice';
+import auth from '@features/auth/authSlice';
+import skills from '@features/skills/sklillsSlice';
 
 export const rootReducer = combineReducers({
   auth,
