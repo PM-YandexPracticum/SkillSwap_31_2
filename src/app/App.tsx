@@ -11,7 +11,7 @@ import {
 } from '@app/pages';
 import { useDispatch } from '@services/store';
 import { loginUserThunk, getUsersThunk } from '@features/auth/authSlice';
-import { getSkillsThunk } from '@features/skills/sklillsSlice';
+import { getSkillsThunk } from '@app/features/skills/skillsSlice';
 
 export const App = () => {
   const location = useLocation();
