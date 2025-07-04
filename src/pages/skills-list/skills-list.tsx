@@ -2,7 +2,12 @@ import { FC } from 'react';
 
 import { useSelector } from '@services/store';
 import { SkillsListUI } from '@ui/index';
-import { getUsers, getSkills, getSearchQuery } from '@services/selectors';
+import {
+  getUsers,
+  getSkills,
+  getSearchQuery,
+  getIsSearchCommitted,
+} from '@services/selectors';
 import { TUserWithSkills } from '@app/entities/user';
 import { getUsersWithSkills, getFavoriteUsersWithSkills } from '@lib/helpers';
 
@@ -11,7 +16,6 @@ interface SkillsListProps {
     title: string;
     size?: number;
     isFavorites?: boolean;
-    isFiltred?: boolean;
   };
 }
 
@@ -19,10 +23,16 @@ export const SkillsList: FC<SkillsListProps> = ({ type }) => {
   const users = useSelector(getUsers);
   const skills = useSelector(getSkills);
   const searchQuery = useSelector(getSearchQuery);
+  const isSearchCommitted = useSelector(getIsSearchCommitted);
 
-  const filteredSkills = skills.filter((skill) =>
-    skill.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const isAppropriateList = type.title === 'Подходящие предложения';
+
+  const filteredSkills =
+    isAppropriateList && isSearchCommitted
+      ? skills.filter((skill) =>
+          skill.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : skills;
 
   if (!users || !skills) return null;
 
@@ -35,13 +45,5 @@ export const SkillsList: FC<SkillsListProps> = ({ type }) => {
     usersWithSkills = getFavoriteUsersWithSkills(usersWithSkills);
   }
 
-  if (type.size) {
-    usersWithSkills = usersWithSkills.slice(0, type.size);
-  }
-
-  const title = type.isFiltred
-    ? `${type.title}${usersWithSkills.length}`
-    : type.title;
-
-  return <SkillsListUI usersWithSkills={usersWithSkills} title={title} />;
+  return <SkillsListUI title={type.title} usersWithSkills={usersWithSkills} />;
 };
