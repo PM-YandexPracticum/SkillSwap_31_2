@@ -281,6 +281,37 @@ export async function getSubcategories(
   return data;
 }
 
+type CategoryWithSubcategories = {
+  id: string;
+  name: string;
+  subcategories: SubcategoryData[];
+};
+
+export async function getCategoriesWithSubcategories(): Promise<
+  CategoryWithSubcategories[]
+> {
+  const { data, error } = await supabase
+    .from('categories')
+    .select(
+      `
+      id,
+      name,
+      subcategories:subcategories (
+        id,
+        name
+      )
+    `
+    )
+    .order('name', { ascending: true });
+  if (error) throw error;
+  // Приводим тип и гарантируем, что subcategories будет массивом
+  const categories = (data as CategoryWithSubcategories[]).map((category) => ({
+    ...category,
+    subcategories: category.subcategories || [],
+  }));
+  return categories;
+}
+
 export async function addUserFavoriteSkill(
   currentUserId: string,
   skill_id: string
