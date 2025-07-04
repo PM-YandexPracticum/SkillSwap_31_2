@@ -1,11 +1,12 @@
-import React, { ChangeEvent, FC, useState, useRef } from 'react';
+import React, { ChangeEvent, FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './app-header.module.scss';
 import { TAppHeaderUIProps } from './type';
 
+import { TopNavigation } from '@widgets/top-navigation';
 import { Logotype } from '@app/widgets';
-import dropdownIcon from '@assets/icons/dropdown-icon.svg';
+// import dropdownIcon from '@assets/icons/dropdown-icon.svg';
 import moon from '@assets/icons/moon.svg';
 import bell from '@assets/icons/bell.svg';
 import like from '@assets/icons/like.svg';
@@ -14,7 +15,6 @@ import { SearchUI } from '@ui/search';
 import { useSelector, useDispatch } from '@services/store';
 import { getSkillsFilterStatus, getSearchQuery } from '@services/selectors';
 import { setSearchQuery } from '@features/skills/skillsSlice';
-import { WidgetCategoriesModal } from '@widgets/WidgetCategoriesModal/WidgetCategoriesModal.tsx';
 
 export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
   const dispatch = useDispatch();
@@ -28,34 +28,11 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
   const handleSearchClear = () => {
     dispatch(setSearchQuery(''));
   };
-  const [modalOpen, setModalOpen] = useState(false);
-  const closeTimeout = useRef<NodeJS.Timeout | null>(null);
-  const handleMouseEnter = () => {
-    if (closeTimeout.current) clearTimeout(closeTimeout.current);
-    setModalOpen(true);
-  };
-  const handleMouseLeave = () => {
-    closeTimeout.current = setTimeout(() => setModalOpen(false), 250);
-  };
-
   return (
     <header className={styles.header}>
       <Logotype />
       <nav className={styles.headerNav}>
-        <ul className={styles.headerMenu}>
-          <li>
-            <Link to="/">О проекте</Link>
-          </li>
-          <li className={styles.dropdown}>
-            <Link to="/">
-              Все навыки{' '}
-              <span className={styles.dropdownIcon}>
-                <img src={dropdownIcon} width={24} height={24} alt="dropdown" />
-              </span>
-            </Link>
-          </li>
-        </ul>
-
+        <TopNavigation />
         {!isFiltred && (
           <SearchUI
             value={searchValue}
@@ -127,12 +104,6 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
           )}
         </div>
       </nav>
-      <WidgetCategoriesModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      />
     </header>
   );
 };
