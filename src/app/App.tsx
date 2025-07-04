@@ -8,6 +8,7 @@ import {
   Skill,
   AppHeader,
   AppFooter,
+  NotFound404,
 } from '@app/pages';
 import { useDispatch } from '@services/store';
 import { loginUserThunk, getUsersThunk } from '@features/auth/authSlice';
@@ -42,6 +43,7 @@ export const App = () => {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/skill:id" element={<Skill />} />
+        <Route path="*" element={<NotFound404 />} />
       </Routes>
       {background && (
         <Routes>
