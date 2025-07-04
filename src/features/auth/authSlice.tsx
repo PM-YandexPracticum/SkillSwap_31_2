@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
 import { getUserByEmailPassword, getUsers } from '@api/api';
 import { TUser, TLoginData } from '@entities/user';
 
@@ -34,7 +35,7 @@ export const loginUserThunk = createAsyncThunk(
 );
 
 export const getUsersThunk = createAsyncThunk('user/fetch', async () => {
-  return await getUsers();
+  return getUsers();
 });
 
 export const authSlice = createSlice({
