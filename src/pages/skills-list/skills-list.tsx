@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { useSelector } from '@services/store';
 import { SkillsListUI } from '@ui/index';
-import { getUsers, getSkills } from '@services/selectors';
+import { getUsers, getSkills, getSearchQuery } from '@services/selectors';
 import { TUserWithSkills } from '@app/entities/user';
 import { getUsersWithSkills, getFavoriteUsersWithSkills } from '@lib/helpers';
 
@@ -18,13 +18,19 @@ interface SkillsListProps {
 export const SkillsList: FC<SkillsListProps> = ({ type }) => {
   const users = useSelector(getUsers);
   const skills = useSelector(getSkills);
+  const searchQuery = useSelector(getSearchQuery);
+
+  const filteredSkills = skills.filter((skill) =>
+    skill.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   if (!users || !skills) return null;
 
-  // Преобразуем пользователей
-  let usersWithSkills: TUserWithSkills[] = getUsersWithSkills(users, skills);
+  let usersWithSkills: TUserWithSkills[] = getUsersWithSkills(
+    users,
+    filteredSkills
+  );
 
-  // Фильтруем только тех, у кого есть хотя бы один is_liked skill
   if (type.isFavorites) {
     usersWithSkills = getFavoriteUsersWithSkills(usersWithSkills);
   }
@@ -33,7 +39,6 @@ export const SkillsList: FC<SkillsListProps> = ({ type }) => {
     usersWithSkills = usersWithSkills.slice(0, type.size);
   }
 
-  // добавляем к title количество записей, если фильтр применен
   const title = type.isFiltred
     ? `${type.title}${usersWithSkills.length}`
     : type.title;

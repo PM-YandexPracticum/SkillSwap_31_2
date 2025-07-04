@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './app-header.module.scss';
@@ -10,8 +10,24 @@ import moon from '@assets/icons/moon.svg';
 import bell from '@assets/icons/bell.svg';
 import like from '@assets/icons/like.svg';
 import defaultAvatar from '@assets/default-avatar.png';
+import { SearchUI } from '@ui/search';
+import { useSelector, useDispatch } from '@services/store';
+import { getSkillsFilterStatus, getSearchQuery } from '@services/selectors';
+import { setSearchQuery } from '@features/skills/skillsSlice';
 
 export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
+  const dispatch = useDispatch();
+  const isFiltred = useSelector(getSkillsFilterStatus);
+  const searchValue = useSelector(getSearchQuery);
+
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSearchQuery(e.target.value));
+  };
+
+  const handleSearchClear = () => {
+    dispatch(setSearchQuery(''));
+  };
+
   return (
     <header className={styles.header}>
       <Logotype />
@@ -29,6 +45,15 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
             </Link>
           </li>
         </ul>
+
+        {!isFiltred && (
+          <SearchUI
+            value={searchValue}
+            onChange={handleSearchChange}
+            onClear={handleSearchClear}
+          />
+        )}
+
         <div className={styles.headerActions}>
           <button
             type="button"

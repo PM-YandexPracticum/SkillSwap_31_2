@@ -6,7 +6,7 @@ import {
 } from 'react-redux';
 
 import auth from '@features/auth/authSlice';
-import skills from '@features/skills/sklillsSlice';
+import skills from '@app/features/skills/skillsSlice';
 
 export const rootReducer = combineReducers({
   auth,

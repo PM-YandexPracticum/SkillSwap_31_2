@@ -10,12 +10,16 @@ type TSkillState = {
   skills: TSkill[] | [];
   isLoading: boolean;
   error: string | null;
+
+  searchQuery: string;
 };
 
 const initialState: TSkillState = {
   skills: [],
   isLoading: false,
   error: null,
+
+  searchQuery: '',
 };
 
 export const getSkillsThunk = createAsyncThunk(
@@ -36,13 +40,15 @@ export const skillSlice = createSlice({
   name: 'skills',
   initialState,
   reducers: {
+    setSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
+    },
     clearError: (state) => {
       state.error = null;
     },
   },
   extraReducers: (builder) => {
     builder
-      // Логин
       .addCase(getSkillsThunk.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -58,6 +64,6 @@ export const skillSlice = createSlice({
   },
 });
 
-export const { clearError } = skillSlice.actions;
+export const { clearError, setSearchQuery } = skillSlice.actions;
 
 export default skillSlice.reducer;
