@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './search.module.css';
@@ -18,19 +18,12 @@ export const Search: FC<SearchUIProps> = ({ placeholder }) => {
   );
   const skills = useSelector((state: RootState) => state.skills.skills);
 
-  const [filteredSkills, setFilteredSkills] = useState(skills);
-
-  useEffect(() => {
-    if (searchQuery.trim() === '') {
-      setFilteredSkills([]);
-    } else {
-      const query = searchQuery.toLowerCase();
-      const filtered = skills.filter((skill) =>
-        skill.name.toLowerCase().includes(query)
-      );
-      setFilteredSkills(filtered);
-    }
-  }, [searchQuery, skills]);
+  const filteredSkills =
+    searchQuery.trim() === ''
+      ? []
+      : skills.filter((skill) =>
+          skill.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearchQuery(e.target.value));
@@ -40,6 +33,11 @@ export const Search: FC<SearchUIProps> = ({ placeholder }) => {
   const handleClear = () => {
     dispatch(setSearchQuery(''));
     dispatch(setSearchCommitted(false));
+  };
+
+  const handleSelectSuggestion = (name: string) => {
+    dispatch(setSearchQuery(name));
+    dispatch(setSearchCommitted(true));
   };
 
   return (
@@ -57,10 +55,7 @@ export const Search: FC<SearchUIProps> = ({ placeholder }) => {
               <button
                 type="button"
                 className={styles.suggestionItem}
-                onClick={() => {
-                  dispatch(setSearchQuery(skill.name));
-                  dispatch(setSearchCommitted(true));
-                }}
+                onClick={() => handleSelectSuggestion(skill.name)}
               >
                 {skill.name}
               </button>

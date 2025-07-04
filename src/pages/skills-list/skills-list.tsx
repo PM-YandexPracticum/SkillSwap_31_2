@@ -20,9 +20,11 @@ export const SkillsList: FC<SkillsListProps> = ({ type }) => {
   const skills = useSelector(getSkills);
   const searchQuery = useSelector(getSearchQuery);
 
-  const filteredSkills = skills.filter((skill) =>
-    skill.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredSkills = type.isFiltred
+    ? skills.filter((skill) =>
+        skill.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : skills;
 
   if (!users || !skills) return null;
 
@@ -43,5 +45,5 @@ export const SkillsList: FC<SkillsListProps> = ({ type }) => {
     ? `${type.title}${usersWithSkills.length}`
     : type.title;
 
-  return <SkillsListUI usersWithSkills={usersWithSkills} title={title} />;
+  return <SkillsListUI title={title} usersWithSkills={usersWithSkills} />;
 };
