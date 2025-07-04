@@ -8,6 +8,7 @@ import {
   Skill,
   AppHeader,
   AppFooter,
+  NotFound404,
   Error500,
 } from '@app/pages';
 import { useDispatch } from '@services/store';
@@ -47,6 +48,7 @@ export const App = () => {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/skill:id" element={<Skill />} />
+        <Route path="*" element={<NotFound404 />} />
         <Route path="/error-500" element={<Error500 />} />
       </Routes>
       {background && (
