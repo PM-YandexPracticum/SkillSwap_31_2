@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import {
@@ -8,6 +8,8 @@ import {
   Skill,
   AppHeader,
   AppFooter,
+  NotFound404,
+  Error500,
 } from '@app/pages';
 import { useDispatch } from '@services/store';
 import { loginUserThunk, getUsersThunk } from '@features/auth/authSlice';
@@ -17,6 +19,7 @@ export const App = () => {
   const location = useLocation();
   const background = location.state?.background;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // временное решение, чтобы грузил пользователя перед тем как
@@ -30,8 +33,11 @@ export const App = () => {
       })
       .then(() => {
         dispatch(getUsersThunk());
+      })
+      .catch(() => {
+        navigate('/error-500');
       });
-  }, [dispatch]);
+  }, [dispatch, navigate]);
 
   return (
     <div className="app" data-cy="app">
@@ -42,6 +48,8 @@ export const App = () => {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/skill:id" element={<Skill />} />
+        <Route path="*" element={<NotFound404 />} />
+        <Route path="/error-500" element={<Error500 />} />
       </Routes>
       {background && (
         <Routes>

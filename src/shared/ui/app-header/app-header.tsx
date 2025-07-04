@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC } from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './app-header.module.scss';
@@ -6,40 +6,22 @@ import { TAppHeaderUIProps } from './type';
 
 import { TopNavigation } from '@widgets/top-navigation';
 import { Logotype } from '@app/widgets';
-// import dropdownIcon from '@assets/icons/dropdown-icon.svg';
 import moon from '@assets/icons/moon.svg';
 import bell from '@assets/icons/bell.svg';
 import like from '@assets/icons/like.svg';
 import defaultAvatar from '@assets/default-avatar.png';
-import { SearchUI } from '@ui/search';
-import { useSelector, useDispatch } from '@services/store';
-import { getSkillsFilterStatus, getSearchQuery } from '@services/selectors';
-import { setSearchQuery } from '@features/skills/skillsSlice';
+import { useSelector } from '@services/store';
+import { getIsSearchCommitted } from '@services/selectors';
+import { Search } from '@widgets/search';
 
 export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
-  const dispatch = useDispatch();
-  const isFiltred = useSelector(getSkillsFilterStatus);
-  const searchValue = useSelector(getSearchQuery);
-
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSearchQuery(e.target.value));
-  };
-
-  const handleSearchClear = () => {
-    dispatch(setSearchQuery(''));
-  };
+  const isFiltred = useSelector(getIsSearchCommitted);
   return (
     <header className={styles.header}>
       <Logotype />
       <nav className={styles.headerNav}>
         <TopNavigation />
-        {!isFiltred && (
-          <SearchUI
-            value={searchValue}
-            onChange={handleSearchChange}
-            onClear={handleSearchClear}
-          />
-        )}
+        {!isFiltred && <Search placeholder="Введите навык..." />}
 
         <div className={styles.headerActions}>
           <button
@@ -51,6 +33,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
               <img src={moon} width={24} height={24} alt="moon" />
             </span>
           </button>
+
           {user ? (
             <>
               <Link

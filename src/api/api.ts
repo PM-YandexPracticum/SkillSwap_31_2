@@ -62,7 +62,7 @@ export async function getUsers(email: string | null = null): Promise<TUser[]> {
     skills_ids: (user.skills_ids as SkillRef[]).map((s) => s.id),
     wishes_ids: (user.wishes_ids as WishesRef[]).map((s) => s.subcategory_id),
     age: user.birthday ? calculateAge(user.birthday) : null,
-    birthday: user.birthday ? new Date(user.birthday) : null,
+    birthday: user.birthday ?? null,
   }));
 }
 
@@ -279,6 +279,37 @@ export async function getSubcategories(
 
   if (error) throw error;
   return data;
+}
+
+type CategoryWithSubcategories = {
+  id: string;
+  name: string;
+  subcategories: SubcategoryData[];
+};
+
+export async function getCategoriesWithSubcategories(): Promise<
+  CategoryWithSubcategories[]
+> {
+  const { data, error } = await supabase
+    .from('categories')
+    .select(
+      `
+      id,
+      name,
+      subcategories:subcategories (
+        id,
+        name
+      )
+    `
+    )
+    .order('name', { ascending: true });
+  if (error) throw error;
+  // Приводим тип и гарантируем, что subcategories будет массивом
+  const categories = (data as CategoryWithSubcategories[]).map((category) => ({
+    ...category,
+    subcategories: category.subcategories || [],
+  }));
+  return categories;
 }
 
 export async function addUserFavoriteSkill(
