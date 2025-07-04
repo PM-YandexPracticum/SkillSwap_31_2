@@ -1,7 +1,5 @@
 /* eslint-disable no-param-reassign */
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
 import { getUserByEmailPassword, getUsers } from '@api/api';
 import { TUser, TLoginData } from '@entities/user';
 
@@ -9,7 +7,7 @@ export type TUserState = {
   user: TUser | null;
   isInit: boolean;
   isLoading: boolean;
-  users: TUser[] | [];
+  users: TUser[];
   isUsersLoading: boolean;
   error: string | null;
 };
@@ -27,16 +25,17 @@ export const loginUserThunk = createAsyncThunk(
   'user/login',
   async (data: TLoginData, { rejectWithValue }) => {
     try {
-      return await getUserByEmailPassword(data);
+      const user = await getUserByEmailPassword(data);
+      return user;
     } catch (error) {
       return rejectWithValue((error as Error).message || 'Unknown error');
     }
   }
 );
 
-export const getUsersThunk = createAsyncThunk('user/fetch', async () =>
-  getUsers()
-);
+export const getUsersThunk = createAsyncThunk('user/fetch', async () => {
+  return await getUsers();
+});
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -51,7 +50,6 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Логин
       .addCase(loginUserThunk.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -65,8 +63,6 @@ export const authSlice = createSlice({
         state.user = action.payload;
         state.isInit = true;
       })
-
-      // Получение пользователей
       .addCase(getUsersThunk.pending, (state) => {
         state.isUsersLoading = true;
         state.error = null;
@@ -83,5 +79,4 @@ export const authSlice = createSlice({
 });
 
 export const { clearError, initUser } = authSlice.actions;
-
 export default authSlice.reducer;

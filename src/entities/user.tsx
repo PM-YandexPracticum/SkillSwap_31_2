@@ -14,7 +14,7 @@ export type TUser = {
   password: string;
   created_at: string;
   modified_at: string;
-  birthday: Date | null;
+  birthday: string | null;
 };
 
 export type TUserWithSkills = {
@@ -31,7 +31,7 @@ export type TUserWithSkills = {
   password: string;
   created_at: string;
   modified_at: string;
-  birthday: Date | null;
+  birthday: string | null;
 };
 
 export type TLoginData = {
