@@ -103,6 +103,7 @@ const config: Config = {
     '^@entities(.*)$': '<rootDir>/src/entities$1',
     '^@ui(.*)$': '<rootDir>/src/shared/ui$1',
     '^@lib(.*)$': '<rootDir>/src/shared/lib$1',
+    '^@services(.*)$': '<rootDir>/src/services$1',
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader

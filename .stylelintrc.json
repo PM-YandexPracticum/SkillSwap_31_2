@@ -1,7 +1,7 @@
 {
   "extends": ["stylelint-config-standard"],
     "ignoreFiles": [
-      "src/index.css"
+      "src/shared/ui/inputs/dropdown-calendar/dropdown-calendar.css"
     ],
   "plugins": ["stylelint-order"],
   "rules": {

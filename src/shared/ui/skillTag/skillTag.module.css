@@ -1,10 +1,10 @@
 .skillTag {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   width: fit-content;
   max-width: 147px;
-  height: 16px;
+  height: 32px;
   margin: 0;
   padding: 8px 12px;
   font-size: 12px;

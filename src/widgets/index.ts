@@ -1,1 +1,2 @@
-export { Logotype } from './Logotype';
+export * from './Logotype';
+export * from './SkillCard';

@@ -6,14 +6,14 @@ import styles from '../inputs.module.scss';
 import { TInputInterface } from './type';
 
 export const Input: React.FC<TInputInterface> = memo(
-  ({ lable, isValid, placeholder, onChange, errorText }) => {
+  ({ label, isValid, placeholder, onChange, errorText }) => {
     return (
       <div className={styles.container}>
-        <label className={styles.lable} htmlFor={`${lable}Input`}>
-          {lable}
+        <label className={styles.lable} htmlFor={`${label}Input`}>
+          {label}
         </label>
         <input
-          id={`${lable}Input`}
+          id={`${label}Input`}
           type="text"
           className={clsx([styles.input, !isValid && styles.errorBorder])}
           placeholder={placeholder}

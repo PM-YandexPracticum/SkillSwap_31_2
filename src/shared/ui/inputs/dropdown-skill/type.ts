@@ -1,6 +1,6 @@
 export interface TSkillInterface {
   options: TSkill[];
-  lable: string;
+  label: string;
   isValid: boolean;
   errorText?: string;
 }
