@@ -62,7 +62,7 @@ export async function getUsers(email: string | null = null): Promise<TUser[]> {
     skills_ids: (user.skills_ids as SkillRef[]).map((s) => s.id),
     wishes_ids: (user.wishes_ids as WishesRef[]).map((s) => s.subcategory_id),
     age: user.birthday ? calculateAge(user.birthday) : null,
-    birthday: user.birthday ? new Date(user.birthday) : null,
+    birthday: user.birthday ?? null,
   }));
 }
 
