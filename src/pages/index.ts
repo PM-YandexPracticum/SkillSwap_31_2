@@ -6,3 +6,4 @@ export * from './app-header';
 export * from './app-footer';
 export * from './skills-list';
 export * from './not-found-404';
+export * from './error-500';
