@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './app-header.module.scss';
@@ -10,23 +10,12 @@ import moon from '@assets/icons/moon.svg';
 import bell from '@assets/icons/bell.svg';
 import like from '@assets/icons/like.svg';
 import defaultAvatar from '@assets/default-avatar.png';
-import { SearchUI } from '@ui/search';
-import { useSelector, useDispatch } from '@services/store';
-import { getSkillsFilterStatus, getSearchQuery } from '@services/selectors';
-import { setSearchQuery } from '@features/skills/skillsSlice';
+import { useSelector } from '@services/store';
+import { getSkillsFilterStatus } from '@services/selectors';
+import { Search } from '@widgets/search';
 
 export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
-  const dispatch = useDispatch();
   const isFiltred = useSelector(getSkillsFilterStatus);
-  const searchValue = useSelector(getSearchQuery);
-
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSearchQuery(e.target.value));
-  };
-
-  const handleSearchClear = () => {
-    dispatch(setSearchQuery(''));
-  };
 
   return (
     <header className={styles.header}>
@@ -46,13 +35,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
           </li>
         </ul>
 
-        {!isFiltred && (
-          <SearchUI
-            value={searchValue}
-            onChange={handleSearchChange}
-            onClear={handleSearchClear}
-          />
-        )}
+        {!isFiltred && <Search placeholder="Введите навык..." />}
 
         <div className={styles.headerActions}>
           <button
@@ -64,6 +47,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
               <img src={moon} width={24} height={24} alt="moon" />
             </span>
           </button>
+
           {user ? (
             <>
               <Link

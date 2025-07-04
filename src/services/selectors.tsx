@@ -10,5 +10,5 @@ export const getSkills = (state: RootState) => state.skills.skills;
 export const getSearchQuery = (state: RootState) => state.skills.searchQuery;
 
 export const getSkillsFilterStatus = (state: RootState) => {
-  return state.skills.searchQuery.trim().length > 0;
+  return state.skills.isSearchCommitted;
 };

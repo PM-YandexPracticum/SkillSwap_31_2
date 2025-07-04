@@ -12,6 +12,7 @@ type TSkillState = {
   error: string | null;
 
   searchQuery: string;
+  isSearchCommitted: boolean;
 };
 
 const initialState: TSkillState = {
@@ -20,6 +21,7 @@ const initialState: TSkillState = {
   error: null,
 
   searchQuery: '',
+  isSearchCommitted: false,
 };
 
 export const getSkillsThunk = createAsyncThunk(
@@ -43,6 +45,9 @@ export const skillSlice = createSlice({
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
     },
+    setSearchCommitted: (state, action) => {
+      state.isSearchCommitted = action.payload;
+    },
     clearError: (state) => {
       state.error = null;
     },
@@ -64,6 +69,7 @@ export const skillSlice = createSlice({
   },
 });
 
-export const { clearError, setSearchQuery } = skillSlice.actions;
+export const { clearError, setSearchQuery, setSearchCommitted } =
+  skillSlice.actions;
 
 export default skillSlice.reducer;
