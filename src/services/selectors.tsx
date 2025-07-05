@@ -1,6 +1,6 @@
 import { RootState } from './store';
 
-import { TCategory, TSubcategory } from '@entities/Categories/types.ts';
+import { TCategory, TSubcategory } from '@entities/Categories/types';
 
 export const getCurrentUser = (state: RootState) => state.auth.user;
 export const getUserisInit = (state: RootState) => state.auth.isInit;
