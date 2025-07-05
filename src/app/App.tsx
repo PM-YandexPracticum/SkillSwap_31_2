@@ -14,6 +14,11 @@ import {
 import { useDispatch } from '@services/store';
 import { loginUserThunk, getUsersThunk } from '@features/auth/authSlice';
 import { getSkillsThunk } from '@app/features/skills/skillsSlice';
+import { Modal } from '@widgets/modal';
+import {
+  getCategoriesThunk,
+  getSubCategoriesThunk,
+} from '@features/cotegories/categoriesSlice';
 
 export const App = () => {
   const location = useLocation();
@@ -34,10 +39,20 @@ export const App = () => {
       .then(() => {
         dispatch(getUsersThunk());
       })
+      .then(() => {
+        dispatch(getCategoriesThunk());
+      })
+      .then(() => {
+        dispatch(getSubCategoriesThunk());
+      })
       .catch(() => {
         navigate('/error-500');
       });
   }, [dispatch, navigate]);
+
+  const onCLose = () => {
+    navigate(-1);
+  };
 
   return (
     <div className="app" data-cy="app">
@@ -54,6 +69,14 @@ export const App = () => {
       {background && (
         <Routes>
           <Route path="/skill:id" element={<Skill />} />
+          <Route
+            path="/menu/skills"
+            element={
+              <Modal onClose={onCLose}>
+                <NotFound404 />
+              </Modal>
+            }
+          />
         </Routes>
       )}
 
