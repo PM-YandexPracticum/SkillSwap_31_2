@@ -8,3 +8,7 @@
   background-color: rgb(142 142 142 / 60%);
   filter: blur(4px);
 }
+
+.sub-menu-overlay {
+  background-color: transparent;
+}
