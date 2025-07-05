@@ -1,5 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 
+import {
+  TCategory,
+  TCategoryWithSubcategories,
+  TSubcategory,
+} from '@entities/Categories/types';
 import { verifyPassword, hashPassword } from '@lib/helpers';
 import { TUser, TLoginData } from '@entities/user';
 import { TSkill } from '@entities/skills';
@@ -251,26 +256,15 @@ export async function removeSkill(skill_id: string): Promise<void> {
   if (error) throw error;
 }
 
-type CategoryData = {
-  id: string;
-  name: string;
-};
-
-export async function getCategories(): Promise<CategoryData[]> {
+export async function getCategories(): Promise<TCategory[]> {
   const { data, error } = await supabase.from('categories').select('*');
   if (error) throw error;
   return data;
 }
 
-type SubcategoryData = {
-  id: string;
-  name: string;
-  category_id: string;
-};
-
 export async function getSubcategories(
   categoryId: string | null = null
-): Promise<SubcategoryData[]> {
+): Promise<TSubcategory[]> {
   const query = supabase.from('subcategories').select('*');
 
   const { data, error } = categoryId
@@ -281,14 +275,8 @@ export async function getSubcategories(
   return data;
 }
 
-type CategoryWithSubcategories = {
-  id: string;
-  name: string;
-  subcategories: SubcategoryData[];
-};
-
 export async function getCategoriesWithSubcategories(): Promise<
-  CategoryWithSubcategories[]
+  TCategoryWithSubcategories[]
 > {
   const { data, error } = await supabase
     .from('categories')
@@ -305,7 +293,7 @@ export async function getCategoriesWithSubcategories(): Promise<
     .order('name', { ascending: true });
   if (error) throw error;
   // Приводим тип и гарантируем, что subcategories будет массивом
-  const categories = (data as CategoryWithSubcategories[]).map((category) => ({
+  const categories = (data as TCategoryWithSubcategories[]).map((category) => ({
     ...category,
     subcategories: category.subcategories || [],
   }));

@@ -6,11 +6,13 @@ import {
 } from 'react-redux';
 
 import auth from '@features/auth/authSlice';
-import skills from '@app/features/skills/skillsSlice';
+import skills from '@features/skills/skillsSlice';
+import categories from '@features/cotegories/categoriesSlice';
 
 export const rootReducer = combineReducers({
   auth,
   skills,
+  categories,
 });
 
 export const store = configureStore({
