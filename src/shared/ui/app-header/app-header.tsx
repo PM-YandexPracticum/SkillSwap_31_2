@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import styles from './app-header.module.scss';
 import { TAppHeaderUIProps } from './type';
 
+import { TopNavigation } from '@widgets/top-navigation';
 import { Logotype } from '@app/widgets';
-import dropdownIcon from '@assets/icons/dropdown-icon.svg';
 import moon from '@assets/icons/moon.svg';
 import bell from '@assets/icons/bell.svg';
 import like from '@assets/icons/like.svg';
@@ -16,25 +16,11 @@ import { Search } from '@widgets/search';
 
 export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
   const isFiltred = useSelector(getIsSearchCommitted);
-
   return (
     <header className={styles.header}>
       <Logotype />
       <nav className={styles.headerNav}>
-        <ul className={styles.headerMenu}>
-          <li>
-            <Link to="/">О проекте</Link>
-          </li>
-          <li className={styles.dropdown}>
-            <Link to="/">
-              Все навыки{' '}
-              <span className={styles.dropdownIcon}>
-                <img src={dropdownIcon} width={24} height={24} alt="dropdown" />
-              </span>
-            </Link>
-          </li>
-        </ul>
-
+        <TopNavigation />
         {!isFiltred && <Search placeholder="Введите навык..." />}
 
         <div className={styles.headerActions}>

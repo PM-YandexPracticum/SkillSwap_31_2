@@ -49,3 +49,37 @@ export function getFavoriteUsersWithSkills(
     user.skills.some((skill) => skill.is_liked)
   );
 }
+
+export function getCategoryThemeIcon(themeName: string) {
+  let url;
+  switch (themeName) {
+    case 'themeCareer': {
+      url = '/icons/categories/default.svg';
+      break;
+    }
+    case 'themeLanguages': {
+      url = '/icons/categories/languages.svg';
+      break;
+    }
+    case 'themeHome': {
+      url = '/icons/categories/home.svg';
+      break;
+    }
+    case 'themeArt': {
+      url = '/icons/categories/art.svg';
+      break;
+    }
+    case 'themeEducation': {
+      url = '/icons/categories/education.svg';
+      break;
+    }
+    case 'themeHealth': {
+      url = '/icons/categories/health.svg';
+      break;
+    }
+    default: {
+      url = '/icons/categories/default.svg';
+    }
+  }
+  return url;
+}
