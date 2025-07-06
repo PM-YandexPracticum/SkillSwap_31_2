@@ -15,3 +15,15 @@
   padding-inline: 60px;
   padding-block: 80px;
 }
+
+.submenu {
+  position: absolute;
+  top: 94px;
+  left: 36px;
+  width: auto;
+  transform: translate(0, 0);
+}
+
+.submenu .content {
+  padding: 60px;
+}

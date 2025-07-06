@@ -19,6 +19,7 @@ import {
   getCategoriesThunk,
   getSubCategoriesThunk,
 } from '@features/cotegories/categoriesSlice';
+import { CategoriesList } from '@widgets/categories-list';
 
 export const App = () => {
   const location = useLocation();
@@ -65,6 +66,7 @@ export const App = () => {
         <Route path="/skill:id" element={<Skill />} />
         <Route path="*" element={<NotFound404 />} />
         <Route path="/error-500" element={<Error500 />} />
+        <Route path="/menu/skills" element={<Home />} />
       </Routes>
       {background && (
         <Routes>
@@ -72,8 +74,8 @@ export const App = () => {
           <Route
             path="/menu/skills"
             element={
-              <Modal onClose={onCLose}>
-                <NotFound404 />
+              <Modal onClose={onCLose} isSubMenu>
+                <CategoriesList />
               </Modal>
             }
           />

@@ -1,5 +1,5 @@
 import { TCategory } from '@entities/Categories/types';
 
-export type CategoryListProps = {
+export type CategoryListItemProps = {
   category: TCategory;
 };

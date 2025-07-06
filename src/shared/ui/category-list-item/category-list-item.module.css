@@ -1,0 +1,68 @@
+.category-wrapper {
+    position: relative;
+    min-width: 488px;
+    padding: 0 0 0 52px;
+}
+
+.category-title {
+    display: flex;
+    margin: 0;
+    padding-bottom: 12px;
+    font-weight: 500;
+    font-size: 24px;
+    font-family: 'Jost', 'Arial', sans-serif;
+    line-height: 28px;
+}
+
+.list-holder {
+    display: flex;
+    flex-direction: column;
+    gap: 12px
+}
+
+.theme-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.theme-icon img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    transform: translate(-50%, -50%);
+}
+
+.theme-default {
+   background-color: #f0f0f0;
+}
+
+.theme-career {
+    background-color: #EEE7F7;
+}
+
+.theme-languages {
+    background-color: #EBE5C5;
+}
+
+.theme-home {
+    background-color: #F7EBE5;
+}
+
+.theme-art {
+    background-color: #F7E7F2;
+}
+
+.theme-education {
+    background-color: #E7F2F6;
+}
+
+.theme-health {
+    background-color: #E9F7E7;
+}
