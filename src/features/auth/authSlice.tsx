@@ -56,31 +56,29 @@ export const patchUserThunk = createAsyncThunk<
   Partial<TUser> & { id: string },
   Partial<TUser> & { id: string },
   { rejectValue: string }
->(
-  'user/patch',
-  async (userData, { rejectWithValue }) => {
-    try {
-      await patchUser({
-        user_id: userData.id,
-        ...userData,
-      });
-      return userData;
-    } catch (error) {
-      return rejectWithValue((error as Error).message || 'Unknown error');
-    }
+>('user/patch', async (userData, { rejectWithValue }) => {
+  try {
+    await patchUser({
+      user_id: userData.id,
+      ...userData,
+    });
+    return userData;
+  } catch (error) {
+    return rejectWithValue((error as Error).message || 'Unknown error');
   }
-);
+});
 
-export const getUsersThunk = createAsyncThunk<TUser[], void, { rejectValue: string }>(
-  'user/fetch',
-  async (_, { rejectWithValue }) => {
-    try {
-      return await getUsers();
-    } catch (error) {
-      return rejectWithValue((error as Error).message || 'Failed to load users');
-    }
+export const getUsersThunk = createAsyncThunk<
+  TUser[],
+  void,
+  { rejectValue: string }
+>('user/fetch', async (_, { rejectWithValue }) => {
+  try {
+    return await getUsers();
+  } catch (error) {
+    return rejectWithValue((error as Error).message || 'Failed to load users');
   }
-);
+});
 
 export const authSlice = createSlice({
   name: 'auth',
