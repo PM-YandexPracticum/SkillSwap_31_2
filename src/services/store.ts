@@ -5,7 +5,7 @@ import {
   useSelector as selectorHook,
 } from 'react-redux';
 
-import auth from '@features/auth/authSlice';
+import auth from '@features/auth/services/authSlice';
 import skills from '@features/skills/skillsSlice';
 import categories from '@features/cotegories/categoriesSlice';
 

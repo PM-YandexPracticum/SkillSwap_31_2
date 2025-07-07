@@ -13,9 +13,12 @@ import defaultAvatar from '@assets/default-avatar.png';
 import { useSelector } from '@services/store';
 import { getIsSearchCommitted } from '@services/selectors';
 import { Search } from '@widgets/search';
+import { ButtonUI } from '@ui/button';
+import { AuthButtons } from '@features/auth';
 
 export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
   const isFiltred = useSelector(getIsSearchCommitted);
+
   return (
     <header className={styles.header}>
       <Logotype />
@@ -70,20 +73,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
               </Link>
             </>
           ) : (
-            <>
-              <button
-                type="button"
-                className={`${styles.authBtn} ${styles.login}`}
-              >
-                Войти
-              </button>
-              <button
-                type="button"
-                className={`${styles.authBtn} ${styles.register}`}
-              >
-                Зарегистрироваться
-              </button>
-            </>
+            <AuthButtons />
           )}
         </div>
       </nav>
