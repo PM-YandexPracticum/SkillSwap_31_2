@@ -1,3 +1,5 @@
+import { ThemeValue } from '@lib/constants';
+
 export type TSkill = {
   category: string | null;
   subcategory: string | null;
@@ -9,4 +11,8 @@ export type TSkill = {
   created_at: string;
   modified_at: string;
   is_liked: boolean;
+};
+
+export type SkillWithTheme = TSkill & {
+  theme: ThemeValue | 'themeDefault';
 };

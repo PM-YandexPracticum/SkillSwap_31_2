@@ -4,4 +4,5 @@ export type CategoryListItemUIProps = {
   category: TCategory;
   icon: string;
   subcategories: TSubcategory[];
+  theme: string;
 };
