@@ -4,5 +4,6 @@ export type TModalUIProps = {
   title?: ReactNode;
   onClose: () => void;
   isHeader?: boolean; // реализует отлючение шапки для модалок в которых она отсутствует
+  isSubMenu?: boolean;
   children?: ReactNode;
 };

@@ -1,4 +1,6 @@
+import { ThemeValue } from '@lib/constants';
+
 export type SkillTagUIProps = {
-  text: string;
-  color: string;
+  name: string;
+  theme: ThemeValue | 'themeDefault';
 };

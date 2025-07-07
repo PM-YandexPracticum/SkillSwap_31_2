@@ -3,42 +3,32 @@ import React from 'react';
 import { ButtonUI } from '../button';
 import { LikeButtonUI } from '../like-button';
 import { SkillTagUI } from '../skillTag';
-import type { SkillTagUIProps } from '../skillTag/type';
 
 import styles from './SkillCard.module.css';
 
-// import HeartIcon from '@assets/icons/heart.svg?react';
-
-// в бд не хранится цвет, цвет можно задать через css,
-//  каждому элементу другой цвет. Это будет соотвествовать макету
-// (цвета в каждой карточке в одном порядке)
-// interface Tag {
-//  name: string;
-//  color: string;
-// }
+import { SkillWithTheme } from '@entities/skills';
+import { TSubcategoryWithCategoryName } from '@entities/Categories/types';
 
 interface SkillCardProps {
   name: string | undefined;
-  city: string | undefined;
-  age: number | undefined;
+  cityAgeText: string | undefined;
   avatar_url: string | undefined;
-  skills: SkillTagUIProps[];
-  wishes: SkillTagUIProps[];
+  skills: SkillWithTheme[];
+  wishes: TSubcategoryWithCategoryName[];
 }
 
 export const SkillCard: React.FC<SkillCardProps> = ({
   name,
-  city,
-  age,
+  cityAgeText,
   avatar_url,
   skills,
   wishes,
 }) => {
   const visibleSkills = skills.slice(0, 2);
-  const extraSkillsCount = skills.length > 2 ? skills.length - 2 : 0;
+  const extraSkillsCount = skills.length > 2 ? skills.length - 2 : undefined;
 
   const visibleWishes = wishes.slice(0, 2);
-  const extraWishesCount = wishes.length > 2 ? wishes.length - 2 : 0;
+  const extraWishesCount = wishes.length > 2 ? wishes.length - 2 : undefined;
 
   return (
     <div className={styles.card}>
@@ -47,9 +37,7 @@ export const SkillCard: React.FC<SkillCardProps> = ({
           <img src={avatar_url} alt={name} className={styles.avatar} />
           <div>
             <h2 className={styles.name}>{name}</h2>
-            <p className={styles.meta}>
-              {city}, {age} года
-            </p>
+            <p className={styles.meta}>{cityAgeText}</p>
           </div>
           <div className={styles.likebutton}>
             <LikeButtonUI initialLiked={false} />
@@ -60,14 +48,10 @@ export const SkillCard: React.FC<SkillCardProps> = ({
         <p className={styles.sectionTitle}>Может научить:</p>
         <div className={styles.tags}>
           {visibleSkills.map((skill) => (
-            <SkillTagUI
-              key={skill.text}
-              text={skill.text}
-              color={skill.color}
-            />
+            <SkillTagUI key={skill.id} name={skill.name} theme={skill.theme} />
           ))}
-          {extraSkillsCount > 0 && (
-            <SkillTagUI text={`+${extraSkillsCount}`} color="#E8ECF7" />
+          {extraSkillsCount && (
+            <SkillTagUI name={`+${extraSkillsCount}`} theme="themeDefault" />
           )}
         </div>
       </div>
@@ -75,15 +59,15 @@ export const SkillCard: React.FC<SkillCardProps> = ({
       <div className={styles.section}>
         <p className={styles.sectionTitle}>Хочет научиться:</p>
         <div className={styles.tags}>
-          {visibleWishes.map((wish) => (
+          {visibleWishes.map((subcategory) => (
             <SkillTagUI
-              key={wish.text}
-              text={wish.text || ''}
-              color={wish.color || '#E8ECF7'}
+              key={subcategory.id}
+              name={subcategory.name}
+              theme={subcategory.theme}
             />
           ))}
-          {extraWishesCount > 0 && (
-            <SkillTagUI text={`+${extraWishesCount}`} color="#E8ECF7" />
+          {extraWishesCount && (
+            <SkillTagUI name={`+${extraWishesCount}`} theme="themeDefault" />
           )}
         </div>
       </div>

@@ -10,12 +10,15 @@ export const skillListTypes = {
   appropriate: { title: 'Подходящие предложения: ', isFiltred: true },
 };
 
-export const mainFilter: TRadioList = {
-    title: '',
-    name: 'filter',
-    options: [
-      { text: 'Всё', value: 'all', id: 'all', defaultChecked: true },
-      { text: 'Хочу научиться', value: 'learn', id: 'learn' },
-      { text: 'Могу научить', value: 'teach', id: 'teach' },
-    ],
-  };
+// Сопоставление категории навыка с темой для отображения.
+export const tagThemes = {
+  'Бизнес и карьера': 'themeCareer',
+  'Творчество и искусство': 'themeArt',
+  'Иностранные языки': 'themeLanguages',
+  'Образование и развитие': 'themeEducation',
+  'Дом и уют': 'themeHome',
+  'Здоровье и лайфстайл': 'themeHealth',
+} as const;
+
+export type TagTheme = keyof typeof tagThemes;
+export type ThemeValue = (typeof tagThemes)[TagTheme];

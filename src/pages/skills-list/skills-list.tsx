@@ -2,7 +2,12 @@ import { FC } from 'react';
 
 import { useSelector } from '@services/store';
 import { SkillsListUI } from '@ui/index';
-import { getUsers, getSkills, getSearchQuery } from '@services/selectors';
+import {
+  getUsers,
+  getSkills,
+  getSearchQuery,
+  getSubCategories,
+} from '@services/selectors';
 import { TUserWithSkills } from '@app/entities/user';
 import { getUsersWithSkills, getFavoriteUsersWithSkills } from '@lib/helpers';
 
@@ -18,6 +23,7 @@ interface SkillsListProps {
 export const SkillsList: FC<SkillsListProps> = ({ type }) => {
   const users = useSelector(getUsers);
   const skills = useSelector(getSkills);
+  const subcategories = useSelector(getSubCategories);
   const searchQuery = useSelector(getSearchQuery);
 
   const filteredSkills = type.isFiltred
@@ -30,7 +36,8 @@ export const SkillsList: FC<SkillsListProps> = ({ type }) => {
 
   let usersWithSkills: TUserWithSkills[] = getUsersWithSkills(
     users,
-    filteredSkills
+    filteredSkills,
+    subcategories
   );
 
   if (type.isFavorites) {
@@ -44,6 +51,5 @@ export const SkillsList: FC<SkillsListProps> = ({ type }) => {
   const title = type.isFiltred
     ? `${type.title}${usersWithSkills.length}`
     : type.title;
-
   return <SkillsListUI title={title} usersWithSkills={usersWithSkills} />;
 };
