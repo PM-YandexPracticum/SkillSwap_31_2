@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import { getUserByEmailPassword, getUsers } from '@api/api';
+import { getUserByEmailPassword, getUsers, addUser } from '@api/api';
 import { TUser, TLoginData } from '@entities/user';
 
 export type TUserState = {
@@ -34,6 +34,18 @@ export const loginUserThunk = createAsyncThunk(
   }
 );
 
+export const registerUserThunk = createAsyncThunk(
+  'user/register',
+  async (userData: TUser, { rejectWithValue }) => {
+    try {
+      const id = await addUser(userData.email, userData.password);
+      return { ...userData, id };
+    } catch (error) {
+      return rejectWithValue((error as Error).message || 'Unknown error');
+    }
+  }
+);
+
 export const getUsersThunk = createAsyncThunk('user/fetch', async () => {
   return getUsers();
 });
@@ -42,11 +54,8 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    initUser: (state) => {
-      state.isInit = true;
-    },
-    clearError: (state) => {
-      state.error = null;
+    logout(state) {
+      state.user = null;
     },
   },
   extraReducers: (builder) => {
@@ -55,29 +64,42 @@ export const authSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(loginUserThunk.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message || 'Login failed';
-      })
       .addCase(loginUserThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload;
-        state.isInit = true;
       })
-      .addCase(getUsersThunk.pending, (state) => {
-        state.isUsersLoading = true;
+      .addCase(loginUserThunk.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
+
+    builder
+      .addCase(registerUserThunk.pending, (state) => {
+        state.isLoading = true;
         state.error = null;
       })
-      .addCase(getUsersThunk.rejected, (state, action) => {
-        state.isUsersLoading = false;
-        state.error = action.error.message || 'Get Users failed';
+      .addCase(registerUserThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload;
+      })
+      .addCase(registerUserThunk.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
+
+    builder
+      .addCase(getUsersThunk.pending, (state) => {
+        state.isUsersLoading = true;
       })
       .addCase(getUsersThunk.fulfilled, (state, action) => {
         state.isUsersLoading = false;
         state.users = action.payload;
+      })
+      .addCase(getUsersThunk.rejected, (state) => {
+        state.isUsersLoading = false;
       });
   },
 });
 
-export const { clearError, initUser } = authSlice.actions;
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;
