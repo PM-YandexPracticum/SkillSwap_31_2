@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 import tagClose from '../../../assets/icons/tag-close.svg';
 import { RadioFilter } from '../radio-filter/radio-filter';
@@ -17,9 +17,11 @@ import { resetFilter, setGender, setMain, toggleCategory, toggleCity } from '@ap
 
 export const Aside = memo(() => {
   const dispatch = useDispatch();
-  const skillsList = useSelector(getAllCategories);
+  const allCategoris = useSelector(getAllCategories);
   const skillsFilter = useSelector((state: RootState) => state.filter.skills);
   const citiesFilter = useSelector((state: RootState) => state.filter.cities);
+
+  const [resetKey, setResetKey] = useState(0);
 
   useEffect(() => {
     dispatch(getCategoriesWithSubcategoriesThunk());
@@ -67,6 +69,7 @@ export const Aside = memo(() => {
 
   const handleReset = () => {
     dispatch(resetFilter());
+    setResetKey(prev => prev + 1); // Увеличиваем ключ для принудительного ре-рендера
   }
 
   return (
@@ -84,10 +87,10 @@ export const Aside = memo(() => {
       </div>
 
       <div className={styles.filters}>
-        <RadioFilter options={mainFilter} onChange={handleMainChange} />
-        <CheckboxFilter options={skillsList} title="Навыки" onChange={handleCategoryChange} list={skillsFilter} />
-        <RadioFilter options={genderButtons} onChange={handleGenderChange}/>
-        <CheckboxFilter options={CityList} title="Города" onChange={handleCityChange} list={citiesFilter} />
+        <RadioFilter key={`main-${resetKey}`} options={mainFilter} onChange={handleMainChange} />
+        <CheckboxFilter key={`skills-${resetKey}`} options={allCategoris} title="Навыки" onChange={handleCategoryChange} list={skillsFilter} />
+        <RadioFilter key={`gender-${resetKey}`} options={genderButtons} onChange={handleGenderChange}/>
+        <CheckboxFilter key={`cities-${resetKey}`} options={CityList} title="Города" onChange={handleCityChange} list={citiesFilter} />
       </div>
     </aside>
   );

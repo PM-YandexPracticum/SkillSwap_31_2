@@ -45,7 +45,10 @@ const filterSlice = createSlice({
             state.cities = Array.from(newSkills);
         },
         resetFilter(state: TFilterInitialState) {
-            state = initialState;
+            state.main = 'all';
+            state.skills = [];
+            state.gender = 'not_specified';
+            state.cities = [];
         }
     }
 })
