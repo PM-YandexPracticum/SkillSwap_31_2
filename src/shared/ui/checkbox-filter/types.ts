@@ -1,10 +1,11 @@
+import { CategoryData, CategoryWithSubcategories } from "@app/api/api";
+
 export interface TCheckboxFilter {
-  options: TCheckboxOptions[];
+  options: CategoryWithSubcategories[];
   title: string;
 }
 
 export type TCheckboxOptions = {
   id: string;
-  label: string;
-  children?: TCheckboxOptions[];
+  name: string;
 };

@@ -9,3 +9,5 @@ export const getSkills = (state: RootState) => state.skills.skills;
 export const getSearchQuery = (state: RootState) => state.skills.searchQuery;
 export const getIsSearchCommitted = (state: RootState) =>
   state.skills.isSearchCommitted;
+
+export const getCategories = (state: RootState) => state.categories.categories;

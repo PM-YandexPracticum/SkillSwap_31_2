@@ -4,9 +4,10 @@ import chevronDown from '../../../assets/icons/chevron-down.svg';
 import chevronUp from '../../../assets/icons/chevron-up.svg';
 
 import styles from './checkbox-filter.module.scss';
-import { TCheckboxFilter, TCheckboxOptions } from './types';
+import { TCheckboxFilter } from './types';
 
 import { ButtonUI } from '@ui/button';
+import { CategoryData, CategoryWithSubcategories, SubcategoryData } from '@app/api/api';
 
 export const CheckboxFilter: React.FC<TCheckboxFilter> = memo(
   ({ options, title }) => {
@@ -17,12 +18,12 @@ export const CheckboxFilter: React.FC<TCheckboxFilter> = memo(
     const displayedItems = showAll ? options : options.slice(0, 5);
 
     // Рекурсивная функция для получения всех дочерних ID
-    const getAllChildrenIds = (skill: TCheckboxOptions) => {
-      if (!skill.children) return [skill.id];
+    const getAllChildrenIds = (skill: CategoryWithSubcategories) => {
+      if (!skill.subcategories) return [skill.id];
 
       const ids: string[] = [];
-      skill.children.forEach((child: TCheckboxOptions) => {
-        ids.push(...getAllChildrenIds(child));
+      skill.subcategories.forEach((child: CategoryData) => {
+        ids.push(child.id);
       });
       return ids;
     };
@@ -41,10 +42,10 @@ export const CheckboxFilter: React.FC<TCheckboxFilter> = memo(
     };
 
     // Обработка клика по чекбоксу категории
-    const handleToggle = (skill: TCheckboxOptions) => {
+    const handleToggle = (skill: CategoryWithSubcategories) => {
       const newChecked = new Set(checkedItems);
 
-      if (skill.children) {
+      if (skill.subcategories) {
         // Для родительских категорий
         const allChildrenIds = getAllChildrenIds(skill);
         const allChecked = allChildrenIds.every((id: string) =>
@@ -75,8 +76,8 @@ export const CheckboxFilter: React.FC<TCheckboxFilter> = memo(
     };
 
     // Проверка состояния чекбокса для категории
-    const getCheckboxState = (skill: TCheckboxOptions) => {
-      if (!skill.children) {
+    const getCheckboxState = (skill: CategoryWithSubcategories) => {
+      if (!skill.subcategories) {
         return checkedItems.has(skill.id) ? 'checked' : 'unchecked';
       }
 
@@ -91,10 +92,10 @@ export const CheckboxFilter: React.FC<TCheckboxFilter> = memo(
     };
 
     // Рекурсивная функция для рендеринга навыков
-    const renderSkill = (skill: TCheckboxOptions, depth = 0) => {
+    const renderSkill = (skill: CategoryWithSubcategories, depth = 0) => {
       const checkboxState = getCheckboxState(skill);
       const isExpanded = expandedItems.has(skill.id);
-      const hasChildren = skill.children && skill.children.length > 0;
+      const hasChildren = skill.subcategories && skill.subcategories.length > 0;
 
       const isChecked = checkboxState === 'checked';
       // Определяем состояние "неопределено" для чекбокса
@@ -127,7 +128,7 @@ export const CheckboxFilter: React.FC<TCheckboxFilter> = memo(
               className={styles.checkbox}
             />
             <span className={styles.checkmark} />
-            {skill.label}
+            {skill.name}
 
             {hasChildren && (
               <ButtonUI
@@ -148,8 +149,8 @@ export const CheckboxFilter: React.FC<TCheckboxFilter> = memo(
 
           {isExpanded && hasChildren && (
             <ul>
-              {skill.children !== undefined &&
-                skill.children.map((child: TCheckboxOptions) =>
+              {skill.subcategories !== undefined &&
+                skill.subcategories.map((child) =>
                   renderSkill(child, depth + 1)
                 )}
             </ul>
@@ -163,7 +164,7 @@ export const CheckboxFilter: React.FC<TCheckboxFilter> = memo(
         <h3 className="filterTitle">{title}</h3>
 
         <ul className={styles.skillsList}>
-          {displayedItems.map((skill: TCheckboxOptions) => renderSkill(skill))}
+          {displayedItems.map((skill: CategoryWithSubcategories) => renderSkill(skill))}
         </ul>
         {!showAll && options.length > 5 && (
           <ButtonUI

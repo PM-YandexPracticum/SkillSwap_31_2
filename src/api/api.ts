@@ -251,7 +251,7 @@ export async function removeSkill(skill_id: string): Promise<void> {
   if (error) throw error;
 }
 
-type CategoryData = {
+export type CategoryData = {
   id: string;
   name: string;
 };
@@ -262,7 +262,7 @@ export async function getCategories(): Promise<CategoryData[]> {
   return data;
 }
 
-type SubcategoryData = {
+export type SubcategoryData = {
   id: string;
   name: string;
   category_id: string;
@@ -281,10 +281,10 @@ export async function getSubcategories(
   return data;
 }
 
-type CategoryWithSubcategories = {
+export type CategoryWithSubcategories = {
   id: string;
   name: string;
-  subcategories: SubcategoryData[];
+  subcategories?: CategoryData[];
 };
 
 export async function getCategoriesWithSubcategories(): Promise<
