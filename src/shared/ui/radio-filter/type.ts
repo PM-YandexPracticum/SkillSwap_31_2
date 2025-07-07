@@ -1,5 +1,6 @@
 export interface TRadioFilter {
   options: TRadioList;
+  onChange: (value: string) => void;
 }
 
 export interface TRadioList {

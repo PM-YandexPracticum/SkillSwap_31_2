@@ -8,11 +8,13 @@ import {
 import auth from '@features/auth/authSlice';
 import skills from '@features/skills/skillsSlice';
 import categories from '@features/cotegories/categoriesSlice';
+import filter from '@features/filter/filterSlice';
 
 export const rootReducer = combineReducers({
   auth,
   skills,
   categories,
+  filter
 });
 
 export const store = configureStore({
