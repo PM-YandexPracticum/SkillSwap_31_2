@@ -11,3 +11,31 @@
   letter-spacing: 0.02em;
   border-radius: 20px;
 }
+
+.theme-default {
+   background-color: #f0f0f0;
+}
+
+.theme-career {
+    background-color: #EEE7F7;
+}
+
+.theme-languages {
+    background-color: #EBE5C5;
+}
+
+.theme-home {
+    background-color: #F7EBE5;
+}
+
+.theme-art {
+    background-color: #F7E7F2;
+}
+
+.theme-education {
+    background-color: #E7F2F6;
+}
+
+.theme-health {
+    background-color: #E9F7E7;
+}

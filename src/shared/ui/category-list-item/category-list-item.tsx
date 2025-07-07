@@ -10,14 +10,10 @@ export const CategoryListItemUI: React.FC<CategoryListItemUIProps> = ({
   category,
   subcategories,
   icon,
+  theme,
 }) => (
   <div className={styles.categoryWrapper}>
-    <span
-      className={clsx(
-        styles.themeIcon,
-        styles[category.theme || 'themeDefault']
-      )}
-    >
+    <span className={clsx(styles.themeIcon, styles[theme || 'themeDefault'])}>
       <img src={icon} alt={category.name} />
     </span>
     <h2 className={styles.categoryTitle}>{category.name}</h2>

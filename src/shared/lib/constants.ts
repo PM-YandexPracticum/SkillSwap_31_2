@@ -7,3 +7,16 @@ export const skillListTypes = {
   favorites: { title: 'Избранное', isFavorites: true },
   appropriate: { title: 'Подходящие предложения: ', isFiltred: true },
 };
+
+// Сопоставление категории навыка с темой для отображения.
+export const tagThemes = {
+  'Бизнес и карьера': 'themeCareer',
+  'Творчество и искусство': 'themeArt',
+  'Иностранные языки': 'themeLanguages',
+  'Образование и развитие': 'themeEducation',
+  'Дом и уют': 'themeHome',
+  'Здоровье и лайфстайл': 'themeHealth',
+} as const;
+
+export type TagTheme = keyof typeof tagThemes;
+export type ThemeValue = (typeof tagThemes)[TagTheme];

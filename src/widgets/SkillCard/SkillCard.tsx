@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
+import { useSelector } from '@services/store';
+import { getCategories } from '@services/selectors';
 import { SkillCard as SkillCardUI } from '@ui/SkillCard';
-import { TSkill } from '@app/entities/skills';
-import type { SkillTagUIProps } from '@ui/skillTag/type';
+import { TSkill, SkillWithTheme } from '@entities/skills';
+import {
+  TSubcategory,
+  TSubcategoryWithCategoryName,
+} from '@entities/Categories/types';
+import { getTheme, getAgeWord } from '@lib/helpers';
 
 interface SkillCardProps {
   name: string | undefined;
@@ -10,7 +16,7 @@ interface SkillCardProps {
   age: number | undefined;
   avatar_url: string | undefined;
   skills: TSkill[];
-  wishes: TSkill[];
+  wishes: TSubcategory[];
 }
 
 export const SkillCard: React.FC<SkillCardProps> = ({
@@ -21,31 +27,54 @@ export const SkillCard: React.FC<SkillCardProps> = ({
   skills,
   wishes,
 }) => {
-  const wishList: SkillTagUIProps[] = [];
-  const skillList: SkillTagUIProps[] = [];
+  const categories = useSelector(getCategories);
 
-  // TODO: Change skills to categories.
-  skills.forEach((skill) => {
-    skillList.push({
-      text: skill.name,
-      color: '',
+  // Формируем строку с городом и возрастом
+  const cityAgeText = useMemo(() => {
+    const cityPart = city || '';
+    const agePart = age ? `${age} ${getAgeWord(age)}` : '';
+
+    return [cityPart, agePart].filter(Boolean).join(', ');
+  }, [city, age]);
+
+  // Создаем карту категорий для быстрого поиска по ID
+  const categoriesMap = useMemo(() => {
+    const map = new Map<string, string>();
+    categories.forEach((category) => {
+      map.set(category.id, category.name);
     });
-  });
-  wishes.forEach((skill) => {
-    wishList.push({
-      text: skill.name,
-      color: '',
-    });
-  });
+    return map;
+  }, [categories]);
+
+  const skillTags = useMemo<SkillWithTheme[]>(
+    () =>
+      skills.map((skill) => ({
+        ...skill,
+        theme: getTheme(skill.category),
+      })),
+    [skills]
+  );
+
+  const wishTags = useMemo<TSubcategoryWithCategoryName[]>(
+    () =>
+      wishes.map((subcategory) => {
+        // Получаем название категории по category_id
+        const categoryName = categoriesMap.get(subcategory.category_id) || '';
+        return {
+          ...subcategory,
+          theme: getTheme(categoryName),
+        };
+      }),
+    [wishes, categoriesMap]
+  );
 
   return (
     <SkillCardUI
       name={name}
-      city={city}
-      age={age}
+      cityAgeText={cityAgeText}
       avatar_url={avatar_url}
-      skills={skillList}
-      wishes={wishList}
+      skills={skillTags}
+      wishes={wishTags}
     />
   );
 };

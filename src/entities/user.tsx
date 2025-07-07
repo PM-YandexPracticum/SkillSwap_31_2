@@ -1,4 +1,5 @@
 import { TSkill } from '@entities/skills';
+import { TSubcategory } from '@entities/Categories/types';
 
 export type TUser = {
   gender: string | null;
@@ -21,7 +22,7 @@ export type TUserWithSkills = {
   gender: string | null;
   city: string | null;
   skills: TSkill[];
-  wishes: TSkill[];
+  wishes: TSubcategory[];
   id: string;
   name: string;
   age: number | null;
