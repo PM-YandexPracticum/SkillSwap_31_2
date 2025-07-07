@@ -2,8 +2,16 @@
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import { TCategory, TCategoryWithSubcategories, TSubcategory } from '@entities/Categories/types';
-import { getCategories, getCategoriesWithSubcategories, getSubcategories } from '@api/api';
+import {
+  TCategory,
+  TCategoryWithSubcategories,
+  TSubcategory,
+} from '@entities/Categories/types';
+import {
+  getCategories,
+  getCategoriesWithSubcategories,
+  getSubcategories,
+} from '@api/api';
 
 type TCategoryState = {
   categories: TCategory[];
@@ -91,15 +99,21 @@ export const categoriesSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(getCategoriesWithSubcategoriesThunk.rejected, (state, actions) => {
-        state.isLoading = false;
-        state.error = actions.error.message || 'Get all categories failed';
-      })
-      .addCase(getCategoriesWithSubcategoriesThunk.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
-        state.allCategoris = action.payload;
-      })
+      .addCase(
+        getCategoriesWithSubcategoriesThunk.rejected,
+        (state, actions) => {
+          state.isLoading = false;
+          state.error = actions.error.message || 'Get all categories failed';
+        }
+      )
+      .addCase(
+        getCategoriesWithSubcategoriesThunk.fulfilled,
+        (state, action) => {
+          state.isLoading = false;
+          state.error = null;
+          state.allCategoris = action.payload;
+        }
+      );
   },
 });
 

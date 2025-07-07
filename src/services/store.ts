@@ -14,7 +14,7 @@ export const rootReducer = combineReducers({
   auth,
   skills,
   categories,
-  filter
+  filter,
 });
 
 export const store = configureStore({

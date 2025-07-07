@@ -1,4 +1,4 @@
-import { TRadioList } from "../ui/radio-filter/type";
+import { TRadioList } from '../ui/radio-filter/type';
 
 export const saltRounds = 12;
 
@@ -23,14 +23,14 @@ export const tagThemes = {
 export type TagTheme = keyof typeof tagThemes;
 export type ThemeValue = (typeof tagThemes)[TagTheme];
 
-export const mainFilter = {
+export const mainFilter: TRadioList = {
   name: 'main',
   options: [
     {
       text: 'Всё',
       value: 'all',
       id: '1',
-      defaultChecked: true
+      defaultChecked: true,
     },
     {
       text: 'Хочу научиться',
@@ -41,6 +41,6 @@ export const mainFilter = {
       text: 'Могу научить',
       value: 'skills',
       id: '3',
-    }
-  ]
-}
+    },
+  ],
+};

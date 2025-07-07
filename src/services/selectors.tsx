@@ -37,4 +37,5 @@ export const getSubCategory = (
 ): TSubcategory | undefined =>
   state.categories.subcategories.find((category) => category.id === id);
 
-export const getAllCategories = (state: RootState) => state.categories.allCategoris;
+export const getAllCategories = (state: RootState) =>
+  state.categories.allCategoris;

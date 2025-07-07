@@ -4,6 +4,7 @@ import tagClose from '../../../assets/icons/tag-close.svg';
 import { RadioFilter } from '../radio-filter/radio-filter';
 import { CheckboxFilter } from '../checkbox-filter/checkbox-filter';
 import { TRadioList } from '../radio-filter/type';
+import { TCheckboxOptions } from '../checkbox-filter/types';
 
 import styles from './aside.module.scss';
 
@@ -12,8 +13,13 @@ import { mainFilter } from '@app/shared/lib/constants';
 import { RootState, useDispatch, useSelector } from '@app/services/store';
 import { getAllCategories } from '@app/services/selectors';
 import { getCategoriesWithSubcategoriesThunk } from '@app/features/cotegories/categoriesSlice';
-import { TCheckboxOptions } from '../checkbox-filter/types';
-import { resetFilter, setGender, setMain, toggleCategory, toggleCity } from '@app/features/filter/filterSlice';
+import {
+  resetFilter,
+  setGender,
+  setMain,
+  toggleCategory,
+  toggleCity,
+} from '@app/features/filter/filterSlice';
 
 export const Aside = memo(() => {
   const dispatch = useDispatch();
@@ -53,31 +59,35 @@ export const Aside = memo(() => {
 
   const handleMainChange = (value: string) => {
     dispatch(setMain(value));
-  }
+  };
 
   const handleGenderChange = (value: string) => {
     dispatch(setGender(value));
-  }
+  };
 
   const handleCategoryChange = (value: string) => {
     dispatch(toggleCategory(value));
-  }
+  };
 
   const handleCityChange = (value: string) => {
     dispatch(toggleCity(value));
-  }
+  };
 
   const handleReset = () => {
     dispatch(resetFilter());
-    setResetKey(prev => prev + 1); // Увеличиваем ключ для принудительного ре-рендера
-  }
+    setResetKey((prev) => prev + 1); // Увеличиваем ключ для принудительного ре-рендера
+  };
 
   return (
     <aside className={styles.aside}>
       <div className={styles.filterBar}>
         <h2 className={styles.title}>Фильтры</h2>
         {/* Здесь нужен счётчик. Нет глобального состояния */}
-        <ButtonUI type="Tertiary" classes={styles.filterReset} onClick={handleReset}>
+        <ButtonUI
+          type="Tertiary"
+          classes={styles.filterReset}
+          onClick={handleReset}
+        >
           {/* Для сброса тоже нужно глобальное состояние */}
           Сбросить
           <span className={styles.resetIcon}>
@@ -87,10 +97,30 @@ export const Aside = memo(() => {
       </div>
 
       <div className={styles.filters}>
-        <RadioFilter key={`main-${resetKey}`} options={mainFilter} onChange={handleMainChange} />
-        <CheckboxFilter key={`skills-${resetKey}`} options={allCategoris} title="Навыки" onChange={handleCategoryChange} list={skillsFilter} />
-        <RadioFilter key={`gender-${resetKey}`} options={genderButtons} onChange={handleGenderChange}/>
-        <CheckboxFilter key={`cities-${resetKey}`} options={CityList} title="Города" onChange={handleCityChange} list={citiesFilter} />
+        <RadioFilter
+          key={`main-${resetKey}`}
+          options={mainFilter}
+          onChange={handleMainChange}
+        />
+        <CheckboxFilter
+          key={`skills-${resetKey}`}
+          options={allCategoris}
+          title="Навыки"
+          onChange={handleCategoryChange}
+          list={skillsFilter}
+        />
+        <RadioFilter
+          key={`gender-${resetKey}`}
+          options={genderButtons}
+          onChange={handleGenderChange}
+        />
+        <CheckboxFilter
+          key={`cities-${resetKey}`}
+          options={CityList}
+          title="Города"
+          onChange={handleCityChange}
+          list={citiesFilter}
+        />
       </div>
     </aside>
   );
