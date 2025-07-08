@@ -405,7 +405,6 @@ export async function addSuggestion(
 
   const suggestion = data?.[0];
   const ownerId = (suggestion?.skill_id as { owner_id?: string })?.owner_id;
-
   if (!suggestion || !ownerId) {
     throw new Error('Не удалось получить owner_id для уведомления');
   }

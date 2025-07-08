@@ -1,24 +1,25 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { RootState } from '@app/services/store';
 import {
-  addNotification,
+  acceptSuggestion,
+  addSuggestion,
   getNotifications,
   NotificationData,
   readNotifications,
   removeNotifications,
 } from '@app/api/api';
 
-const getCurrentUser = (state: RootState) => state.auth.user;
-
-interface NotificationsState {
+type NotificationsState = {
   loading: boolean;
   error: string | null;
-}
+  notifications: NotificationData[];
+};
 
 const initialState: NotificationsState = {
   loading: false,
   error: null,
+  notifications: [],
 };
 
 type ThunkApiConfig = {
@@ -26,13 +27,16 @@ type ThunkApiConfig = {
   rejectValue: string;
 };
 
-type AddNotificationParams = {
-  user_id: string;
+type ReadNotificationParams = {
+  notification_id?: string | null;
+};
+
+type AcceptSuggestionParams = {
   suggestion_id: string;
 };
 
-type ReadNotificationParams = {
-  notification_id?: string | null;
+type AddSuggestionParams = {
+  skill_id: string;
 };
 
 // Получение уведомлений конкретного пользователя
@@ -46,43 +50,46 @@ export const fetchNotifications = createAsyncThunk<
     const { user } = getState().auth;
 
     if (!user?.id) {
-      return rejectWithValue('User is not authorized');
+      return rejectWithValue('Пользователь не авторизован');
     }
 
     try {
-      // Используем готовый API-запрос вместо дублирования кода
       const notifications = await getNotifications(user.id);
       return notifications;
     } catch (error) {
       if (error instanceof Error) {
         return rejectWithValue(error.message);
       }
-      return rejectWithValue('Unknown error occurred');
+      return rejectWithValue('Ошибка');
     }
   }
 );
 
-// Добавление уведомления
-export const addNotificationThunk = createAsyncThunk<
+export const addSuggestionThunk = createAsyncThunk<
   void,
-  AddNotificationParams,
-  ThunkApiConfig
+  AddSuggestionParams,
+  {
+    state: RootState;
+    rejectValue: string;
+  }
 >(
-  'user/notifications/add',
-  async ({ user_id, suggestion_id }, { getState, rejectWithValue }) => {
+  'notifications/createSuggestion',
+  async ({ skill_id }, { getState, rejectWithValue }) => {
     const state = getState();
-    const currentUser = getCurrentUser(state);
+    const currentUser = state.auth.user;
 
-    if (!currentUser) {
+    if (!currentUser?.id) {
       return rejectWithValue('Пользователь не авторизован');
     }
 
     try {
-      await addNotification(currentUser.id, user_id, suggestion_id);
-      return undefined; // Явный возврат undefined для consistent-return
+      await addSuggestion(currentUser.id, skill_id);
+      return undefined;
     } catch (error) {
       return rejectWithValue(
-        error instanceof Error ? error.message : 'Ошибка добавления'
+        error instanceof Error
+          ? error.message
+          : 'Ошибка при создании предложения'
       );
     }
   }
@@ -96,7 +103,7 @@ export const readNotificationsThunk = createAsyncThunk<
   'user/notifications/read',
   async ({ notification_id = null }, { getState, rejectWithValue }) => {
     const state = getState();
-    const currentUser = getCurrentUser(state);
+    const currentUser = state.auth.user;
 
     if (!currentUser) {
       return rejectWithValue('Пользователь не авторизован');
@@ -121,7 +128,7 @@ export const removeReadNotificationsThunk = createAsyncThunk<
   ThunkApiConfig
 >('user/notifications/remove', async (_, { getState, rejectWithValue }) => {
   const state = getState();
-  const currentUser = getCurrentUser(state);
+  const currentUser = state.auth.user;
 
   if (!currentUser) {
     return rejectWithValue('Пользователь не авторизован');
@@ -137,48 +144,107 @@ export const removeReadNotificationsThunk = createAsyncThunk<
   }
 });
 
+export const acceptSuggestionThunk = createAsyncThunk<
+  void,
+  AcceptSuggestionParams,
+  {
+    state: RootState;
+    rejectValue: string;
+  }
+>(
+  'notifications/acceptSuggestion',
+  async ({ suggestion_id }, { getState, rejectWithValue }) => {
+    const state = getState();
+    const currentUser = state.auth.user;
+
+    if (!currentUser?.id) {
+      return rejectWithValue('Пользователь не авторизован');
+    }
+
+    try {
+      await acceptSuggestion(currentUser.id, suggestion_id);
+      return undefined;
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error
+          ? error.message
+          : 'Не удалось принять предложение'
+      );
+    }
+  }
+);
+
 const notificationsSlice = createSlice({
   name: 'notifications',
   initialState,
   reducers: {
-    clearNotificationError: () => initialState, // сбрасываем в начальное состояние
+    clearNotificationError: () => initialState,
   },
   extraReducers: (builder) => {
-    const handlePending = (state: NotificationsState) => ({
-      ...state,
-      loading: true,
-      error: null,
-    });
-
-    const handleFulfilled = (state: NotificationsState) => ({
-      ...state,
-      loading: false,
-    });
-
-    const handleRejected = (
-      state: NotificationsState,
-      action: PayloadAction<string | undefined>
-    ) => ({
-      ...state,
-      loading: false,
-      error: action.payload || 'Произошла ошибка',
-    });
-
     builder
-      .addCase(addNotificationThunk.pending, handlePending)
-      .addCase(addNotificationThunk.fulfilled, handleFulfilled)
-      .addCase(addNotificationThunk.rejected, handleRejected)
-      .addCase(fetchNotifications.pending, handlePending)
-      .addCase(fetchNotifications.fulfilled, handleFulfilled)
-      .addCase(fetchNotifications.rejected, handleRejected)
-      .addCase(readNotificationsThunk.pending, handlePending)
-      .addCase(readNotificationsThunk.fulfilled, handleFulfilled)
-      .addCase(readNotificationsThunk.rejected, handleRejected)
-      .addCase(removeReadNotificationsThunk.pending, handlePending)
-      .addCase(removeReadNotificationsThunk.fulfilled, handleFulfilled)
-      .addCase(removeReadNotificationsThunk.rejected, handleRejected);
+      .addCase(fetchNotifications.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchNotifications.fulfilled, (state, action) => {
+        state.loading = false;
+        state.notifications = action.payload;
+      })
+      .addCase(fetchNotifications.rejected, (state) => {
+        state.loading = false;
+        state.error = 'Ошибка при добавлении уведомления';
+      })
+      .addCase(addSuggestionThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addSuggestionThunk.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(addSuggestionThunk.rejected, (state) => {
+        state.loading = false;
+        state.error = 'Ошибка при добавлении уведомления';
+      })
+      .addCase(readNotificationsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(readNotificationsThunk.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(readNotificationsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Ошибка';
+      })
+      .addCase(removeReadNotificationsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(removeReadNotificationsThunk.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(removeReadNotificationsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Ошибка при удалении уведомлений';
+      })
+      .addCase(acceptSuggestionThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(acceptSuggestionThunk.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(acceptSuggestionThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Ошибка при принятии предложения';
+      });
+  },
+
+  selectors: {
+    selectorNotification: (state) => state.notifications,
   },
 });
 
+export const { selectorNotification } = notificationsSlice.selectors;
 export const { clearNotificationError } = notificationsSlice.actions;
 export default notificationsSlice.reducer;
