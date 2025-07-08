@@ -489,3 +489,23 @@ export async function removeNotifications(
 
   if (error) throw error;
 }
+
+export async function getSentSuggestions(userId: string) {
+  const { data, error } = await supabase
+    .from('suggestions')
+    .select('*')
+    .eq('who_ask_id', userId)
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+  return data;
+}
+
+export async function rejectSuggestion(suggestionId: string) {
+  const { error } = await supabase
+    .from('suggestions')
+    .update({ accepted: false })
+    .eq('id', suggestionId);
+
+  if (error) throw error;
+}
