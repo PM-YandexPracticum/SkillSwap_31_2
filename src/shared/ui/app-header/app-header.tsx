@@ -11,14 +11,13 @@ import bell from '@assets/icons/bell.svg';
 import like from '@assets/icons/like.svg';
 import defaultAvatar from '@assets/default-avatar.png';
 import { useSelector } from '@services/store';
-import { getIsSearchCommitted } from '@services/selectors';
+import { getIsFiltred } from '@services/selectors';
 import { Search } from '@widgets/search';
 import { ButtonUI } from '@ui/button';
 import { AuthButtons } from '@features/auth';
 
 export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
-  const isFiltred = useSelector(getIsSearchCommitted);
-
+  const isFiltred = useSelector(getIsFiltred);
   return (
     <header className={styles.header}>
       <Logotype />

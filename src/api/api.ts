@@ -1,13 +1,15 @@
 import { createClient } from '@supabase/supabase-js';
 
 import {
-  TCategory,
+  TCategoryItem,
   TCategoryWithSubcategories,
   TSubcategory,
 } from '@entities/Categories/types';
 import { verifyPassword, hashPassword } from '@lib/helpers';
 import { TUser, TLoginData } from '@entities/user';
 import { TSkill } from '@entities/skills';
+import { TCityItem } from '@entities/cities';
+import { TGenderItem } from '@entities/genders';
 
 const supabaseUrl = import.meta.env.VITE_REST_API_URL!;
 const supabaseKey = import.meta.env.VITE_REST_API_ANON!;
@@ -256,7 +258,7 @@ export async function removeSkill(skill_id: string): Promise<void> {
   if (error) throw error;
 }
 
-export async function getCategories(): Promise<TCategory[]> {
+export async function getCategories(): Promise<TCategoryItem[]> {
   const { data, error } = await supabase.from('categories').select('*');
   if (error) throw error;
   return data;
@@ -431,7 +433,7 @@ export async function acceptSuggestion(
   await addNotification(currentUserId, suggestion.who_ask_id, suggestion_id);
 }
 
-type NotificationData = {
+export type NotificationData = {
   id: string;
   is_read: boolean;
   sender_id: string;
@@ -488,4 +490,16 @@ export async function removeNotifications(
     .eq('user_id', currentUserId);
 
   if (error) throw error;
+}
+
+export async function getCities(): Promise<TCityItem[]> {
+  const { data, error } = await supabase.from('cities').select('*');
+  if (error) throw error;
+  return data;
+}
+
+export async function getGenders(): Promise<TGenderItem[]> {
+  const { data, error } = await supabase.from('gender').select('*');
+  if (error) throw error;
+  return data;
 }

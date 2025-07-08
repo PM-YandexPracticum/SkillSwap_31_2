@@ -6,6 +6,8 @@ import {
   loginUserThunk,
   getUsersThunk,
   AuthHeader,
+  getCitiesThunk,
+  getGendersThunk,
 } from '@features/auth';
 import {
   Favorites,
@@ -20,10 +22,7 @@ import {
 import { useDispatch } from '@services/store';
 import { getSkillsThunk } from '@app/features/skills/skillsSlice';
 import { Modal } from '@widgets/modal';
-import {
-  getCategoriesThunk,
-  getSubCategoriesThunk,
-} from '@features/cotegories/categoriesSlice';
+import { getCategoriesThunk } from '@app/features/categories/categoriesSlice';
 import { CategoriesList } from '@widgets/categories-list';
 
 export const App = () => {
@@ -42,10 +41,16 @@ export const App = () => {
         dispatch(getUsersThunk());
       })
       .then(() => {
+        dispatch(getCitiesThunk());
+      })
+      .then(() => {
+        dispatch(getCitiesThunk());
+      })
+      .then(() => {
         dispatch(getCategoriesThunk());
       })
       .then(() => {
-        dispatch(getSubCategoriesThunk());
+        dispatch(getGendersThunk());
       })
       .catch(() => {
         navigate('/error-500');

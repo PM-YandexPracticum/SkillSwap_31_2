@@ -8,6 +8,7 @@ export const SearchUI: FC<SearchUIProps> = ({
   placeholder = 'Искать навык',
   onChange,
   onClear,
+  onKeyDown,
 }) => {
   return (
     <div className={styles.searchContainer}>
@@ -30,6 +31,7 @@ export const SearchUI: FC<SearchUIProps> = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        onKeyDown={onKeyDown}
       />
       {value && (
         <button
