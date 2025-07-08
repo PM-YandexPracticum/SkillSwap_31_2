@@ -1,3 +1,5 @@
+import { TRadioList } from '../ui/radio-filter/type';
+
 export const saltRounds = 12;
 
 export const skillListTypes = {
@@ -20,3 +22,25 @@ export const tagThemes = {
 
 export type TagTheme = keyof typeof tagThemes;
 export type ThemeValue = (typeof tagThemes)[TagTheme];
+
+export const mainFilter: TRadioList = {
+  name: 'main',
+  options: [
+    {
+      text: 'Всё',
+      value: 'all',
+      id: '1',
+      defaultChecked: true,
+    },
+    {
+      text: 'Хочу научиться',
+      value: 'wish',
+      id: '2',
+    },
+    {
+      text: 'Могу научить',
+      value: 'skills',
+      id: '3',
+    },
+  ],
+};

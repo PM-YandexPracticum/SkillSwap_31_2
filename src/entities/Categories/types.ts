@@ -10,7 +10,7 @@ export type TCategory = TCategoryItem & {
 };
 
 export type TCategoryWithSubcategories = TCategory & {
-  subcategories: TSubcategory[];
+  subcategories?: TSubcategory[];
 };
 
 export type TSubcategory = TCategoryItem & {
