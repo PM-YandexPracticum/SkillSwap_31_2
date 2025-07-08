@@ -431,7 +431,7 @@ export async function acceptSuggestion(
   await addNotification(currentUserId, suggestion.who_ask_id, suggestion_id);
 }
 
-type NotificationData = {
+export type NotificationData = {
   id: string;
   is_read: boolean;
   sender_id: string;
