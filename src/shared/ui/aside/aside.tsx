@@ -1,32 +1,37 @@
 import { memo, useEffect, useState } from 'react';
 
-import tagClose from '../../../assets/icons/tag-close.svg';
-import { RadioFilter } from '../radio-filter/radio-filter';
-import { CheckboxFilter } from '../checkbox-filter/checkbox-filter';
-import { TRadioList } from '../radio-filter/type';
-import { TCheckboxOptions } from '../checkbox-filter/types';
-
 import styles from './aside.module.scss';
 
+import tagClose from '@assets/icons/tag-close.svg';
+import { RadioFilter } from '@ui/radio-filter/radio-filter';
+import { CheckboxFilter } from '@ui/checkbox-filter/checkbox-filter';
+import { TRadioList } from '@ui/radio-filter/type';
 import { ButtonUI } from '@ui/button';
-import { mainFilter } from '@app/shared/lib/constants';
-import { RootState, useDispatch, useSelector } from '@app/services/store';
-import { getAllCategories } from '@app/services/selectors';
-import { getCategoriesWithSubcategoriesThunk } from '@app/features/cotegories/categoriesSlice';
+import { mainFilter } from '@lib/constants';
+import { useDispatch, useSelector } from '@services/store';
+import {
+  getAllCategories,
+  getFilterSubcategories,
+  getFilterCities,
+  getAllCities,
+  getAllGenders,
+} from '@services/selectors';
+import { getCategoriesWithSubcategoriesThunk } from '@app/features/categories/categoriesSlice';
 import {
   resetFilter,
   setGender,
   setMain,
-  toggleCategory,
+  toggleSubcategory,
   toggleCity,
-} from '@app/features/filter/filterSlice';
+} from '@features/filter/filterSlice';
 
 export const Aside = memo(() => {
   const dispatch = useDispatch();
-  const allCategoris = useSelector(getAllCategories);
-  const skillsFilter = useSelector((state: RootState) => state.filter.skills);
-  const citiesFilter = useSelector((state: RootState) => state.filter.cities);
-
+  const allCategories = useSelector(getAllCategories);
+  const allCities = useSelector(getAllCities);
+  const allGenders = useSelector(getAllGenders);
+  const subcategoriesFilter = useSelector(getFilterSubcategories);
+  const citiesFilter = useSelector(getFilterCities);
   const [resetKey, setResetKey] = useState(0);
 
   useEffect(() => {
@@ -43,19 +48,13 @@ export const Aside = memo(() => {
         id: 'not_specified',
         defaultChecked: true,
       },
-      { text: 'Мужской', value: 'male', id: 'male' },
-      { text: 'Женский', value: 'female', id: 'female' },
+      ...allGenders.map((gender) => ({
+        text: gender.name,
+        value: gender.name,
+        id: gender.id,
+      })),
     ],
   };
-
-  const CityList: TCheckboxOptions[] = [
-    { id: '1', name: 'Москва' },
-    { id: '2', name: 'Санкт-Петербург' },
-    { id: '3', name: 'Новосибирск' },
-    { id: '4', name: 'Екатеринбург' },
-    { id: '5', name: 'Казань' },
-    { id: '6', name: 'Омск' },
-  ];
 
   const handleMainChange = (value: string) => {
     dispatch(setMain(value));
@@ -65,8 +64,8 @@ export const Aside = memo(() => {
     dispatch(setGender(value));
   };
 
-  const handleCategoryChange = (value: string) => {
-    dispatch(toggleCategory(value));
+  const handleSubcategoryChange = (value: string) => {
+    dispatch(toggleSubcategory(value));
   };
 
   const handleCityChange = (value: string) => {
@@ -104,10 +103,10 @@ export const Aside = memo(() => {
         />
         <CheckboxFilter
           key={`skills-${resetKey}`}
-          options={allCategoris}
+          options={allCategories}
           title="Навыки"
-          onChange={handleCategoryChange}
-          list={skillsFilter}
+          onChange={handleSubcategoryChange}
+          list={subcategoriesFilter}
         />
         <RadioFilter
           key={`gender-${resetKey}`}
@@ -116,7 +115,7 @@ export const Aside = memo(() => {
         />
         <CheckboxFilter
           key={`cities-${resetKey}`}
-          options={CityList}
+          options={allCities}
           title="Города"
           onChange={handleCityChange}
           list={citiesFilter}

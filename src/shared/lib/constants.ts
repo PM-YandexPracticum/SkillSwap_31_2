@@ -6,8 +6,8 @@ export const skillListTypes = {
   popular: { title: 'Популярное', size: 3 },
   new: { title: 'Новое', size: 3 },
   recommended: { title: 'Рекомендуем', size: 6 },
-  favorites: { title: 'Избранное', isFavorites: true },
-  appropriate: { title: 'Подходящие предложения: ', isFiltred: true },
+  favorites: { title: 'Избранное' },
+  appropriate: { title: 'Подходящие предложения' },
 };
 
 // Сопоставление категории навыка с темой для отображения.

@@ -6,18 +6,16 @@ import { Aside } from '@ui/aside/aside';
 import { FilterButtonsPanelUI } from '@ui/filter-buttons-panel';
 import { SkillsList } from '@pages/skills-list';
 import { skillListTypes } from '@lib/constants';
-import { RootState } from '@services/store';
+import { getIsFiltred } from '@services/selectors';
 
 export const Home = () => {
-  const isSearchCommitted = useSelector(
-    (state: RootState) => state.skills.isSearchCommitted
-  );
+  const isFiltred = useSelector(getIsFiltred);
 
   return (
     <div className={styles.homePage}>
       <main className={styles.content}>
         <Aside />
-        {isSearchCommitted ? (
+        {isFiltred ? (
           <>
             <FilterButtonsPanelUI />
             <SkillsList type={skillListTypes.appropriate} />

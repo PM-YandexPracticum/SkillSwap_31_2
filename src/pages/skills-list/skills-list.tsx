@@ -5,51 +5,79 @@ import { SkillsListUI } from '@ui/index';
 import {
   getUsers,
   getSkills,
-  getSearchQuery,
   getSubCategories,
+  getSkillsIsLoading,
+  getIsFiltred,
+  getFilterText,
+  getFilterCities,
+  getFilterGender,
+  getFilterMain,
+  getFilterSubcategories,
 } from '@services/selectors';
 import { TUserWithSkills } from '@app/entities/user';
-import { getUsersWithSkills, getFavoriteUsersWithSkills } from '@lib/helpers';
+import {
+  getSkillsWithUserData,
+  getFavoriteSkillsithUsers,
+  getFiltredSkills,
+} from '@lib/helpers';
 
 interface SkillsListProps {
   type: {
     title: string;
     size?: number;
-    isFavorites?: boolean;
-    isFiltred?: boolean;
   };
+  isFavorites: boolean;
 }
 
-export const SkillsList: FC<SkillsListProps> = ({ type }) => {
+export const SkillsList: FC<SkillsListProps> = ({
+  type,
+  isFavorites = false,
+}) => {
   const users = useSelector(getUsers);
   const skills = useSelector(getSkills);
   const subcategories = useSelector(getSubCategories);
-  const searchQuery = useSelector(getSearchQuery);
+  const isLoading = useSelector(getSkillsIsLoading);
+  const isFiltred = useSelector(getIsFiltred);
+  const searchText = useSelector(getFilterText);
+  const searchCities = useSelector(getFilterCities);
+  const searchGender = useSelector(getFilterGender);
+  const searchMain = useSelector(getFilterMain);
+  const searchSubcategories = useSelector(getFilterSubcategories);
 
-  const filteredSkills = type.isFiltred
-    ? skills.filter((skill) =>
-        skill.name.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : skills;
-
-  if (!users || !skills) return null;
-
-  let usersWithSkills: TUserWithSkills[] = getUsersWithSkills(
+  // Добавляем скилам данные пользователей
+  let skillsWithUserData: TUserWithSkills[] = getSkillsWithUserData(
     users,
-    filteredSkills,
+    skills,
     subcategories
   );
 
-  if (type.isFavorites) {
-    usersWithSkills = getFavoriteUsersWithSkills(usersWithSkills);
+  if (isFavorites) {
+    skillsWithUserData = getFavoriteSkillsithUsers(skillsWithUserData);
+  }
+
+  if (isFiltred) {
+    skillsWithUserData = getFiltredSkills(
+      skillsWithUserData,
+      searchText,
+      searchCities,
+      searchGender,
+      searchMain,
+      searchSubcategories
+    );
   }
 
   if (type.size) {
-    usersWithSkills = usersWithSkills.slice(0, type.size);
+    skillsWithUserData = skillsWithUserData.slice(0, type.size);
   }
 
-  const title = type.isFiltred
-    ? `${type.title}${usersWithSkills.length}`
+  const title = isFiltred
+    ? `${type.title}: ${skillsWithUserData.length}`
     : type.title;
-  return <SkillsListUI title={title} usersWithSkills={usersWithSkills} />;
+  return (
+    <SkillsListUI
+      title={title}
+      usersWithSkills={skillsWithUserData}
+      isLoading={isLoading}
+    />
+  );
 };

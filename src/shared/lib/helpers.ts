@@ -20,8 +20,8 @@ export async function verifyPassword(
   return result;
 }
 
-// Преобразуем пользователей (добавляем данные скилов)
-export function getUsersWithSkills(
+// Преобразуем скилы (добавляем данные пользователей)
+export function getSkillsWithUserData(
   users: TUser[],
   skills: TSkill[],
   subcategories: TSubcategory[]
@@ -43,7 +43,7 @@ export function getUsersWithSkills(
 }
 
 // Фильтруем только тех, у кого есть хотя бы один is_liked skill
-export function getFavoriteUsersWithSkills(
+export function getFavoriteSkillsithUsers(
   usersWithSkills: TUserWithSkills[]
 ): TUserWithSkills[] {
   return usersWithSkills.filter((user) =>
@@ -103,4 +103,43 @@ export const getAgeWord = (age: number): string => {
   if (lastDigit === 1) return 'год';
   if (lastDigit >= 2 && lastDigit <= 4) return 'года';
   return 'лет';
+};
+
+export const getFiltredSkills = (
+  skills: TUserWithSkills[],
+  searchText: string,
+  searchCities: string[],
+  searchGender: string,
+  searchMain: string,
+  searchSubcategories: string[]
+): TUserWithSkills[] => {
+  const searchTextLower = searchText.toLowerCase();
+
+  return skills.filter((skill) => {
+    // Фильтрация по полу
+    if (searchGender !== 'not_specified' && skill.gender !== searchGender) {
+      return false;
+    }
+
+    // Фильтрация по городам
+    if (
+      searchCities.length > 0 &&
+      (!skill.city || !searchCities.includes(skill.city))
+    ) {
+      return false;
+    }
+    // Фильтрация по тексту (ищем названиях навыков)
+    if (searchText) {
+      // Проверяем, есть ли хотя бы один навык с подходящим названием
+      const hasMatchingSkill = skill.skills.some(
+        (skillName) =>
+          skillName.name?.toLowerCase().includes(searchTextLower) ?? false
+      );
+
+      if (!hasMatchingSkill) {
+        return false;
+      }
+    }
+    return true;
+  });
 };

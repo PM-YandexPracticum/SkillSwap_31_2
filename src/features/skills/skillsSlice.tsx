@@ -4,22 +4,18 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { addSkill, patchSkill, getSkills } from '@api/api';
 import { TSkill } from '@entities/skills';
-import { TUserState } from '@features/auth/authSlice';
+import { TAuthState } from '@features/auth/authSlice';
 
 type TSkillState = {
   skills: TSkill[];
   isLoading: boolean;
   error: string | null;
-  searchQuery: string;
-  isSearchCommitted: boolean;
 };
 
 const initialState: TSkillState = {
   skills: [],
   isLoading: false,
   error: null,
-  searchQuery: '',
-  isSearchCommitted: false,
 };
 
 export const getSkillsThunk = createAsyncThunk<
@@ -28,7 +24,7 @@ export const getSkillsThunk = createAsyncThunk<
   { rejectValue: string }
 >('skills/get', async (_, { getState, rejectWithValue }) => {
   try {
-    const state = getState() as { auth: TUserState };
+    const state = getState() as { auth: TAuthState };
     const userId = state.auth.user?.id;
     if (!userId) throw new Error('Authentication required');
     return await getSkills(userId);
@@ -49,7 +45,7 @@ export const addSkillThunk = createAsyncThunk<
   { rejectValue: string }
 >('skills/add', async (payload, { getState, dispatch, rejectWithValue }) => {
   try {
-    const state = getState() as { auth: TUserState };
+    const state = getState() as { auth: TAuthState };
     const userId = state.auth.user?.id;
     if (!userId) throw new Error('Authentication required');
 
@@ -82,7 +78,7 @@ export const patchSkillThunk = createAsyncThunk<
   { rejectValue: string }
 >('skills/patch', async (payload, { getState, dispatch, rejectWithValue }) => {
   try {
-    const state = getState() as { auth: TUserState };
+    const state = getState() as { auth: TAuthState };
     const userId = state.auth.user?.id;
     if (!userId) throw new Error('Authentication required');
 
@@ -100,12 +96,6 @@ export const skillSlice = createSlice({
   name: 'skills',
   initialState,
   reducers: {
-    setSearchQuery(state, action) {
-      state.searchQuery = action.payload;
-    },
-    setSearchCommitted(state, action) {
-      state.isSearchCommitted = action.payload;
-    },
     clearError(state) {
       state.error = null;
     },
@@ -146,7 +136,6 @@ export const skillSlice = createSlice({
   },
 });
 
-export const { setSearchQuery, setSearchCommitted, clearError } =
-  skillSlice.actions;
+export const { clearError } = skillSlice.actions;
 
 export default skillSlice.reducer;

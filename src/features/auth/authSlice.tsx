@@ -1,23 +1,36 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import { getUserByEmailPassword, getUsers, addUser, patchUser } from '@api/api';
+import {
+  getUserByEmailPassword,
+  getUsers,
+  addUser,
+  patchUser,
+  getCities,
+  getGenders,
+} from '@api/api';
 import { TUser, TLoginData } from '@entities/user';
+import { TCityItem } from '@entities/cities';
+import { TGenderItem } from '@entities/genders';
 
-export type TUserState = {
+export type TAuthState = {
   user: TUser | null;
   isLoading: boolean;
   users: TUser[];
   isUsersLoading: boolean;
   error: string | null;
+  cities: TCityItem[];
+  genders: TGenderItem[];
 };
 
-const initialState: TUserState = {
+const initialState: TAuthState = {
   user: null,
   isLoading: false,
   users: [],
   isUsersLoading: false,
   error: null,
+  cities: [],
+  genders: [],
 };
 
 export const loginUserThunk = createAsyncThunk(
@@ -79,6 +92,32 @@ export const getUsersThunk = createAsyncThunk<
     return rejectWithValue((error as Error).message || 'Failed to load users');
   }
 });
+
+export const getCitiesThunk = createAsyncThunk<TCityItem[]>(
+  'user/getAllCities',
+  async (_, { rejectWithValue }) => {
+    try {
+      return await getCities();
+    } catch (error) {
+      return rejectWithValue(
+        (error as Error).message || 'Failed to load users'
+      );
+    }
+  }
+);
+
+export const getGendersThunk = createAsyncThunk<TGenderItem[]>(
+  'user/getAllGenders',
+  async (_, { rejectWithValue }) => {
+    try {
+      return await getGenders();
+    } catch (error) {
+      return rejectWithValue(
+        (error as Error).message || 'Failed to load users'
+      );
+    }
+  }
+);
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -146,6 +185,34 @@ export const authSlice = createSlice({
       .addCase(getUsersThunk.rejected, (state, action) => {
         state.isUsersLoading = false;
         state.error = action.payload ?? 'Failed to fetch users';
+      });
+
+    builder
+      .addCase(getCitiesThunk.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getCitiesThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.cities = action.payload;
+      })
+      .addCase(getCitiesThunk.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload ?? 'Failed to fetch cities';
+      });
+
+    builder
+      .addCase(getGendersThunk.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getGendersThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.genders = action.payload;
+      })
+      .addCase(getGendersThunk.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload ?? 'Failed to fetch genders';
       });
   },
 });

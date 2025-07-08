@@ -6,5 +6,5 @@ import { SkillsList } from '@pages/skills-list';
 import { skillListTypes } from '@lib/constants';
 
 export const Favorites: FC = () => {
-  return <SkillsList type={skillListTypes.favorites} />;
+  return <SkillsList type={skillListTypes.favorites} isFavorites />;
 };

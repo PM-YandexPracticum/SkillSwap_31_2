@@ -6,3 +6,4 @@ export * from './skill-list-header';
 export * from './SkillCard';
 export * from './filter-buttons-panel';
 export * from './top-navigation';
+export * from './preloader';
