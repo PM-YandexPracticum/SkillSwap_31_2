@@ -39,6 +39,13 @@ module.exports = {
     'import/order': ['warn', { 'newlines-between': 'always' }],
     'import/prefer-default-export': 'off',
     'import/extensions': ['error', { 'jsx-a11y': 'off' }],
+    'no-param-reassign': [
+      'error',
+      {
+        props: true,
+        ignorePropertyModificationsFor: ['state']
+      }
+    ],
     'react/function-component-definition': [
       'warn',
       {
