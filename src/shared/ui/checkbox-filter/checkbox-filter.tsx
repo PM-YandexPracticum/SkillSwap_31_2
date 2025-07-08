@@ -1,11 +1,10 @@
 import React, { memo, useState } from 'react';
 
-import chevronDown from '../../../assets/icons/chevron-down.svg';
-import chevronUp from '../../../assets/icons/chevron-up.svg';
-
 import styles from './checkbox-filter.module.scss';
 import { TCheckboxFilter } from './types';
 
+import chevronDown from '@assets/icons/chevron-down.svg';
+import chevronUp from '@assets/icons/chevron-up.svg';
 import { ButtonUI } from '@ui/button';
 import { TCategoryWithSubcategories } from '@entities/Categories/types';
 

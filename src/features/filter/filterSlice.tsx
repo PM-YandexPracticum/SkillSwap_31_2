@@ -3,36 +3,75 @@ import { createSlice } from '@reduxjs/toolkit';
 type TFilterInitialState = {
   main: string;
   gender: string;
-  skills: string[];
+  subcategories: string[];
   cities: string[];
+  text: string;
+  is_filtred: boolean;
 };
 
 const initialState: TFilterInitialState = {
   main: 'all',
   gender: 'not_specified',
-  skills: [],
+  subcategories: [],
   cities: [],
+  text: '',
+  is_filtred: false,
 };
+
+// Вспомогательная функция для вычисления состояния фильтрации
+function calculateIsFiltered(state: TFilterInitialState): boolean {
+  return (
+    state.main !== 'all' ||
+    state.gender !== 'not_specified' ||
+    state.subcategories.length > 0 ||
+    state.cities.length > 0 ||
+    state.text !== ''
+  );
+}
 
 const filterSlice = createSlice({
   name: 'filter',
   initialState,
   reducers: {
     setMain(state, action) {
-      return { ...state, main: action.payload };
+      const newState = {
+        ...state,
+        main: action.payload,
+      };
+      return {
+        ...newState,
+        main: action.payload,
+        is_filtred: calculateIsFiltered(newState),
+      };
     },
     setGender(state, action) {
-      return { ...state, gender: action.payload };
+      const newState = {
+        ...state,
+        gender: action.payload,
+      };
+      return {
+        ...newState,
+        is_filtred: calculateIsFiltered(newState),
+      };
     },
-    toggleCategory(state, action) {
-      const categoryText = action.payload;
-      const newSkills = new Set<string>(state.skills);
-      if (newSkills.has(categoryText)) {
-        newSkills.delete(categoryText);
+    toggleSubcategory(state, action) {
+      const subcategoryText = action.payload;
+      const newSubcategories = new Set<string>(state.subcategories);
+      if (newSubcategories.has(subcategoryText)) {
+        newSubcategories.delete(subcategoryText);
       } else {
-        newSkills.add(categoryText);
+        newSubcategories.add(subcategoryText);
       }
-      return { ...state, skills: Array.from(newSkills) };
+
+      const newState = {
+        ...state,
+        subcategories: Array.from(newSubcategories),
+      };
+
+      return {
+        ...newState,
+        is_filtred: calculateIsFiltered(newState),
+      };
     },
     toggleCity(state, action) {
       const cityText = action.payload;
@@ -42,7 +81,26 @@ const filterSlice = createSlice({
       } else {
         newCities.add(cityText);
       }
-      return { ...state, cities: Array.from(newCities) };
+
+      const newState = {
+        ...state,
+        cities: Array.from(newCities),
+      };
+
+      return {
+        ...newState,
+        is_filtred: calculateIsFiltered(newState),
+      };
+    },
+    setText(state, action) {
+      const newState = {
+        ...state,
+        text: action.payload,
+      };
+      return {
+        ...newState,
+        is_filtred: calculateIsFiltered(newState),
+      };
     },
     resetFilter() {
       return initialState;
@@ -51,5 +109,11 @@ const filterSlice = createSlice({
 });
 
 export default filterSlice.reducer;
-export const { setMain, setGender, toggleCategory, toggleCity, resetFilter } =
-  filterSlice.actions;
+export const {
+  setMain,
+  setGender,
+  toggleSubcategory,
+  toggleCity,
+  resetFilter,
+  setText,
+} = filterSlice.actions;

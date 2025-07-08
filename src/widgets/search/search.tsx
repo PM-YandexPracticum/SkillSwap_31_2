@@ -1,52 +1,53 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './search.module.css';
 
-import { SearchUI } from '@app/shared/ui/search';
-import { SearchUIProps } from '@app/shared/ui/search/type';
-import {
-  setSearchQuery,
-  setSearchCommitted,
-} from '@features/skills/skillsSlice';
-import { RootState } from '@services/store';
+import { SearchUI } from '@ui/search';
+import { SearchUIProps } from '@ui/search/type';
+import { setText } from '@features/filter/filterSlice';
+import { getSkills } from '@services/selectors';
 
 export const Search: FC<SearchUIProps> = ({ placeholder }) => {
+  const [value, setValue] = useState('');
+
   const dispatch = useDispatch();
-  const searchQuery = useSelector(
-    (state: RootState) => state.skills.searchQuery
-  );
-  const skills = useSelector((state: RootState) => state.skills.skills);
+  const skills = useSelector(getSkills);
 
   const filteredSkills =
-    searchQuery.trim() === ''
+    value.trim() === ''
       ? []
       : skills.filter((skill) =>
-          skill.name.toLowerCase().includes(searchQuery.toLowerCase())
+          skill.name.toLowerCase().includes(value.toLowerCase())
         );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSearchQuery(e.target.value));
-    dispatch(setSearchCommitted(false));
+    setValue(e.target.value);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      dispatch(setText(value));
+    }
   };
 
   const handleClear = () => {
-    dispatch(setSearchQuery(''));
-    dispatch(setSearchCommitted(false));
+    setValue('');
+    dispatch(setText(''));
   };
 
   const handleSelectSuggestion = (name: string) => {
-    dispatch(setSearchQuery(name));
-    dispatch(setSearchCommitted(true));
+    dispatch(setText(name));
   };
 
   return (
     <div className={styles.container}>
       <SearchUI
-        value={searchQuery}
+        value={value}
         placeholder={placeholder}
         onChange={handleChange}
         onClear={handleClear}
+        onKeyDown={handleKeyDown}
       />
       {filteredSkills.length > 0 && (
         <ul className={styles.suggestions}>
