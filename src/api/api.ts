@@ -342,9 +342,23 @@ type SuggestionData = {
 };
 
 export async function getSuggestions(
-  currentUserId: string
+  currentUserId: string,
+  type: 'sent' | 'incoming'
 ): Promise<SuggestionData[]> {
-  const { data, error } = await supabase.from('suggestions').select(`
+  if (type === 'sent') {
+    const { data, error } = await supabase
+      .from('suggestions')
+      .select('*')
+      .eq('who_ask_id', currentUserId)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    return (data ?? []) as SuggestionData[];
+  }
+
+  if (type === 'incoming') {
+    const { data, error } = await supabase.from('suggestions').select(`
       id,
       accepted,
       who_ask:who_ask_id (
@@ -357,18 +371,21 @@ export async function getSuggestions(
       )
     `);
 
-  if (error) throw error;
+    if (error) throw error;
 
-  return (data ?? [])
-    .filter(
-      (s) => (s.skill as { owner_id?: string })?.owner_id === currentUserId
-    )
-    .map((suggestion) => ({
-      id: suggestion.id,
-      accepted: suggestion.accepted,
-      who_ask: suggestion.who_ask,
-      skill: (suggestion.skill as { id?: string })?.id ?? null,
-    }));
+    return (data ?? [])
+      .filter(
+        (s) => (s.skill as { owner_id?: string })?.owner_id === currentUserId
+      )
+      .map((suggestion) => ({
+        id: suggestion.id,
+        accepted: suggestion.accepted,
+        who_ask: suggestion.who_ask,
+        skill: (suggestion.skill as { id?: string })?.id ?? null,
+      }));
+  }
+
+  throw new Error('Invalid type passed to getSuggestions');
 }
 
 export async function addNotification(
@@ -502,4 +519,13 @@ export async function getGenders(): Promise<TGenderItem[]> {
   const { data, error } = await supabase.from('gender').select('*');
   if (error) throw error;
   return data;
+}
+
+export async function rejectSuggestion(suggestionId: string) {
+  const { error } = await supabase
+    .from('suggestions')
+    .update({ accepted: false })
+    .eq('id', suggestionId);
+
+  if (error) throw error;
 }
