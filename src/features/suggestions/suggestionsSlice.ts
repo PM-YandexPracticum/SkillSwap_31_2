@@ -4,7 +4,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import {
   getSuggestions as getSuggestionsApi,
-  getSentSuggestions as getSentSuggestionsApi,
   addSuggestion as addSuggestionApi,
   acceptSuggestion as acceptSuggestionApi,
   rejectSuggestion as rejectSuggestionApi,
@@ -13,12 +12,12 @@ import {
 export type TSuggestion = {
   id: string;
   who_ask_id: string;
-  skill_id: string;
+  skill_id: string | null;
   accepted: boolean | null;
   created_at: string;
 };
 
-export type TIncomingSuggestion = {
+type TIncomingSuggestion = {
   id: string;
   accepted: boolean | null;
   who_ask: {
@@ -42,33 +41,20 @@ const initialState: SuggestionsState = {
   error: null,
 };
 
-export const getSuggestions = createAsyncThunk(
-  'suggestions/getSuggestions',
-  async (currentUserId: string, thunkAPI) => {
-    try {
-      return await getSuggestionsApi(currentUserId);
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        return thunkAPI.rejectWithValue(error.message);
-      }
-      return thunkAPI.rejectWithValue('Unexpected error');
+export const fetchSuggestions = createAsyncThunk<
+  { type: 'sent' | 'incoming'; data: TSuggestion[] | TIncomingSuggestion[] },
+  { userId: string; type: 'sent' | 'incoming' }
+>('suggestions/fetchSuggestions', async ({ userId, type }, thunkAPI) => {
+  try {
+    const data = await getSuggestionsApi(userId, type);
+    return { type, data };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return thunkAPI.rejectWithValue(error.message);
     }
+    return thunkAPI.rejectWithValue('Unexpected error');
   }
-);
-
-export const getSentSuggestions = createAsyncThunk(
-  'suggestions/getSentSuggestions',
-  async (userId: string, thunkAPI) => {
-    try {
-      return await getSentSuggestionsApi(userId);
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        return thunkAPI.rejectWithValue(error.message);
-      }
-      return thunkAPI.rejectWithValue('Unexpected error');
-    }
-  }
-);
+});
 
 export const addSuggestion = createAsyncThunk(
   'suggestions/addSuggestion',
@@ -78,7 +64,9 @@ export const addSuggestion = createAsyncThunk(
   ) => {
     try {
       await addSuggestionApi(currentUserId, skillId);
-      thunkAPI.dispatch(getSentSuggestions(currentUserId));
+      thunkAPI.dispatch(
+        fetchSuggestions({ userId: currentUserId, type: 'sent' })
+      );
       return null;
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -100,7 +88,9 @@ export const acceptSuggestion = createAsyncThunk(
   ) => {
     try {
       await acceptSuggestionApi(currentUserId, suggestionId);
-      thunkAPI.dispatch(getSuggestions(currentUserId));
+      thunkAPI.dispatch(
+        fetchSuggestions({ userId: currentUserId, type: 'incoming' })
+      );
       return null;
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -132,27 +122,21 @@ const suggestionsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getSuggestions.pending, (state) => {
+      .addCase(fetchSuggestions.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(getSuggestions.fulfilled, (state, action) => {
+      .addCase(fetchSuggestions.fulfilled, (state, action) => {
         state.loading = false;
-        state.incoming = action.payload;
+        const { type, data } = action.payload;
+
+        if (type === 'sent') {
+          state.sent = data as TSuggestion[];
+        } else {
+          state.incoming = data as TIncomingSuggestion[];
+        }
       })
-      .addCase(getSuggestions.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      })
-      .addCase(getSentSuggestions.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getSentSuggestions.fulfilled, (state, action) => {
-        state.loading = false;
-        state.sent = action.payload;
-      })
-      .addCase(getSentSuggestions.rejected, (state, action) => {
+      .addCase(fetchSuggestions.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
