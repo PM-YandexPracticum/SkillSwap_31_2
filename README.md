@@ -89,8 +89,8 @@ CREATE TABLE public.notifications (
   is_read boolean NOT NULL DEFAULT false,
   sender_id uuid NOT NULL,
   CONSTRAINT notifications_pkey PRIMARY KEY (id),
-  CONSTRAINT notifications_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id),
   CONSTRAINT notifications_sender_id_fkey FOREIGN KEY (sender_id) REFERENCES public.users(id),
+  CONSTRAINT notifications_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id),
   CONSTRAINT notifications_suggestion_id_fkey FOREIGN KEY (suggestion_id) REFERENCES public.suggestions(id)
 );
 CREATE TABLE public.skills (
@@ -104,9 +104,9 @@ CREATE TABLE public.skills (
   name text NOT NULL,
   owner_id uuid NOT NULL,
   CONSTRAINT skills_pkey PRIMARY KEY (id),
-  CONSTRAINT skills_owner_id_fkey FOREIGN KEY (owner_id) REFERENCES public.users(id),
   CONSTRAINT skills_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.categories(id),
-  CONSTRAINT skills_subcategory_id_fkey FOREIGN KEY (subcategory_id) REFERENCES public.subcategories(id)
+  CONSTRAINT skills_subcategory_id_fkey FOREIGN KEY (subcategory_id) REFERENCES public.subcategories(id),
+  CONSTRAINT skills_owner_id_fkey FOREIGN KEY (owner_id) REFERENCES public.users(id)
 );
 CREATE TABLE public.subcategories (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
@@ -125,6 +125,17 @@ CREATE TABLE public.suggestions (
   CONSTRAINT suggestions_pkey PRIMARY KEY (id),
   CONSTRAINT suggestions_who_ask_id_fkey FOREIGN KEY (who_ask_id) REFERENCES public.users(id),
   CONSTRAINT suggestions_skill_id_fkey FOREIGN KEY (skill_id) REFERENCES public.skills(id)
+);
+CREATE TABLE public.user_favorites_skills (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  user_id uuid NOT NULL,
+  skill_id uuid NOT NULL,
+  CONSTRAINT user_favorites_skills_pkey PRIMARY KEY (id),
+  CONSTRAINT user_favorites_skills_user_id_fkey1 FOREIGN KEY (user_id) REFERENCES public.users(id),
+  CONSTRAINT user_favorites_skills_skill_id_fkey1 FOREIGN KEY (skill_id) REFERENCES public.skills(id),
+  CONSTRAINT user_favorites_skills_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id),
+  CONSTRAINT user_favorites_skills_skill_id_fkey FOREIGN KEY (skill_id) REFERENCES public.skills(id)
 );
 CREATE TABLE public.user_wishes (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
@@ -147,7 +158,7 @@ CREATE TABLE public.users (
   password text NOT NULL,
   birthday date,
   CONSTRAINT users_pkey PRIMARY KEY (id),
-  CONSTRAINT users_gender_id_fkey FOREIGN KEY (gender_id) REFERENCES public.gender(id),
-  CONSTRAINT users_city_id_fkey FOREIGN KEY (city_id) REFERENCES public.cities(id)
+  CONSTRAINT users_city_id_fkey FOREIGN KEY (city_id) REFERENCES public.cities(id),
+  CONSTRAINT users_gender_id_fkey FOREIGN KEY (gender_id) REFERENCES public.gender(id)
 );
 ```
