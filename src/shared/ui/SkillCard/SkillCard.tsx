@@ -8,6 +8,9 @@ import styles from './SkillCard.module.css';
 
 import { SkillWithTheme } from '@entities/skills';
 import { TSubcategoryWithCategoryName } from '@entities/Categories/types';
+import { useSelector } from '@app/services/store';
+import { getSkillById } from '@app/services/selectors';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface SkillCardProps {
   name: string | undefined;
@@ -15,6 +18,7 @@ interface SkillCardProps {
   avatar_url: string | undefined;
   skills: SkillWithTheme[];
   wishes: TSubcategoryWithCategoryName[];
+  skillId: string | null | undefined;
 }
 
 export const SkillCard: React.FC<SkillCardProps> = ({
@@ -23,6 +27,7 @@ export const SkillCard: React.FC<SkillCardProps> = ({
   avatar_url,
   skills,
   wishes,
+  skillId
 }) => {
   const visibleSkills = skills.slice(0, 2);
   const extraSkillsCount = skills.length > 2 ? skills.length - 2 : undefined;
@@ -72,9 +77,11 @@ export const SkillCard: React.FC<SkillCardProps> = ({
         </div>
       </div>
 
-      <ButtonUI type="Primary" htmlType="button" classes={styles.button}>
-        Подробнее
-      </ButtonUI>
+      <Link to={`/skill/:${skillId}`} className={styles.link}>
+        <ButtonUI type="Primary" htmlType="button" classes={styles.button}>
+          Подробнее
+        </ButtonUI>
+      </Link>
     </div>
   );
 };

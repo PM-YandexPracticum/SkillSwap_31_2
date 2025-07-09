@@ -69,3 +69,8 @@
 .likebutton {
   align-self: self-start;
 }
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}

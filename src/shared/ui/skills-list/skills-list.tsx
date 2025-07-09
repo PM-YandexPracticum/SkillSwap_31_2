@@ -6,12 +6,16 @@ import { SkillsListUIProps } from './type';
 import { SkillCard } from '@widgets/SkillCard';
 import { Preloader } from '@ui/preloader';
 import { SkillsListHeaderUI } from '@ui/skill-list-header';
+import { getUserFirstSkill } from '@app/services/selectors';
+import { useSelector } from '@app/services/store';
 
 export const SkillsListUI: FC<SkillsListUIProps> = ({
   usersWithSkills,
   title,
   isLoading,
-}) => (
+}) => {
+
+  return (
   <section className={styles.resultsSection}>
     <SkillsListHeaderUI title={title} />
 
@@ -19,7 +23,9 @@ export const SkillsListUI: FC<SkillsListUIProps> = ({
       <Preloader />
     ) : (
       <ul className={styles.cardsRow}>
-        {usersWithSkills.map((user) => (
+        {usersWithSkills.map((user) => {
+          const skillId = useSelector(getUserFirstSkill(user.id));
+          return (
           <SkillCard
             key={user.id}
             name={user.name ?? undefined}
@@ -28,9 +34,10 @@ export const SkillsListUI: FC<SkillsListUIProps> = ({
             avatar_url={user.avatar_url ?? undefined}
             skills={user.skills}
             wishes={user.wishes}
+            skillId={skillId}
           />
-        ))}
+        )})}
       </ul>
     )}
   </section>
-);
+)};

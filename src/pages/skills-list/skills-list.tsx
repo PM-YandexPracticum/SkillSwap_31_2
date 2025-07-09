@@ -48,7 +48,7 @@ export const SkillsList: FC<SkillsListProps> = ({
   let skillsWithUserData: TUserWithSkills[] = getSkillsWithUserData(
     users,
     skills,
-    subcategories
+    subcategories,
   );
 
   if (isFavorites) {

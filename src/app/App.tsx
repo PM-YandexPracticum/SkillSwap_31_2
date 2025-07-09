@@ -71,14 +71,14 @@ export const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/skill:id" element={<Skill />} />
+        <Route path="/skill/:id" element={<Skill />} />
         <Route path="*" element={<NotFound404 />} />
         <Route path="/error-500" element={<Error500 />} />
         <Route path="/menu/skills" element={<Home />} />
       </Routes>
       {background && (
         <Routes>
-          <Route path="/skill:id" element={<Skill />} />
+          <Route path="/skill/:id" element={<Skill />} />
           <Route
             path="/menu/skills"
             element={

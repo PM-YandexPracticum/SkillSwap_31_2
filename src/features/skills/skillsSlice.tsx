@@ -98,7 +98,7 @@ export const skillSlice = createSlice({
   reducers: {
     clearError(state) {
       state.error = null;
-    },
+    }
   },
   extraReducers: (builder) => {
     builder
