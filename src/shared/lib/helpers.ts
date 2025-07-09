@@ -43,7 +43,7 @@ export function getSkillsWithUserData(
 }
 
 // Фильтруем только тех, у кого есть хотя бы один is_liked skill
-export function getFavoriteSkillsithUsers(
+export function getFavoriteSkillsWithUsers(
   usersWithSkills: TUserWithSkills[]
 ): TUserWithSkills[] {
   return usersWithSkills.filter((user) =>
@@ -128,17 +128,39 @@ export const getFiltredSkills = (
     ) {
       return false;
     }
-    // Фильтрация по тексту (ищем названиях навыков)
-    if (searchText) {
-      // Проверяем, есть ли хотя бы один навык с подходящим названием
-      const hasMatchingSkill = skill.skills.some(
-        (skillName) =>
-          skillName.name?.toLowerCase().includes(searchTextLower) ?? false
-      );
 
-      if (!hasMatchingSkill) {
-        return false;
-      }
+    // Получение общего списка скилов
+    const skillsList = skill.skills
+      .map((skillName) => skillName.name?.toLowerCase())
+      .filter(Boolean);
+    const wishesList = skill.wishes
+      .map((wish) => wish.name?.toLowerCase())
+      .filter(Boolean);
+
+    let searchInList: string[];
+    if (searchMain === 'Хочу научиться') {
+      searchInList = skillsList;
+    } else if (searchMain === 'Могу научить') {
+      searchInList = wishesList;
+    } else {
+      searchInList = [...skillsList, ...wishesList];
+    }
+
+    // Фильтрация по тексту
+    if (
+      searchTextLower &&
+      !searchInList.some((name) => name.includes(searchTextLower))
+    ) {
+      return false;
+    }
+    // Фильтрация по подкатегориям
+    if (
+      searchSubcategories.length > 0 &&
+      !searchSubcategories.some((sub) =>
+        searchInList.includes(sub.toLowerCase())
+      )
+    ) {
+      return false;
     }
     return true;
   });

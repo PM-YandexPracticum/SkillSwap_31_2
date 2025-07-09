@@ -18,9 +18,12 @@ import {
   getCitiesThunk,
   getGendersThunk,
 } from '@features/auth/authSlice';
-import { getSkillsThunk } from '@app/features/skills/skillsSlice';
+import { getSkillsThunk } from '@features/skills/skillsSlice';
 import { Modal } from '@widgets/modal';
-import { getCategoriesThunk } from '@app/features/categories/categoriesSlice';
+import {
+  getCategoriesThunk,
+  getSubCategoriesThunk,
+} from '@features/categories/categoriesSlice';
 import { CategoriesList } from '@widgets/categories-list';
 
 export const App = () => {
@@ -50,6 +53,9 @@ export const App = () => {
       })
       .then(() => {
         dispatch(getCategoriesThunk());
+      })
+      .then(() => {
+        dispatch(getSubCategoriesThunk());
       })
       .then(() => {
         dispatch(getGendersThunk());

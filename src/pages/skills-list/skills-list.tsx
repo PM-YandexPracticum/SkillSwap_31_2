@@ -17,7 +17,7 @@ import {
 import { TUserWithSkills } from '@app/entities/user';
 import {
   getSkillsWithUserData,
-  getFavoriteSkillsithUsers,
+  getFavoriteSkillsWithUsers,
   getFiltredSkills,
 } from '@lib/helpers';
 
@@ -50,9 +50,8 @@ export const SkillsList: FC<SkillsListProps> = ({
     skills,
     subcategories
   );
-
   if (isFavorites) {
-    skillsWithUserData = getFavoriteSkillsithUsers(skillsWithUserData);
+    skillsWithUserData = getFavoriteSkillsWithUsers(skillsWithUserData);
   }
 
   if (isFiltred) {

@@ -21,7 +21,6 @@ const initialState: TFilterInitialState = {
 // Вспомогательная функция для вычисления состояния фильтрации
 function calculateIsFiltered(state: TFilterInitialState): boolean {
   return (
-    state.main !== '' ||
     state.gender !== '' ||
     state.subcategories.length > 0 ||
     state.cities.length > 0 ||
