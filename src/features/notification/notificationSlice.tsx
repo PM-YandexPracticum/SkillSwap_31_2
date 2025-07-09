@@ -1,3 +1,5 @@
+/* eslint-disable import/no-cycle */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { RootState } from '@app/services/store';
