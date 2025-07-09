@@ -78,6 +78,7 @@ export const SkillCard: React.FC<SkillCardProps> = ({
       skills={skillTags}
       wishes={wishTags}
       skillId={skillId}
+      
     />
   );
 };

@@ -17,6 +17,10 @@ export const getUserFirstSkill = (id: string) => (state: RootState) => {
   const skill = state.auth.users.find((user) => user.id === id)?.skills_ids[0];
   return skill;
 }
+export const getUserById = (id: string) => (state: RootState) => {
+  const user = state.auth.users.find((user) => user.id === id);
+  return user;
+}
 
 export const getCategories = (state: RootState): TCategory[] =>
   state.categories.categories;
@@ -45,6 +49,8 @@ export const getSubCategory = (
 
 export const getAllCategories = (state: RootState) =>
   state.categories.allCategoris;
+
+export const getAllSubcategories = (state: RootState) => state.categories.subcategories;
 
 export const getIsFiltred = (state: RootState) => state.filter.is_filtred;
 export const getFilterCities = (state: RootState) => state.filter.cities;
