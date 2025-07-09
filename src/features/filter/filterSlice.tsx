@@ -10,8 +10,8 @@ type TFilterInitialState = {
 };
 
 const initialState: TFilterInitialState = {
-  main: 'all',
-  gender: 'not_specified',
+  main: '',
+  gender: '',
   subcategories: [],
   cities: [],
   text: '',
@@ -21,8 +21,8 @@ const initialState: TFilterInitialState = {
 // Вспомогательная функция для вычисления состояния фильтрации
 function calculateIsFiltered(state: TFilterInitialState): boolean {
   return (
-    state.main !== 'all' ||
-    state.gender !== 'not_specified' ||
+    state.main !== '' ||
+    state.gender !== '' ||
     state.subcategories.length > 0 ||
     state.cities.length > 0 ||
     state.text !== ''
@@ -105,6 +105,34 @@ const filterSlice = createSlice({
     resetFilter() {
       return initialState;
     },
+    // удаление тэга из фильтра
+    removeFilterTag(state, action) {
+      const tagToRemove = action.payload;
+      const newState = { ...state };
+
+      if (newState.main === tagToRemove) {
+        newState.main = '';
+      }
+
+      if (newState.gender === tagToRemove) {
+        newState.gender = '';
+      }
+
+      if (newState.text === tagToRemove) {
+        newState.text = '';
+      }
+
+      newState.subcategories = newState.subcategories.filter(
+        (sub) => sub !== tagToRemove
+      );
+
+      newState.cities = newState.cities.filter((city) => city !== tagToRemove);
+
+      return {
+        ...newState,
+        is_filtred: calculateIsFiltered(newState),
+      };
+    },
   },
 });
 
@@ -116,4 +144,5 @@ export const {
   toggleCity,
   resetFilter,
   setText,
+  removeFilterTag,
 } = filterSlice.actions;

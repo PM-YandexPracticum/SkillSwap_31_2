@@ -1,3 +1,5 @@
+import { createSelector } from '@reduxjs/toolkit';
+
 import { RootState } from './store';
 
 import { TCategory, TSubcategory } from '@entities/Categories/types';
@@ -46,3 +48,21 @@ export const getFilterMain = (state: RootState) => state.filter.main;
 export const getFilterSubcategories = (state: RootState) =>
   state.filter.subcategories;
 export const getFilterText = (state: RootState) => state.filter.text;
+
+// получение списка всех тегов фильтра
+export const getFilterTags = createSelector(
+  [
+    getFilterMain,
+    getFilterGender,
+    getFilterText,
+    getFilterSubcategories,
+    getFilterCities,
+  ],
+  (main, gender, text, subcategories, cities) => [
+    ...(main ? [main] : []),
+    ...(gender ? [gender] : []),
+    ...(text ? [text] : []),
+    ...subcategories,
+    ...cities,
+  ]
+);
