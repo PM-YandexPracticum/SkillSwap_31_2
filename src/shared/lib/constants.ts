@@ -28,18 +28,18 @@ export const mainFilter: TRadioList = {
   options: [
     {
       text: 'Всё',
-      value: 'all',
+      value: '',
       id: '1',
       defaultChecked: true,
     },
     {
       text: 'Хочу научиться',
-      value: 'wish',
+      value: 'Хочу научиться',
       id: '2',
     },
     {
       text: 'Могу научить',
-      value: 'skills',
+      value: 'Могу научить',
       id: '3',
     },
   ],

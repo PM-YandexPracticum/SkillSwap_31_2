@@ -117,7 +117,7 @@ export const getFiltredSkills = (
 
   return skills.filter((skill) => {
     // Фильтрация по полу
-    if (searchGender !== 'not_specified' && skill.gender !== searchGender) {
+    if (searchGender !== '' && skill.gender !== searchGender) {
       return false;
     }
 

@@ -16,10 +16,10 @@ export const Home = () => {
       <main className={styles.content}>
         <Aside />
         {isFiltred ? (
-          <>
+          <div className={styles.resultsSection}>
             <FilterButtonsPanelUI />
             <SkillsList type={skillListTypes.appropriate} />
-          </>
+          </div>
         ) : (
           <div className={styles.resultsSection}>
             <SkillsList type={skillListTypes.popular} />

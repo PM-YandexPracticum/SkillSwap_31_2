@@ -15,6 +15,7 @@ import {
   getFilterCities,
   getAllCities,
   getAllGenders,
+  getIsFiltred,
 } from '@services/selectors';
 import { getCategoriesWithSubcategoriesThunk } from '@app/features/categories/categoriesSlice';
 import {
@@ -33,6 +34,7 @@ export const Aside = memo(() => {
   const subcategoriesFilter = useSelector(getFilterSubcategories);
   const citiesFilter = useSelector(getFilterCities);
   const [resetKey, setResetKey] = useState(0);
+  const isFiltred = useSelector(getIsFiltred);
 
   useEffect(() => {
     dispatch(getCategoriesWithSubcategoriesThunk());
@@ -44,7 +46,7 @@ export const Aside = memo(() => {
     options: [
       {
         text: 'Не имеет знаечения',
-        value: 'not_specified',
+        value: '',
         id: 'not_specified',
         defaultChecked: true,
       },
@@ -81,18 +83,23 @@ export const Aside = memo(() => {
     <aside className={styles.aside}>
       <div className={styles.filterBar}>
         <h2 className={styles.title}>Фильтры</h2>
-        {/* Здесь нужен счётчик. Нет глобального состояния */}
-        <ButtonUI
-          type="Tertiary"
-          classes={styles.filterReset}
-          onClick={handleReset}
-        >
-          {/* Для сброса тоже нужно глобальное состояние */}
-          Сбросить
-          <span className={styles.resetIcon}>
-            <img src={tagClose} alt="закрыть" width={24} height={24} />
-          </span>
-        </ButtonUI>
+        {isFiltred && (
+          <ButtonUI
+            type="Tertiary"
+            classes={styles.filterReset}
+            onClick={handleReset}
+          >
+            Сбросить все
+            <span className={styles.resetIcon}>
+              <img
+                src={tagClose}
+                alt="Очистить все фильтры"
+                width={24}
+                height={24}
+              />
+            </span>
+          </ButtonUI>
+        )}
       </div>
 
       <div className={styles.filters}>
