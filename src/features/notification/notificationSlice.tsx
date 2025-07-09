@@ -2,8 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { RootState } from '@app/services/store';
 import {
-  acceptSuggestion,
-  addSuggestion,
   getNotifications,
   NotificationData,
   readNotifications,
@@ -31,14 +29,6 @@ type ReadNotificationParams = {
   notification_id?: string | null;
 };
 
-type AcceptSuggestionParams = {
-  suggestion_id: string;
-};
-
-type AddSuggestionParams = {
-  skill_id: string;
-};
-
 // Получение уведомлений конкретного пользователя
 export const fetchNotifications = createAsyncThunk<
   NotificationData[],
@@ -61,36 +51,6 @@ export const fetchNotifications = createAsyncThunk<
         return rejectWithValue(error.message);
       }
       return rejectWithValue('Ошибка');
-    }
-  }
-);
-
-export const addSuggestionThunk = createAsyncThunk<
-  void,
-  AddSuggestionParams,
-  {
-    state: RootState;
-    rejectValue: string;
-  }
->(
-  'notifications/createSuggestion',
-  async ({ skill_id }, { getState, rejectWithValue }) => {
-    const state = getState();
-    const currentUser = state.auth.user;
-
-    if (!currentUser?.id) {
-      return rejectWithValue('Пользователь не авторизован');
-    }
-
-    try {
-      await addSuggestion(currentUser.id, skill_id);
-      return undefined;
-    } catch (error) {
-      return rejectWithValue(
-        error instanceof Error
-          ? error.message
-          : 'Ошибка при создании предложения'
-      );
     }
   }
 );
@@ -144,36 +104,6 @@ export const removeReadNotificationsThunk = createAsyncThunk<
   }
 });
 
-export const acceptSuggestionThunk = createAsyncThunk<
-  void,
-  AcceptSuggestionParams,
-  {
-    state: RootState;
-    rejectValue: string;
-  }
->(
-  'notifications/acceptSuggestion',
-  async ({ suggestion_id }, { getState, rejectWithValue }) => {
-    const state = getState();
-    const currentUser = state.auth.user;
-
-    if (!currentUser?.id) {
-      return rejectWithValue('Пользователь не авторизован');
-    }
-
-    try {
-      await acceptSuggestion(currentUser.id, suggestion_id);
-      return undefined;
-    } catch (error) {
-      return rejectWithValue(
-        error instanceof Error
-          ? error.message
-          : 'Не удалось принять предложение'
-      );
-    }
-  }
-);
-
 const notificationsSlice = createSlice({
   name: 'notifications',
   initialState,
@@ -191,17 +121,6 @@ const notificationsSlice = createSlice({
         state.notifications = action.payload;
       })
       .addCase(fetchNotifications.rejected, (state) => {
-        state.loading = false;
-        state.error = 'Ошибка при добавлении уведомления';
-      })
-      .addCase(addSuggestionThunk.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(addSuggestionThunk.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(addSuggestionThunk.rejected, (state) => {
         state.loading = false;
         state.error = 'Ошибка при добавлении уведомления';
       })
@@ -226,17 +145,6 @@ const notificationsSlice = createSlice({
       .addCase(removeReadNotificationsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Ошибка при удалении уведомлений';
-      })
-      .addCase(acceptSuggestionThunk.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(acceptSuggestionThunk.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(acceptSuggestionThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload || 'Ошибка при принятии предложения';
       });
   },
 

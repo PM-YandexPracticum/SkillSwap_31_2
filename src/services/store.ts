@@ -10,6 +10,7 @@ import skills from '@features/skills/skillsSlice';
 import categories from '@app/features/categories/categoriesSlice';
 import filter from '@features/filter/filterSlice';
 import suggestions from '@features/suggestions/suggestionsSlice';
+import notifications from '@features/notification/notificationSlice';
 
 export const rootReducer = combineReducers({
   auth,
@@ -17,6 +18,7 @@ export const rootReducer = combineReducers({
   categories,
   filter,
   suggestions,
+  notifications,
 });
 
 export const store = configureStore({
