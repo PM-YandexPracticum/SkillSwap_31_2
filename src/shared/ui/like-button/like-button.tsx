@@ -1,33 +1,39 @@
-import React, { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 
 import { LikeButtonUIProps } from './type';
 import styles from './like-button.module.css';
 
 export const LikeButtonUI: FC<LikeButtonUIProps> = ({
-  initialLiked = false,
-  onLikeToggle,
+  isLiked,
+  onClick,
+  isDisabled,
 }) => {
-  const [isLiked, setIsLiked] = useState(initialLiked);
+  const [isLikedState, setIsLikedState] = useState(isLiked);
+
+  useEffect(() => {
+    setIsLikedState(isLiked);
+  }, [isLiked]);
 
   const handleClick = () => {
-    const newIsLiked = !isLiked;
-    setIsLiked(newIsLiked);
-    onLikeToggle?.(newIsLiked);
+    const newLikedState = !isLikedState;
+    setIsLikedState(newLikedState);
+    onClick();
   };
 
   return (
     <button
+      disabled={isDisabled}
       type="button"
       onClick={handleClick}
-      className={`${styles.likeButton} ${isLiked ? styles.liked : ''}`}
-      aria-pressed={isLiked}
-      aria-label={isLiked ? 'Like' : 'Unlike'}
+      className={`${styles.likeButton} ${isLikedState ? styles.liked : ''}`}
+      aria-pressed={isLikedState}
+      aria-label={isLikedState ? 'Like' : 'Unlike'}
     >
       <svg
         width="20"
         height="18"
         viewBox="0 0 20 18"
-        fill={isLiked ? '#253017' : 'transparent'}
+        fill={isLikedState ? '#253017' : 'transparent'}
         stroke="#253017"
         xmlns="http://www.w3.org/2000/svg"
         className={styles.heartIcon}
