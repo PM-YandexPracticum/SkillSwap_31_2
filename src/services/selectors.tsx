@@ -1,3 +1,5 @@
+import { createSelector } from '@reduxjs/toolkit';
+
 import { RootState } from './store';
 
 import { TCategory, TSubcategory } from '@entities/Categories/types';
@@ -26,18 +28,8 @@ export const getCategory = (
   id: string
 ): TCategory | undefined =>
   state.categories.categories.find((category) => category.id === id);
-export const getSubCategories = (
-  state: RootState,
-  id: string | undefined
-): TSubcategory[] => {
-  if (!id) {
-    return state.categories.subcategories;
-  }
-  return state.categories.subcategories.filter(
-    (category) => category.category_id === id
-  );
-};
-
+export const getSubCategories = (state: RootState) =>
+  state.categories.subcategories;
 export const getSubCategory = (
   state: RootState,
   id: string | undefined
@@ -60,3 +52,20 @@ export const getFilterText = (state: RootState) => state.filter.text;
 
 export const getIncomingSuggestions = (state: RootState) =>
   state.suggestions.incoming;
+// получение списка всех тегов фильтра
+export const getFilterTags = createSelector(
+  [
+    getFilterMain,
+    getFilterGender,
+    getFilterText,
+    getFilterSubcategories,
+    getFilterCities,
+  ],
+  (main, gender, text, subcategories, cities) => [
+    ...(main ? [main] : []),
+    ...(gender ? [gender] : []),
+    ...(text ? [text] : []),
+    ...subcategories,
+    ...cities,
+  ]
+);

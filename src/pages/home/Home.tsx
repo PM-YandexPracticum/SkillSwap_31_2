@@ -6,27 +6,45 @@ import { Aside } from '@ui/aside/aside';
 import { FilterButtonsPanelUI } from '@ui/filter-buttons-panel';
 import { SkillsList } from '@pages/skills-list';
 import { skillListTypes } from '@lib/constants';
-import { getIsFiltred } from '@services/selectors';
+import { getIsFiltred, getCurrentUser } from '@services/selectors';
 
 export const Home = () => {
-  const isFiltred = useSelector(getIsFiltred);
+  const isFiltered = useSelector(getIsFiltred);
+  const currentUser = useSelector(getCurrentUser);
+
+  const renderFilteredContent = () => (
+    <>
+      <FilterButtonsPanelUI />
+      <SkillsList type={skillListTypes.appropriate} />
+    </>
+  );
+
+  const renderDefaultContent = () => {
+    if (!currentUser) {
+      return (
+        <>
+          <SkillsList type={skillListTypes.popular} />
+          <SkillsList type={skillListTypes.new} />
+          <SkillsList type={skillListTypes.recommended} />
+        </>
+      );
+    }
+    return (
+      <>
+        <SkillsList type={skillListTypes.exactly} />
+        <SkillsList type={skillListTypes.newIdeas} />
+        <SkillsList type={skillListTypes.recommended} />
+      </>
+    );
+  };
 
   return (
     <div className={styles.homePage}>
       <main className={styles.content}>
         <Aside />
-        {isFiltred ? (
-          <>
-            <FilterButtonsPanelUI />
-            <SkillsList type={skillListTypes.appropriate} />
-          </>
-        ) : (
-          <div className={styles.resultsSection}>
-            <SkillsList type={skillListTypes.popular} />
-            <SkillsList type={skillListTypes.new} />
-            <SkillsList type={skillListTypes.recommended} />
-          </div>
-        )}
+        <div className={styles.resultsSection}>
+          {isFiltered ? renderFilteredContent() : renderDefaultContent()}
+        </div>
       </main>
     </div>
   );
