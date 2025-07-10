@@ -26,6 +26,7 @@ import {
   getSubCategoriesThunk,
 } from '@features/categories/categoriesSlice';
 import { CategoriesList } from '@widgets/categories-list';
+import { Login } from '@features/auth/pages/login';
 
 export const App = () => {
   const location = useLocation();
@@ -72,12 +73,17 @@ export const App = () => {
 
   return (
     <div className="app" data-cy="app">
-      {location.pathname === '/register' ? <AuthHeader /> : <AppHeader />}
+      {location.pathname === '/register' || location.pathname === '/login' ? (
+        <AuthHeader />
+      ) : (
+        <AppHeader />
+      )}
 
       <Routes location={background || location}>
         <Route path="/" element={<Home />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/skill/:id" element={<Skill />} />
         <Route path="*" element={<NotFound404 />} />
@@ -97,7 +103,9 @@ export const App = () => {
           />
         </Routes>
       )}
-      {location.pathname !== '/register' && <AppFooter />}
+      {location.pathname !== '/register' && location.pathname !== '/login' && (
+        <AppFooter />
+      )}
     </div>
   );
 };

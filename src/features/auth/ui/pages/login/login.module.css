@@ -1,0 +1,35 @@
+
+.register-wrapper {
+    display: flex;
+    flex-flow: column;
+    gap: 32px;
+}
+
+.register-wrapper::before {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: #f9faf7;
+    content: '';
+}
+
+.title {
+    font-weight: 500;
+    font-family: 'Jost', sans-serif;
+    text-align: center;
+}
+
+.title h2 {
+    margin: 0;
+    padding-bottom: 12px;
+    font-size: 24px;
+    line-height: 28px;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    max-width: 1136px;
+    margin: 0 auto;
+}
