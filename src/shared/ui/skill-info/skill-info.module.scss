@@ -56,8 +56,20 @@
 }
 
 .images {
+    position: relative;
     display: flex;
-    gap: 24px;
+}
+
+.page-button-right {
+    position: absolute;
+    top: 146px;
+    right: 132px;
+}
+
+.page-button-left {
+    position: absolute;
+    top: 146px;
+    left: 16px;
 }
 
 .image {
@@ -65,6 +77,7 @@
     height: 324px;
     object-fit: cover;
     border-radius: 5%;
+    margin-right: 24px;
 }
 
 .previews {

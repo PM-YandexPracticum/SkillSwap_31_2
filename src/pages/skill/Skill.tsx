@@ -11,10 +11,12 @@ import { getSkillsWithUserData } from "@app/shared/lib/helpers";
 import { SkillInfo } from "@app/shared/ui/skill-info/SkillInfo";
 import { fetchSuggestions } from "@app/features/suggestions/suggestionsSlice";
 import { useDispatch } from "@app/services/store";
-import { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Suggestion } from "@app/shared/ui/suggestion/Suggestion";
+import { PageButton } from "@app/shared/ui/page-button/PageButton";
 
-export const Skill = () => {
+export const Skill = React.memo(() => {
+  // простая задача превращается в кашу из-за непродуманной модели данных
   const dispatch = useDispatch();
   const id = useParams().id;
   const skill = useSelector(getSkillById(id!.slice(1)));
@@ -23,17 +25,37 @@ export const Skill = () => {
   const skills = useSelector(getSkills);
   const subcategories = useSelector(getAllSubcategories);
 
-  //приходят с сервера 100+ предложений и ограничил до 3
+  // приходят с сервера 100+ предложений и ограничил до 3
   // не понятно зачем сервера возвращает такие же предложения как и сама карточка
   // скорее всего проблема на беке
-  const suggestions = useSelector(getIncomingSuggestions).slice(0, 4);
+  const suggestions = useSelector(getIncomingSuggestions).slice(0, 5);
 
   useEffect(() => {
     user ? dispatch(fetchSuggestions({ userId: user?.id, type: 'incoming' })) : undefined;
-  }, [user]);
+  }, [user, dispatch]);
 
   //в рекомендациях есть id пользователей, которые не попадают в глобальный state
   let userWithSkills: TUserWithSkills[] = getSkillsWithUserData([user!], skills, subcategories);
+
+  // можео было бы сделать кастоный хук
+  // Состояние для текущей страницы
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 4;
+  // Рассчитываем общее количество страниц
+  const totalPages = Math.ceil(suggestions.length / itemsPerPage);
+  // Получаем карточки для текущей страницы
+  const displayedSuggestions = suggestions.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+  
+  const handleNextPage = () => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+  const handlePrevPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -44,14 +66,20 @@ export const Skill = () => {
             <MiniProfile user={user} skill={skill} userWithSkills={userWithSkills} />
             <SkillInfo skill={skill} />
           </div>
-          <div>
+          <div className={styles.suggestions}>
             <h2 className={styles.suggestionsTitle}>Похожие предложения</h2>
             <div className={styles.suggestionsCards}>
-              {suggestions.map((suggest) => {
+              {displayedSuggestions.map((suggest) => {
                 return (
                   <Suggestion key={uuidv4()} skillId={suggest.skill} />
                 )
               })}
+              {totalPages > 1 && (
+                <div className={styles.navigation}>
+                  <PageButton direction="left" onClick={handlePrevPage} disabled={currentPage === 0} extraClass={styles.pageButtonLeft}/>
+                  <PageButton direction="right" onClick={handleNextPage} disabled={currentPage === totalPages - 1} extraClass={styles.pageButtonRight}/>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -60,4 +88,4 @@ export const Skill = () => {
       )}
     </div>
   );
-};
+});

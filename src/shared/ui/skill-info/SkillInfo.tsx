@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { TSkillInfoProps } from "./type";
 
 import styles from './skill-info.module.scss';
@@ -9,8 +9,22 @@ import more from '../../../assets/icons/more-square.svg';
 import { ButtonUI } from "../button";
 import { v4 as uuidv4 } from 'uuid';
 import clsx from "clsx";
+import { PageButton } from "../page-button/PageButton";
 
 export const SkillInfo: FC<TSkillInfoProps> = ({ skill }) => {
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const images = skill.images;
+    const handleNextImage = () => {
+        if (currentImageIndex < images.length - 1) {
+            setCurrentImageIndex(currentImageIndex + 1);
+        }
+    };
+    const handlePrevImage = () => {
+        if (currentImageIndex > 0) {
+            setCurrentImageIndex(currentImageIndex - 1);
+        }
+    };
+
     const visibleImages = skill.images.slice(0, 3);
     const extraImages = skill.images.length > 3 ? skill.images.length - 3 : 0;
 
@@ -35,9 +49,10 @@ export const SkillInfo: FC<TSkillInfoProps> = ({ skill }) => {
                     </div>
                     <ButtonUI type="Primary" classes={styles.offerButton}>Предложить обмен</ButtonUI>
                 </div>
-
                 <div className={styles.images}>
-                    <img src={skill.images[0]} alt="изображение" className={styles.image} />
+                    <PageButton direction="left" onClick={handlePrevImage} disabled={currentImageIndex === 0} extraClass={styles.pageButtonLeft}/>
+                    <img src={skill.images[currentImageIndex]} alt="изображение" className={styles.image} />
+                    <PageButton direction="right" onClick={handleNextImage} disabled={currentImageIndex === images.length - 1} extraClass={styles.pageButtonRight}/>
                     <div className={styles.previews}>
                         {visibleImages.map((image, index) => {
                             if (index === 2 && extraImages) {
