@@ -111,7 +111,7 @@ export const getFiltredSkills = (
   searchCities: string[],
   searchGender: string,
   searchMain: string,
-  searchSubcategories: string[],
+  searchSubcategories: string[]
 ): TUserWithSkills[] => {
   const searchTextLower = searchText.toLowerCase();
 

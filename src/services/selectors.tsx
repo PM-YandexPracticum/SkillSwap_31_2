@@ -20,7 +20,8 @@ export const getCategory = (
   id: string
 ): TCategory | undefined =>
   state.categories.categories.find((category) => category.id === id);
-export const getSubCategories = (state: RootState) => state.categories.subcategories
+export const getSubCategories = (state: RootState) =>
+  state.categories.subcategories;
 export const getSubCategory = (
   state: RootState,
   id: string | undefined
