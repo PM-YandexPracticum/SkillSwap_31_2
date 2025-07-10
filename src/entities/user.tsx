@@ -1,41 +1,30 @@
 import { TSkill } from '@entities/skills';
 import { TSubcategory } from '@entities/Categories/types';
 
-export type TUser = {
-  gender: string | null;
-  city: string | null;
-  skills_ids: string[];
-  wishes_ids: string[];
-  id: string;
-  name: string;
-  age: number | null;
-  about: string;
-  avatar_url: string;
-  email: string;
-  password: string;
-  created_at: string;
-  modified_at: string;
-  birthday: string | null;
-};
-
-export type TUserWithSkills = {
-  gender: string | null;
-  city: string | null;
-  skills: TSkill[];
-  wishes: TSubcategory[];
-  id: string;
-  name: string;
-  age: number | null;
-  about: string;
-  avatar_url: string;
-  email: string;
-  password: string;
-  created_at: string;
-  modified_at: string;
-  birthday: string | null;
-};
-
 export type TLoginData = {
   email: string;
   password: string;
+};
+
+type TuserCommon = TLoginData & {
+  gender: string | null;
+  city: string | null;
+  id: string;
+  name: string;
+  age: number | null;
+  about: string;
+  avatar_url: string;
+  created_at: string;
+  modified_at: string;
+  birthday: string | null;
+};
+
+export type TUser = TuserCommon & {
+  skills_ids: string[];
+  wishes_ids: string[];
+};
+
+export type TUserWithSkills = TuserCommon & {
+  skills: TSkill[];
+  wishes: TSubcategory[];
 };
