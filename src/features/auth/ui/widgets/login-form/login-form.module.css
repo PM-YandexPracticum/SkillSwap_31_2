@@ -1,0 +1,54 @@
+.form-holder {
+    width: 556px;
+    padding: 121.5px 60px ;
+    font-family: 'Roboto', sans-serif;
+    background-color: #ffffff;
+    border-radius: 12px;
+}
+
+fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border: none;
+}
+
+
+.separator {
+    display: flex;
+    align-items: center;
+    height: 32px;
+    text-align: center;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #E4E8DF;
+}
+
+.separator:not(:empty)::before {
+    margin-right: .25em;
+}
+
+.separator:not(:empty)::after {
+    margin-left: .25em;
+}
+
+.button-social {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
+.button-social img {
+    width: 24px;
+    height: 24px;
+}
+
+.submit-holder {
+    display: flex;
+    flex-direction: column;
+    padding-top: 16px
+}
