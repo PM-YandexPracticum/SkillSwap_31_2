@@ -16,3 +16,11 @@ export type TSkill = {
 export type SkillWithTheme = TSkill & {
   theme: ThemeValue | 'themeDefault';
 };
+
+export type TRegSkill = {
+  category: string | null;
+  subcategory: string | null;
+  name: string;
+  description: string;
+  images: string[];
+};

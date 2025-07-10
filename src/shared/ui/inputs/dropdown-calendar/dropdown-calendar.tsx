@@ -6,12 +6,16 @@ import calendar from '../../../../assets/icons/calendar.svg';
 
 import { TDropdownCalendar, ValuePiece, Value } from './type';
 import styles from './dropdown-calendar.module.scss';
+
 import './dropdown-calendar.css';
+import { formatDate, formatToDate } from '@lib/helpers.ts';
 
 export const DropdownCalendar: React.FC<TDropdownCalendar> = memo(
-  ({ isValid, label, errorText }) => {
+  ({ isValid, label, errorText, onChange, date }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedDate, setSelectedDate] = useState<ValuePiece>(null);
+    const [selectedDate, setSelectedDate] = useState<ValuePiece>(
+      date.length ? formatToDate(date) : null
+    );
     const [currentMonth, setCurrentMonth] = useState<number>(
       new Date().getMonth()
     );
@@ -36,15 +40,6 @@ export const DropdownCalendar: React.FC<TDropdownCalendar> = memo(
       'Ноябрь',
       'Декабрь',
     ];
-
-    // Форматирование даты в DD.MM.YYYY
-    const formatDate = (date: Date | null) => {
-      if (!date) return '';
-      const day = date.getDate().toString().padStart(2, '0');
-      const month = (date.getMonth() + 1).toString().padStart(2, '0');
-      const year = date.getFullYear();
-      return `${day}.${month}.${year}`;
-    };
 
     // Генерируем массив годов (от текущего года - 100 до текущего года)
     const getYearOptions = () => {
@@ -111,6 +106,12 @@ export const DropdownCalendar: React.FC<TDropdownCalendar> = memo(
       };
     }, [isOpen]);
 
+    useEffect(() => {
+      if (onChange) {
+        onChange(formatDate(selectedDate));
+      }
+    }, [onChange, selectedDate]);
+
     return (
       <div className={styles.calendarDropdown} ref={dropdownRef}>
         <label className={styles.label} htmlFor={`${label}Dropdown`}>
@@ -169,15 +170,15 @@ export const DropdownCalendar: React.FC<TDropdownCalendar> = memo(
               nextLabel={null}
               prevLabel={null}
               showNeighboringMonth={false}
-              formatShortWeekday={(locale, date) => {
+              formatShortWeekday={(locale, dateObj) => {
                 const weekDays = {
                   'ru-RU': ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'], // Для русской локали
                   // Можно добавить другие локали по аналогии
                 };
                 if (locale === 'ru-RU') {
-                  return weekDays[locale][date.getDay()];
+                  return weekDays[locale][dateObj.getDay()];
                 }
-                return weekDays['ru-RU'][date.getDay()]; // По умолчанию - русская локаль
+                return weekDays['ru-RU'][dateObj.getDay()]; // По умолчанию - русская локаль
               }}
             />
 

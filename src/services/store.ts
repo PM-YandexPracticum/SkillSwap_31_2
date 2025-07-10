@@ -6,7 +6,7 @@ import {
   useSelector as selectorHook,
 } from 'react-redux';
 
-import auth from '@features/auth/authSlice';
+import auth from '@features/auth/services/authSlice';
 import skills from '@features/skills/skillsSlice';
 import categories from '@app/features/categories/categoriesSlice';
 import filter from '@features/filter/filterSlice';

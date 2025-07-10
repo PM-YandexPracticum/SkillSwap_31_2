@@ -11,6 +11,7 @@
   &:disabled {
     color: #e4e8df;
     cursor: none;
+    pointer-events: none;
   }
 
   &--primary {

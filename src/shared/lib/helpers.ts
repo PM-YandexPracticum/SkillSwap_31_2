@@ -7,8 +7,7 @@ import { saltRounds, tagThemes, TagTheme, ThemeValue } from '@lib/constants';
 
 // Хэширование пароля перед сохранением
 export async function hashPassword(plainPassword: string): Promise<string> {
-  const hash = await bcrypt.hash(plainPassword, saltRounds);
-  return hash;
+  return bcrypt.hash(plainPassword, saltRounds);
 }
 
 // Проверка пароля при входе
@@ -16,8 +15,7 @@ export async function verifyPassword(
   plainPassword: string,
   hash: string
 ): Promise<boolean> {
-  const result = await bcrypt.compare(plainPassword, hash);
-  return result;
+  return bcrypt.compare(plainPassword, hash);
 }
 
 // Преобразуем скилы (добавляем данные пользователей)
@@ -154,14 +152,29 @@ export const getFiltredSkills = (
       return false;
     }
     // Фильтрация по подкатегориям
-    if (
+    return !(
       searchSubcategories.length > 0 &&
       !searchSubcategories.some((sub) =>
         searchInList.includes(sub.toLowerCase())
       )
-    ) {
-      return false;
-    }
-    return true;
+    );
   });
+};
+
+export const formatDate = (date: Date | null) => {
+  if (!date) return '';
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}.${month}.${year}`;
+};
+
+export const formatToDate = (date: string) => {
+  if (!date) return null;
+  const parts = date.split('.');
+
+  const day = parseInt(parts[0] || '', 10);
+  const month = parseInt(parts[1] || '', 10);
+  const year = parseInt(parts[2] || '', 10);
+  return new Date(year, month, day);
 };

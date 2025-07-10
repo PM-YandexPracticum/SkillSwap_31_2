@@ -10,7 +10,7 @@ import {
   removeUserFavoriteSkill,
 } from '@api/api';
 import { TSkill } from '@entities/skills';
-import { TAuthState } from '@features/auth/authSlice';
+import { TAuthState } from '@features/auth/services/authSlice';
 
 type TSkillState = {
   skills: TSkill[];
@@ -32,7 +32,7 @@ export const getSkillsThunk = createAsyncThunk<
   try {
     const state = getState() as { auth: TAuthState };
     const userId = state.auth.user?.id;
-    if (!userId) throw new Error('Authentication required');
+    // if (!userId) throw new Error('Authentication required');
     return await getSkills(userId);
   } catch (error) {
     return rejectWithValue((error as Error).message || 'Failed to load skills');
@@ -55,7 +55,7 @@ export const addSkillThunk = createAsyncThunk<
     const userId = state.auth.user?.id;
     if (!userId) throw new Error('Authentication required');
 
-    await addSkill(
+    const id = await addSkill(
       payload.category_id,
       payload.subcategory_id,
       payload.name,
@@ -65,7 +65,7 @@ export const addSkillThunk = createAsyncThunk<
     );
 
     await dispatch(getSkillsThunk());
-    return undefined;
+    return id;
   } catch (error) {
     return rejectWithValue((error as Error).message || 'Failed to add skill');
   }

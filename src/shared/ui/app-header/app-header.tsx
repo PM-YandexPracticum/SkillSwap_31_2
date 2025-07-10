@@ -13,6 +13,7 @@ import defaultAvatar from '@assets/default-avatar.png';
 import { useSelector } from '@services/store';
 import { getIsFiltred } from '@services/selectors';
 import { Search } from '@widgets/search';
+import { AuthButtons } from '@features/auth';
 import { NotificationsModal } from '@widgets/notifications-modal/NotificationsModal';
 
 export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
@@ -73,20 +74,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
               </Link>
             </>
           ) : (
-            <>
-              <button
-                type="button"
-                className={`${styles.authBtn} ${styles.login}`}
-              >
-                Войти
-              </button>
-              <button
-                type="button"
-                className={`${styles.authBtn} ${styles.register}`}
-              >
-                Зарегистрироваться
-              </button>
-            </>
+            <AuthButtons />
           )}
         </div>
       </nav>

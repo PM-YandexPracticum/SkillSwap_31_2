@@ -1,0 +1,15 @@
+.auth-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.register {
+    padding-right: 23.5px;
+    padding-left: 23.5px;
+}
+
+.login {
+    padding-right: 22.5px;
+    padding-left: 22.5px;
+}

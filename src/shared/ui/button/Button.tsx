@@ -23,6 +23,7 @@ export const ButtonUI: React.FC<ButtonUIProps> = ({
       { [styles.buttonprimary]: type === 'Primary' },
       { [styles.buttonsecondary]: type === 'Secondary' },
       { [styles.buttontertiary]: type === 'Tertiary' },
+      // { [styles]: disabled },
       classes
     )}
     {...extraProps}

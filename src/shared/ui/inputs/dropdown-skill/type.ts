@@ -1,11 +1,14 @@
 export interface TSkillInterface {
-  options: TSkill[];
+  options: TSkillOption[];
   label: string;
   isValid: boolean;
   errorText?: string;
+  values: string[];
+  onChange: (values: string[]) => void;
+  placeholder: string;
 }
 
-export type TSkill = {
-  id: number;
+export type TSkillOption = {
+  id: string;
   name: string;
 };

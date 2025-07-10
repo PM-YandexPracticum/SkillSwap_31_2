@@ -1,9 +1,28 @@
-import { TSkill } from '@entities/skills';
+import { TRegSkill, TSkill } from '@entities/skills';
 import { TSubcategory } from '@entities/Categories/types';
 
 export type TLoginData = {
   email: string;
   password: string;
+};
+
+export type TRegistrationState = {
+  user: TRegUser;
+  skill: TRegSkill;
+  step: number;
+  maxStep: number;
+};
+
+export type TRegUser = {
+  gender: string | null;
+  city: string | null;
+  skills_ids: string[];
+  wishes_ids: string[];
+  name: string;
+  avatar_url: string;
+  email: string;
+  password: string;
+  birthday: string | null;
 };
 
 type TuserCommon = TLoginData & {
