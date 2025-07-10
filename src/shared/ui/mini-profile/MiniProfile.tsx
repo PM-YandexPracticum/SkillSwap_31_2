@@ -71,7 +71,9 @@ export const MiniProfile: FC<MiniProfileProps> = ({ user, skill, userWithSkills 
                     )
                     }
                     {extraWishesCount && (
-                        <SkillTagUI name={`+${extraWishesCount}`} theme="themeDefault" />
+                        <>
+                            <SkillTagUI name={`+${extraWishesCount}`} theme="themeDefault" />
+                        </>
                     )}
                 </div>
             </div>

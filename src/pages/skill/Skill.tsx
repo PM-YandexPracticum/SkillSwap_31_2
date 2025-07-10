@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import styles from './skill.module.scss';
 import { TUserWithSkills } from "@app/entities/user";
 import { getSkillsWithUserData } from "@app/shared/lib/helpers";
+import { SkillInfo } from "@app/shared/ui/skill-info/SkillInfo";
 
 export const Skill = () => {
   const id = useParams().id; 
@@ -23,7 +24,13 @@ export const Skill = () => {
       {isLoading && <Preloader />}
       {skill && user && (
         <div>
-          <MiniProfile user={user} skill={skill} userWithSkills={userWithSkills} />
+          <div className={styles.offer}>
+            <MiniProfile user={user} skill={skill} userWithSkills={userWithSkills} />
+            <SkillInfo skill={skill} />
+          </div>
+          <div>
+            <h2>Похожие предложения</h2>
+          </div>
         </div>
         
 

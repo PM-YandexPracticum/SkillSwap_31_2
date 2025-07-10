@@ -1,0 +1,102 @@
+.container {
+    width: 1020px;
+}
+
+.action {
+    display: flex;
+    justify-content: end;
+    gap: 16px;
+    margin: 32px 52px 0;
+}
+
+.card-user {
+    display: flex;
+    gap: 77px;
+    margin: 32px 52px 0;
+}
+
+.button {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.card-user {
+    display: flex;
+    justify-content: space-between;
+}
+
+.content {
+    width: 399px;
+}
+
+.title {
+    font-family: Jost, sans-serif;
+    font-size: 32px;
+    font-weight: 50;
+    line-height: 40px;
+}
+
+.category {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    color: #69735D;
+}
+
+.description {
+    margin: 20px 0 28px;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 2%;
+}
+
+.offer-button {
+    width: 100%;
+}
+
+.images {
+    display: flex;
+    gap: 24px;
+}
+
+.image {
+    width: 324px;
+    height: 324px;
+    object-fit: cover;
+    border-radius: 5%;
+}
+
+.previews {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.preview {
+    width: 92px;
+    height: 92px;
+    object-fit: cover;
+    border-radius: 5%;
+}
+
+.extend-image {
+    position: relative;
+}
+
+.blur {
+    opacity: 50%;
+}
+
+.label {
+    cursor: pointer;
+}
+
+.count {
+    position: absolute;
+    top: 34px;
+    right: 35px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
