@@ -17,22 +17,32 @@ export const FirstStepFormUI: React.FC<FirstStepFormUIProps> = ({
   setPassword,
   isPasswordValid,
   passwordError,
+  helpPasswordText,
   googleSignIn,
   appleSignIn,
   onSubmit,
 }) => (
   <form onSubmit={onSubmit}>
     <fieldset className={styles.formHolder}>
-      <ButtonUI type="Secondary" onClick={googleSignIn}>
+      <ButtonUI
+        classes={styles.buttonSocial}
+        type="Secondary"
+        onClick={googleSignIn}
+      >
         <img src={googleIcon} alt="Иконка для кнопки Продлжить с Google" />
         Продлжить с Google
       </ButtonUI>
-      <ButtonUI type="Secondary" onClick={appleSignIn}>
+      <ButtonUI
+        classes={styles.buttonSocial}
+        type="Secondary"
+        onClick={appleSignIn}
+      >
         <img src={appleIcon} alt="Иконка для кнопки Продлжить с Apple" />
         Продлжить с Apple
       </ButtonUI>
       <div className={styles.separator}>или</div>
       <Input
+        key="email"
         label="Email"
         placeholder="Введите email"
         isValid={isEmailValid}
@@ -43,17 +53,30 @@ export const FirstStepFormUI: React.FC<FirstStepFormUIProps> = ({
         }}
       />
       <Input
+        key="password"
         label="Пароль"
         placeholder="Придумайте надёжный пароль"
         isValid={isPasswordValid}
         value={password}
         errorText={passwordError}
-        helpText="Пароль должен содержать не менее 8 знаков"
+        helpText={helpPasswordText}
         onChange={(e) => {
           setPassword(e.target.value);
         }}
       />
-      <ButtonUI type="Primary">Далее</ButtonUI>
+      <div className={styles.submitHolder}>
+        <ButtonUI
+          disabled={
+            !email.length ||
+            !password.length ||
+            !isEmailValid ||
+            !isPasswordValid
+          }
+          type="Primary"
+        >
+          Далее
+        </ButtonUI>
+      </div>
     </fieldset>
   </form>
 );

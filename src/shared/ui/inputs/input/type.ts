@@ -1,7 +1,7 @@
 export interface TInputInterface {
   label: string;
   placeholder: string;
-  isValid: boolean;
+  isValid?: boolean;
   errorText?: string;
   helpText?: string;
   value?: string;

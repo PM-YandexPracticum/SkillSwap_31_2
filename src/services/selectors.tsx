@@ -4,7 +4,19 @@ import { TCategory, TSubcategory } from '@entities/Categories/types';
 
 export const getCurrentUser = (state: RootState) => state.auth.user;
 export const getUserLoading = (state: RootState) => state.auth.isLoading;
+export const getIsRegistration = (state: RootState) =>
+  state.auth.isRegistration;
 export const getUsers = (state: RootState) => state.auth.users;
+export const getUsersbyEmail = (state: RootState, email: string) =>
+  state.auth.users.find((user) => user.email === email);
+
+export const getRegistrationStep = (state: RootState) =>
+  state.auth.registration.step;
+export const getRegistrationMaxStep = (state: RootState) =>
+  state.auth.registration.maxStep;
+
+export const getRegistrationData = (state: RootState) =>
+  state.auth.registration;
 export const getAllCities = (state: RootState) => state.auth.cities;
 export const getAllGenders = (state: RootState) => state.auth.genders;
 
@@ -20,15 +32,14 @@ export const getCategory = (
   state.categories.categories.find((category) => category.id === id);
 export const getSubCategories = (
   state: RootState,
-  id: string | undefined
+  id: string
 ): TSubcategory[] => {
-  if (!id) {
-    return state.categories.subcategories;
-  }
   return state.categories.subcategories.filter(
     (category) => category.category_id === id
   );
 };
+export const getAllSubCategories = (state: RootState): TSubcategory[] =>
+  state.categories.subcategories;
 
 export const getSubCategory = (
   state: RootState,
@@ -45,4 +56,7 @@ export const getFilterGender = (state: RootState) => state.filter.gender;
 export const getFilterMain = (state: RootState) => state.filter.main;
 export const getFilterSubcategories = (state: RootState) =>
   state.filter.subcategories;
+
+export const getFilterSubcategoriesByIds = (state: RootState, ids: string[]) =>
+  state.categories.subcategories.filter((item) => ids.includes(item.id));
 export const getFilterText = (state: RootState) => state.filter.text;

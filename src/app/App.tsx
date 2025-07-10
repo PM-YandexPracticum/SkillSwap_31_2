@@ -22,7 +22,10 @@ import {
 import { useDispatch } from '@services/store';
 import { getSkillsThunk } from '@app/features/skills/skillsSlice';
 import { Modal } from '@widgets/modal';
-import { getCategoriesThunk } from '@app/features/categories/categoriesSlice';
+import {
+  getCategoriesThunk,
+  getSubCategoriesThunk,
+} from '@app/features/categories/categoriesSlice';
 import { CategoriesList } from '@widgets/categories-list';
 
 export const App = () => {
@@ -41,7 +44,7 @@ export const App = () => {
         dispatch(getUsersThunk());
       })
       .then(() => {
-        dispatch(getCitiesThunk());
+        dispatch(getGendersThunk());
       })
       .then(() => {
         dispatch(getCitiesThunk());
@@ -49,11 +52,15 @@ export const App = () => {
       .then(() => {
         dispatch(getCategoriesThunk());
       })
+
+      .then(() => {
+        dispatch(getSubCategoriesThunk());
+      })
       .then(() => {
         dispatch(getGendersThunk());
       })
       .catch(() => {
-        navigate('/error-500');
+        // navigate('/error-500');
       });
   }, [dispatch, navigate]);
 

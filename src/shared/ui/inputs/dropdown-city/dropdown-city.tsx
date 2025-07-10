@@ -9,8 +9,8 @@ import cross from '../../../../assets/icons/cross.svg';
 import { TCityInputInterface } from './type';
 
 export const DropdownCity: React.FC<TCityInputInterface> = memo(
-  ({ options, isValid, label, errorText }) => {
-    const [selectedCity, setSelectedCity] = useState('');
+  ({ options, isValid, label, errorText, onChange, value }) => {
+    const [selectedCity, setSelectedCity] = useState(value || '');
     const [searchValue, setSearchValue] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -26,12 +26,12 @@ export const DropdownCity: React.FC<TCityInputInterface> = memo(
 
     // Обработка изменения текста в инпуте
     const handleInputChange = (e: ChangeEvent) => {
-      const { value } = e.target as HTMLInputElement;
-      setSearchValue(value);
+      const intputValue = (e.target as HTMLInputElement).value;
+      setSearchValue(intputValue);
       setIsOpen(true);
 
       // Если начали печатать поверх выбранного города, очищаем выбор
-      if (selectedCity && value !== selectedCity) {
+      if (selectedCity && intputValue !== selectedCity) {
         setSelectedCity('');
       }
     };
@@ -83,6 +83,12 @@ export const DropdownCity: React.FC<TCityInputInterface> = memo(
         document.removeEventListener('keydown', handleEscape);
       };
     }, [isOpen]);
+
+    useEffect(() => {
+      if (onChange) {
+        onChange(selectedCity);
+      }
+    }, [onChange, selectedCity]);
 
     return (
       <div className={styles.container} ref={dropdownRef}>
@@ -141,7 +147,7 @@ export const DropdownCity: React.FC<TCityInputInterface> = memo(
                     readOnly
                     className={styles.item}
                     onClick={() => handleCitySelect(option.name)}
-                    id={option.id.toString()}
+                    id={option.id}
                   />
                 ))
               ) : (

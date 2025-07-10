@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.avatar {
+    width: 100%;
+    height: auto;
+}
+
+.uploadButton {
+    position: relative;
+    display: block;
+    width: 72px;
+}
+
+.add {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+}

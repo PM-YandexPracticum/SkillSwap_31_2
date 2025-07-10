@@ -9,9 +9,15 @@ import {
   getCities,
   getGenders,
 } from '@api/api';
-import { TUser, TLoginData } from '@entities/user';
+import {
+  TUser,
+  TLoginData,
+  TRegistrationState,
+  TRegUser,
+} from '@entities/user';
 import { TCityItem } from '@entities/cities';
 import { TGenderItem } from '@entities/genders';
+import { TRegSkill } from '@entities/skills.tsx';
 
 export type TAuthState = {
   user: TUser | null;
@@ -21,6 +27,8 @@ export type TAuthState = {
   error: string | null;
   cities: TCityItem[];
   genders: TGenderItem[];
+  isRegistration: boolean;
+  registration: TRegistrationState;
 };
 
 const initialState: TAuthState = {
@@ -28,9 +36,16 @@ const initialState: TAuthState = {
   isLoading: false,
   users: [],
   isUsersLoading: false,
+  isRegistration: false,
   error: null,
   cities: [],
   genders: [],
+  registration: {
+    user: {} as TRegUser,
+    skill: {} as TRegSkill,
+    step: 1,
+    maxStep: 3,
+  },
 };
 
 export const loginUserThunk = createAsyncThunk(
@@ -47,7 +62,16 @@ export const loginUserThunk = createAsyncThunk(
 
 export const registerUserThunk = createAsyncThunk(
   'user/register',
-  async (userData: TUser, { rejectWithValue }) => {
+  async (regUserData: TRegUser, { getState, rejectWithValue }) => {
+    const userData: TUser = {
+      ...regUserData,
+      id: '',
+      age: 0,
+      about: '',
+      created_at: new Date().toISOString(),
+      modified_at: new Date().toISOString(),
+    };
+    const { auth } = getState() as { auth: TAuthState };
     try {
       const users = await getUsers();
       const exists = users.find(
@@ -57,8 +81,21 @@ export const registerUserThunk = createAsyncThunk(
         return rejectWithValue('User already exists');
       }
 
-      const id = await addUser(userData.email, userData.password);
-      return { ...userData, id };
+      userData.id = await addUser(userData.email, userData.password);
+      await patchUser({
+        user_id: userData.id,
+        gender_id:
+          auth.genders.find((item) => item.name === (regUserData.gender || ''))
+            ?.id || null,
+        city_id:
+          auth.cities.find((item) => item.name === (regUserData.city || ''))
+            ?.id || null,
+        name: userData.name || null,
+        about: userData.about || null,
+        avatar_url: userData.avatar_url || null,
+        birthday: userData.birthday || null,
+      });
+      return userData;
     } catch (error) {
       return rejectWithValue((error as Error).message || 'Unknown error');
     }
@@ -125,6 +162,34 @@ export const authSlice = createSlice({
   reducers: {
     logout(state) {
       state.user = null;
+    },
+    nextRegistrationStep(state, payload) {
+      switch (state.registration.step) {
+        case 1:
+          state.registration.step += 1;
+          if (payload.payload) {
+            state.registration.user.email = payload.payload.email;
+            state.registration.user.password = payload.payload.password;
+          }
+          break;
+        case 2:
+          state.registration.step += 1;
+          state.registration.user.avatar_url = payload.payload.avatar;
+          state.registration.user.name = payload.payload.name;
+          state.registration.user.birthday = payload.payload.birthday;
+          state.registration.user.gender = payload.payload.gender;
+          state.registration.user.city = payload.payload.city;
+          state.registration.user.wishes_ids = payload.payload.wishes_ids;
+          break;
+        case 3:
+          state.registration.skill = payload.payload;
+          state.isRegistration = true;
+          break;
+        default:
+      }
+    },
+    backRegistrationStep(state) {
+      if (state.registration.step > 1) state.registration.step -= 1;
     },
   },
   extraReducers: (builder) => {
@@ -198,7 +263,7 @@ export const authSlice = createSlice({
       })
       .addCase(getCitiesThunk.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload ?? 'Failed to fetch cities';
+        state.error = action.error.message ?? 'Failed to fetch cities';
       });
 
     builder
@@ -212,10 +277,11 @@ export const authSlice = createSlice({
       })
       .addCase(getGendersThunk.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload ?? 'Failed to fetch genders';
+        state.error = action.error.message ?? 'Failed to fetch genders';
       });
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, nextRegistrationStep, backRegistrationStep } =
+  authSlice.actions;
 export default authSlice.reducer;

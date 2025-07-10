@@ -9,10 +9,12 @@ import chevronUp from '../../../../assets/icons/chevron-up.svg';
 import { TDropdownGender } from './type';
 
 export const DropdownGender: React.FC<TDropdownGender> = memo(
-  ({ label, isValid, errorText }) => {
+  ({ label, isValid, errorText, onChange, value }) => {
     const genders = ['Мужской', 'Женский'];
 
-    const [selectedOption, setSelectedOption] = useState<string>('Не указан');
+    const [selectedOption, setSelectedOption] = useState<string>(
+      value || 'Не указан'
+    );
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -47,6 +49,12 @@ export const DropdownGender: React.FC<TDropdownGender> = memo(
         document.removeEventListener('keydown', handleEscapeKey);
       };
     }, [isOpen]);
+
+    useEffect(() => {
+      if (onChange) {
+        onChange(selectedOption);
+      }
+    }, [onChange, selectedOption]);
 
     return (
       <div className={styles.container}>

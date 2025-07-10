@@ -2,18 +2,25 @@ import { memo, useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
 
 import styles from '../inputs.module.scss';
-import chevronDown from '../../../../assets/icons/chevron-down.svg';
-import chevronUp from '../../../../assets/icons/chevron-up.svg';
 
-import { TSkill, TSkillInterface } from './type';
+import { TSkillInterface, TSkillOption } from './type';
+
+import chevronDown from '@assets/icons/chevron-down.svg';
+import chevronUp from '@assets/icons/chevron-up.svg';
 
 export const DropdownSkill: React.FC<TSkillInterface> = memo(
-  ({ options, isValid, label, errorText }) => {
-    const [selectedSkill, setSelectedSkill] = useState<TSkill[]>([]);
+  ({ options, isValid, label, errorText, onChange, placeholder, values }) => {
+    const preValues = values.length
+      ? values.map((item) => {
+          const option = options.find((op) => op.id === item);
+          return option || null;
+        })
+      : [];
+    const [selectedSkill, setSelectedSkill] = useState<TSkillOption[]>(
+      preValues.length ? preValues.filter((item) => item !== null) : []
+    );
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-
-    const placeholder = 'Выберите категорию';
 
     // Получаем текст для отображения
     const getDisplayText = () => {
@@ -24,7 +31,7 @@ export const DropdownSkill: React.FC<TSkillInterface> = memo(
     };
 
     // Переключение состояния опции (выбрана/не выбрана)
-    const handleOptionToggle = (option: TSkill) => {
+    const handleOptionToggle = (option: TSkillOption) => {
       setSelectedSkill((prev) => {
         const isAlreadySelected = prev.some((item) => item.id === option.id);
         if (isAlreadySelected) {
@@ -34,8 +41,14 @@ export const DropdownSkill: React.FC<TSkillInterface> = memo(
       });
     };
 
+    useEffect(() => {
+      if (onChange) {
+        onChange(selectedSkill.map((item) => item.id));
+      }
+    }, [onChange, selectedSkill]);
+
     // Проверка, выбрана ли опция
-    const isOptionSelected = (option: TSkill) => {
+    const isOptionSelected = (option: TSkillOption) => {
       return selectedSkill.some((item) => item.id === option.id);
     };
 

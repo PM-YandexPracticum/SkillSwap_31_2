@@ -35,3 +35,20 @@ fieldset {
 .separator:not(:empty)::after {
     margin-left: .25em;
 }
+
+.button-social {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
+.button-social img {
+    width: 24px;
+    height: 24px;
+}
+
+.submit-holder {
+    display: flex;
+    flex-direction: column;
+    padding-top: 16px
+}

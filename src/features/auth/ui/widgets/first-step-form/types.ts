@@ -9,6 +9,7 @@ export type FirstStepFormUIProps = {
   setPassword: (value: string) => void;
   isPasswordValid: boolean;
   passwordError?: string;
+  helpPasswordText?: string;
   googleSignIn: () => void;
   appleSignIn: () => void;
   onSubmit: (e: SyntheticEvent) => void;

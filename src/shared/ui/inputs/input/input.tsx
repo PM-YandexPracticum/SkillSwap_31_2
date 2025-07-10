@@ -6,7 +6,15 @@ import styles from '../inputs.module.scss';
 import { TInputInterface } from './type';
 
 export const Input: React.FC<TInputInterface> = memo(
-  ({ label, isValid, placeholder, onChange, errorText, helpText, value }) => {
+  ({
+    label,
+    isValid = true,
+    placeholder,
+    onChange,
+    errorText,
+    helpText,
+    value,
+  }) => {
     return (
       <div className={styles.container}>
         <label className={styles.lable} htmlFor={`${label}Input`}>

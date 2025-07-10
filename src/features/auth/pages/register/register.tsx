@@ -1,8 +1,13 @@
 import { RegisterUI } from '@features/auth/ui/pages';
+import {
+  getRegistrationMaxStep,
+  getRegistrationStep,
+} from '@services/selectors';
+import { useSelector } from '@services/store.ts';
 
 export const Register = () => {
-  const title = 'Шаг 1 из 3';
-  const step = 1;
-  const stepTotal = 3;
+  const step = useSelector(getRegistrationStep);
+  const stepTotal = useSelector(getRegistrationMaxStep);
+  const title = `Шаг ${step} из ${stepTotal}`;
   return <RegisterUI title={title} step={step} stepTotal={stepTotal} />;
 };

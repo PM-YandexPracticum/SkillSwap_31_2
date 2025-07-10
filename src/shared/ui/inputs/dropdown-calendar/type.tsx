@@ -6,4 +6,6 @@ export interface TDropdownCalendar {
   isValid: boolean;
   label: string;
   errorText?: string;
+  date: string;
+  onChange: (date: string) => void;
 }
