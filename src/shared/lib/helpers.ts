@@ -7,8 +7,7 @@ import { saltRounds, tagThemes, TagTheme, ThemeValue } from '@lib/constants';
 
 // Хэширование пароля перед сохранением
 export async function hashPassword(plainPassword: string): Promise<string> {
-  const hash = await bcrypt.hash(plainPassword, saltRounds);
-  return hash;
+  return bcrypt.hash(plainPassword, saltRounds);
 }
 
 // Проверка пароля при входе
@@ -16,8 +15,7 @@ export async function verifyPassword(
   plainPassword: string,
   hash: string
 ): Promise<boolean> {
-  const result = await bcrypt.compare(plainPassword, hash);
-  return result;
+  return bcrypt.compare(plainPassword, hash);
 }
 
 // Преобразуем скилы (добавляем данные пользователей)
@@ -43,7 +41,7 @@ export function getSkillsWithUserData(
 }
 
 // Фильтруем только тех, у кого есть хотя бы один is_liked skill
-export function getFavoriteSkillsithUsers(
+export function getFavoriteSkillsWithUsers(
   usersWithSkills: TUserWithSkills[]
 ): TUserWithSkills[] {
   return usersWithSkills.filter((user) =>
@@ -117,7 +115,7 @@ export const getFiltredSkills = (
 
   return skills.filter((skill) => {
     // Фильтрация по полу
-    if (searchGender !== 'not_specified' && skill.gender !== searchGender) {
+    if (searchGender !== '' && skill.gender !== searchGender) {
       return false;
     }
 
@@ -128,19 +126,38 @@ export const getFiltredSkills = (
     ) {
       return false;
     }
-    // Фильтрация по тексту (ищем названиях навыков)
-    if (searchText) {
-      // Проверяем, есть ли хотя бы один навык с подходящим названием
-      const hasMatchingSkill = skill.skills.some(
-        (skillName) =>
-          skillName.name?.toLowerCase().includes(searchTextLower) ?? false
-      );
 
-      if (!hasMatchingSkill) {
-        return false;
-      }
+    // Получение общего списка скилов
+    const skillsList = skill.skills
+      .map((skillName) => skillName.name?.toLowerCase())
+      .filter(Boolean);
+    const wishesList = skill.wishes
+      .map((wish) => wish.name?.toLowerCase())
+      .filter(Boolean);
+
+    let searchInList: string[];
+    if (searchMain === 'Хочу научиться') {
+      searchInList = skillsList;
+    } else if (searchMain === 'Могу научить') {
+      searchInList = wishesList;
+    } else {
+      searchInList = [...skillsList, ...wishesList];
     }
-    return true;
+
+    // Фильтрация по тексту
+    if (
+      searchTextLower &&
+      !searchInList.some((name) => name.includes(searchTextLower))
+    ) {
+      return false;
+    }
+    // Фильтрация по подкатегориям
+    return !(
+      searchSubcategories.length > 0 &&
+      !searchSubcategories.some((sub) =>
+        searchInList.includes(sub.toLowerCase())
+      )
+    );
   });
 };
 

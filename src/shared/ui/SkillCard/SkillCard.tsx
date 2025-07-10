@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { ButtonUI } from '../button';
 import { LikeButtonUI } from '../like-button';
@@ -6,8 +7,11 @@ import { SkillTagUI } from '../skillTag';
 
 import styles from './SkillCard.module.css';
 
+import { useDispatch, useSelector } from '@services/store';
+import { toggleLikeThuhk } from '@features/skills/skillsSlice';
 import { SkillWithTheme } from '@entities/skills';
 import { TSubcategoryWithCategoryName } from '@entities/Categories/types';
+import { getCurrentUser } from '@services/selectors';
 
 interface SkillCardProps {
   name: string | undefined;
@@ -24,11 +28,32 @@ export const SkillCard: React.FC<SkillCardProps> = ({
   skills,
   wishes,
 }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const currentUser = useSelector(getCurrentUser);
+  const currentSkill = skills[0];
   const visibleSkills = skills.slice(0, 2);
   const extraSkillsCount = skills.length > 2 ? skills.length - 2 : undefined;
 
   const visibleWishes = wishes.slice(0, 2);
   const extraWishesCount = wishes.length > 2 ? wishes.length - 2 : undefined;
+
+  const userSkill = { ...skills[0] };
+
+  const handleToggle = () => {
+    if (currentUser) {
+      dispatch(
+        toggleLikeThuhk({
+          skill_id: currentSkill.id,
+          currentUserId: currentUser.id,
+          is_liked: currentSkill.is_liked,
+        })
+      );
+    } else {
+      navigate('/login');
+    }
+  };
 
   return (
     <div className={styles.card}>
@@ -40,7 +65,11 @@ export const SkillCard: React.FC<SkillCardProps> = ({
             <p className={styles.meta}>{cityAgeText}</p>
           </div>
           <div className={styles.likebutton}>
-            <LikeButtonUI initialLiked={false} />
+            <LikeButtonUI
+              isLiked={currentSkill ? currentSkill.is_liked : false}
+              onClick={handleToggle}
+              isDisabled={!currentSkill}
+            />
           </div>
         </div>
       </div>
@@ -72,9 +101,11 @@ export const SkillCard: React.FC<SkillCardProps> = ({
         </div>
       </div>
 
-      <ButtonUI type="Primary" htmlType="button" classes={styles.button}>
-        Подробнее
-      </ButtonUI>
+      <Link to={`/skill/:${userSkill.id}`} className={styles.link}>
+        <ButtonUI type="Primary" htmlType="button" classes={styles.button}>
+          Подробнее
+        </ButtonUI>
+      </Link>
     </div>
   );
 };

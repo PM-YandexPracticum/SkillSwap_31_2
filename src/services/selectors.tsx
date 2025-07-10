@@ -1,3 +1,5 @@
+import { createSelector } from '@reduxjs/toolkit';
+
 import { RootState } from './store';
 
 import { TCategory, TSubcategory } from '@entities/Categories/types';
@@ -22,6 +24,14 @@ export const getAllGenders = (state: RootState) => state.auth.genders;
 
 export const getSkills = (state: RootState) => state.skills.skills;
 export const getSkillsIsLoading = (state: RootState) => state.skills.isLoading;
+export const getSkillById = (id: string) => (state: RootState) =>
+  state.skills.skills.find((skill) => skill.id === id);
+
+export const getUserFirstSkill = (id: string) => (state: RootState) =>
+  state.auth.users.find((user) => user.id === id)?.skills_ids[0];
+
+export const getUserById = (id: string) => (state: RootState) =>
+  state.auth.users.find((user) => user.id === id);
 
 export const getCategories = (state: RootState): TCategory[] =>
   state.categories.categories;
@@ -60,3 +70,23 @@ export const getFilterSubcategories = (state: RootState) =>
 export const getFilterSubcategoriesByIds = (state: RootState, ids: string[]) =>
   state.categories.subcategories.filter((item) => ids.includes(item.id));
 export const getFilterText = (state: RootState) => state.filter.text;
+
+export const getIncomingSuggestions = (state: RootState) =>
+  state.suggestions.incoming;
+// получение списка всех тегов фильтра
+export const getFilterTags = createSelector(
+  [
+    getFilterMain,
+    getFilterGender,
+    getFilterText,
+    getFilterSubcategories,
+    getFilterCities,
+  ],
+  (main, gender, text, subcategories, cities) => [
+    ...(main ? [main] : []),
+    ...(gender ? [gender] : []),
+    ...(text ? [text] : []),
+    ...subcategories,
+    ...cities,
+  ]
+);

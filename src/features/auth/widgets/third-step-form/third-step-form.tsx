@@ -16,7 +16,7 @@ import {
   getIsRegistration,
   getRegistrationData,
 } from '@services/selectors.tsx';
-import { addSkillThunk } from '@features/skills/skillsSlice.tsx';
+import { addSkillThunk } from '@features/skills/skillsSlice';
 
 export const ThirdStepForm: React.FC = () => {
   const dispatch = useDispatch();
@@ -75,12 +75,10 @@ export const ThirdStepForm: React.FC = () => {
   useEffect(() => {
     if (isRegistration) {
       dispatch(registerUserThunk(user))
-        .then((data) => {
-          console.log('adduser', data);
+        .then(() => {
           return loginUserThunk({ email: user.email, password: user.password });
         })
-        .then((data) => {
-          console.log('login', data);
+        .then(() => {
           return dispatch(
             addSkillThunk({
               category_id: skill.category || '',
@@ -91,12 +89,11 @@ export const ThirdStepForm: React.FC = () => {
             })
           );
         })
-        .then((data) => {
-          console.log('skill', data);
+        .then(() => {
           navigate('/');
         });
     }
-  }, [isRegistration, user, dispatch]);
+  }, [isRegistration, user, dispatch, skill, navigate]);
   const onBack = (e: SyntheticEvent) => {
     e.preventDefault();
     dispatch(backRegistrationStep());

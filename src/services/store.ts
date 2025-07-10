@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import {
   TypedUseSelectorHook,
@@ -9,12 +10,16 @@ import auth from '@features/auth/services/authSlice';
 import skills from '@features/skills/skillsSlice';
 import categories from '@app/features/categories/categoriesSlice';
 import filter from '@features/filter/filterSlice';
+import suggestions from '@features/suggestions/suggestionsSlice';
+import notifications from '@features/notification/notificationSlice';
 
 export const rootReducer = combineReducers({
   auth,
   skills,
   categories,
   filter,
+  suggestions,
+  notifications,
 });
 
 export const store = configureStore({

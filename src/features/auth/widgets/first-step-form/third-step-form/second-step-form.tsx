@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 
 import { SecondStepFormUI } from '@features/auth/ui/widgets/second-step-form';
 import { useDispatch, useSelector } from '@services/store';
@@ -31,16 +31,6 @@ export const SecondStepForm: React.FC = () => {
     gender.length > 0 &&
     city.length > 0 &&
     wishes.length > 0;
-
-  console.log({
-    avatar,
-    name,
-    date,
-    gender,
-    city,
-    cats,
-    wishes,
-  });
 
   const cities = useSelector(getAllCities);
   const categories = useSelector(getCategories).map((item) => ({

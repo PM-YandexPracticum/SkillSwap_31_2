@@ -1,4 +1,5 @@
 export type LikeButtonUIProps = {
-  initialLiked: boolean;
-  onLikeToggle?: (isLiked: boolean) => void;
+  isLiked: boolean;
+  onClick: () => void;
+  isDisabled: boolean;
 };

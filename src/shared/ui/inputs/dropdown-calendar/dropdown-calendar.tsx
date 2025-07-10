@@ -170,15 +170,15 @@ export const DropdownCalendar: React.FC<TDropdownCalendar> = memo(
               nextLabel={null}
               prevLabel={null}
               showNeighboringMonth={false}
-              formatShortWeekday={(locale, date) => {
+              formatShortWeekday={(locale, dateObj) => {
                 const weekDays = {
                   'ru-RU': ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'], // Для русской локали
                   // Можно добавить другие локали по аналогии
                 };
                 if (locale === 'ru-RU') {
-                  return weekDays[locale][date.getDay()];
+                  return weekDays[locale][dateObj.getDay()];
                 }
-                return weekDays['ru-RU'][date.getDay()]; // По умолчанию - русская локаль
+                return weekDays['ru-RU'][dateObj.getDay()]; // По умолчанию - русская локаль
               }}
             />
 

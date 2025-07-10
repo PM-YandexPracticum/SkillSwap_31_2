@@ -1,0 +1,60 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 324px;
+    font-family: inherit;
+    background-color: #ffffff;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin: 32px;
+}
+
+.user {
+    display: flex;
+    gap: 12px;
+    max-width: 260px;
+}
+
+.avatar {
+    border-radius: 50%;
+}
+
+.text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px
+}
+
+.name {
+    font-weight: 500;
+    font-size: 24px;
+}
+
+.info {
+    font-weight: 400;
+    font-size: 12px;
+}
+
+.about {
+    max-width: 260px;
+}
+
+.about-text {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 2%;
+}
+
+.skill, .wishes {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 260px;
+}

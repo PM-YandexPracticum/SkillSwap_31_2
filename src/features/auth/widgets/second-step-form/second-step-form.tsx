@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 
 import { SecondStepFormUI } from '@features/auth/ui/widgets/second-step-form';
 import { useDispatch, useSelector } from '@services/store';

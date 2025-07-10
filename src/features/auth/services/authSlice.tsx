@@ -52,8 +52,7 @@ export const loginUserThunk = createAsyncThunk(
   'user/login',
   async (data: TLoginData, { rejectWithValue }) => {
     try {
-      const user = await getUserByEmailPassword(data);
-      return user;
+      return await getUserByEmailPassword(data);
     } catch (error) {
       return rejectWithValue((error as Error).message || 'Unknown error');
     }

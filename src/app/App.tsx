@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 
 import {
   Register,
-  loginUserThunk,
   getUsersThunk,
   AuthHeader,
   getCitiesThunk,
@@ -20,12 +19,12 @@ import {
   Error500,
 } from '@app/pages';
 import { useDispatch } from '@services/store';
-import { getSkillsThunk } from '@app/features/skills/skillsSlice';
+import { getSkillsThunk } from '@features/skills/skillsSlice';
 import { Modal } from '@widgets/modal';
 import {
   getCategoriesThunk,
   getSubCategoriesThunk,
-} from '@app/features/categories/categoriesSlice';
+} from '@features/categories/categoriesSlice';
 import { CategoriesList } from '@widgets/categories-list';
 
 export const App = () => {
@@ -57,6 +56,9 @@ export const App = () => {
         dispatch(getSubCategoriesThunk());
       })
       .then(() => {
+        dispatch(getSubCategoriesThunk());
+      })
+      .then(() => {
         dispatch(getGendersThunk());
       })
       .catch(() => {
@@ -77,14 +79,14 @@ export const App = () => {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/skill:id" element={<Skill />} />
+        <Route path="/skill/:id" element={<Skill />} />
         <Route path="*" element={<NotFound404 />} />
         <Route path="/error-500" element={<Error500 />} />
         <Route path="/menu/skills" element={<Home />} />
       </Routes>
       {background && (
         <Routes>
-          <Route path="/skill:id" element={<Skill />} />
+          <Route path="/skill/:id" element={<Skill />} />
           <Route
             path="/menu/skills"
             element={

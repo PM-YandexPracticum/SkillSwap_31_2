@@ -2,7 +2,13 @@
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import { addSkill, patchSkill, getSkills } from '@api/api';
+import {
+  addSkill,
+  patchSkill,
+  getSkills,
+  addUserFavoriteSkill,
+  removeUserFavoriteSkill,
+} from '@api/api';
 import { TSkill } from '@entities/skills';
 import { TAuthState } from '@features/auth/services/authSlice';
 
@@ -92,6 +98,22 @@ export const patchSkillThunk = createAsyncThunk<
   }
 });
 
+export const toggleLikeThuhk = createAsyncThunk<
+  void,
+  {
+    skill_id: string;
+    currentUserId: string;
+    is_liked: boolean;
+  },
+  { rejectValue: string }
+>('skills/toggleLike', async (payload) => {
+  if (payload.is_liked) {
+    await removeUserFavoriteSkill(payload.currentUserId, payload.skill_id);
+  } else {
+    await addUserFavoriteSkill(payload.currentUserId, payload.skill_id);
+  }
+});
+
 export const skillSlice = createSlice({
   name: 'skills',
   initialState,
@@ -132,6 +154,15 @@ export const skillSlice = createSlice({
       .addCase(patchSkillThunk.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || 'Failed to update skill';
+      })
+      .addCase(toggleLikeThuhk.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(toggleLikeThuhk.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(toggleLikeThuhk.rejected, (state, action) => {
+        state.error = action.payload || 'Failed to update skillLike';
       });
   },
 });

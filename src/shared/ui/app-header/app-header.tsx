@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './app-header.module.scss';
@@ -13,11 +13,13 @@ import defaultAvatar from '@assets/default-avatar.png';
 import { useSelector } from '@services/store';
 import { getIsFiltred } from '@services/selectors';
 import { Search } from '@widgets/search';
-import { ButtonUI } from '@ui/button';
 import { AuthButtons } from '@features/auth';
+import { NotificationsModal } from '@widgets/notifications-modal/NotificationsModal';
 
 export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
   const isFiltred = useSelector(getIsFiltred);
+
+  const [isModalOpen, setModalOpen] = useState(false);
   return (
     <header className={styles.header}>
       <Logotype />
@@ -38,16 +40,16 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
 
           {user ? (
             <>
-              <Link
-                to="/notifications"
+              <button
                 type="button"
+                onClick={() => setModalOpen(true)}
                 className={styles.themeSwitcher}
-                title="Напоминания"
+                title="Уведомления"
               >
                 <span className={styles.bell}>
                   <img src={bell} width={24} height={24} alt="bell" />
                 </span>
-              </Link>
+              </button>
               <Link
                 to="/favorites"
                 type="button"
@@ -76,6 +78,9 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ user }) => {
           )}
         </div>
       </nav>
+      {isModalOpen && (
+        <NotificationsModal onClose={() => setModalOpen(false)} />
+      )}
     </header>
   );
 };

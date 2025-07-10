@@ -1,7 +1,9 @@
 .filter-tags {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 12px;
+  margin-top: 32px;
   margin-left: 24px;
 }
 

@@ -1,0 +1,10 @@
+:global(*),
+:global(*::before),
+:global(*::after) {
+  box-sizing: border-box;
+}
+
+.wrapper {
+  max-height:435px;
+  padding: 60px;
+}

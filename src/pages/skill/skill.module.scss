@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    font-weight: 400;
+    font-family: "Roboto", sans-serif;
+}
+
+.offer {
+    display: flex;
+    gap: 24px;
+}
+
+.suggestions {
+    width: 100%;
+}
+
+.suggestions-title {
+    margin-bottom: 32px;
+}
+
+.suggestions-cards {
+    position: relative;
+    display: flex;
+    gap: 24px;
+    width: 100%;
+
+    & > :last-child {
+        margin-right: -24px; /* Убираем отступ справа */
+    }
+}
+
+.page-button-right {
+    position: absolute;
+    top: 168px;
+    right: 0;
+}
+
+.page-button-left {
+    position: absolute;
+    top: 168px;
+    left: -35px;
+}

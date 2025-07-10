@@ -1,6 +1,5 @@
-import React, { SyntheticEvent } from 'react';
+import { SyntheticEvent } from 'react';
 
-import { TCity } from '@ui/inputs/dropdown-city/type';
 import { TSkillOption } from '@ui/inputs/dropdown-skill/type';
 
 export type ThirdStepFormUIProps = {
