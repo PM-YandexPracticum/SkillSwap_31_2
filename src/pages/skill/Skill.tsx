@@ -1,17 +1,16 @@
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 import React, { useEffect, useState } from 'react';
 
 import styles from './skill.module.scss';
 
 import {
   getAllSubcategories,
-  getIncomingSuggestions,
   getSkillById,
   getSkills,
   getSkillsIsLoading,
   getUserById,
+  getUsers,
 } from '@app/services/selectors';
 import { Preloader } from '@app/shared/ui';
 import { MiniProfile } from '@app/shared/ui/mini-profile/MiniProfile';
@@ -20,8 +19,8 @@ import { getSkillsWithUserData } from '@app/shared/lib/helpers';
 import { SkillInfo } from '@app/shared/ui/skill-info/SkillInfo';
 import { fetchSuggestions } from '@app/features/suggestions/suggestionsSlice';
 import { useDispatch } from '@app/services/store';
-import { Suggestion } from '@app/shared/ui/suggestion/Suggestion';
 import { PageButton } from '@app/shared/ui/page-button/PageButton';
+import { SkillCard } from '@app/widgets';
 
 export const Skill = React.memo(() => {
   // простая задача превращается в кашу из-за непродуманной модели данных
@@ -30,13 +29,15 @@ export const Skill = React.memo(() => {
   const skill = useSelector(getSkillById(id!.slice(1)));
   const isLoading = useSelector(getSkillsIsLoading);
   const user = useSelector(getUserById(skill ? skill.owner_id : ''));
+  const users = useSelector(getUsers);
   const skills = useSelector(getSkills);
   const subcategories = useSelector(getAllSubcategories);
 
   // приходят с сервера 100+ предложений и ограничил до 3
   // не понятно зачем сервера возвращает такие же предложения как и сама карточка
   // скорее всего проблема на беке
-  const suggestions = useSelector(getIncomingSuggestions).slice(0, 5);
+  // возвращает не то, что нужно для переиспользования компонента карточки
+  // const suggestions = useSelector(getIncomingSuggestions).slice(0, 5);
 
   useEffect(() => {
     if (user) {
@@ -45,20 +46,23 @@ export const Skill = React.memo(() => {
   }, [user, dispatch]);
 
   // в рекомендациях есть id пользователей, которые не попадают в глобальный state
-  const userWithSkills: TUserWithSkills[] = getSkillsWithUserData(
-    [user!],
+  const currentUserWithSkills: TUserWithSkills[] =
+    user! && getSkillsWithUserData([user], skills, subcategories);
+
+  const usersWithSkills: TUserWithSkills[] = getSkillsWithUserData(
+    users,
     skills,
     subcategories
   );
 
-  // можео было бы сделать кастоный хук
+  // можно было бы сделать кастоный хук
   // Состояние для текущей страницы
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 4;
   // Рассчитываем общее количество страниц
-  const totalPages = Math.ceil(suggestions.length / itemsPerPage);
+  const totalPages = Math.ceil(usersWithSkills.length / itemsPerPage);
   // Получаем карточки для текущей страницы
-  const displayedSuggestions = suggestions.slice(
+  const displayedSuggestions = usersWithSkills.slice(
     currentPage * itemsPerPage,
     (currentPage + 1) * itemsPerPage
   );
@@ -83,7 +87,7 @@ export const Skill = React.memo(() => {
             <MiniProfile
               user={user}
               skill={skill}
-              userWithSkills={userWithSkills}
+              userWithSkills={currentUserWithSkills}
             />
             <SkillInfo skill={skill} />
           </div>
@@ -91,7 +95,17 @@ export const Skill = React.memo(() => {
             <h2 className={styles.suggestionsTitle}>Похожие предложения</h2>
             <div className={styles.suggestionsCards}>
               {displayedSuggestions.map((suggest) => {
-                return <Suggestion key={uuidv4()} skillId={suggest.skill} />;
+                return (
+                  <SkillCard
+                    key={suggest.id}
+                    name={suggest.name ?? undefined}
+                    city={suggest.city ?? undefined}
+                    age={suggest.age ?? undefined}
+                    avatar_url={suggest.avatar_url ?? undefined}
+                    skills={suggest.skills}
+                    wishes={suggest.wishes}
+                  />
+                );
               })}
               {totalPages > 1 && (
                 <div className={styles.navigation}>
