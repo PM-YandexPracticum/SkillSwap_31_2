@@ -54,16 +54,6 @@ export const SkillInfo: FC<TSkillInfoProps> = ({ skill }) => {
                                 <img key={uuidv4()} src={image} alt="превью" className={styles.preview} />
                             )
                         })}
-                        {/* {extraImages && (
-                            <div className={styles.extendImage}>
-                                <label htmlFor="count" className={styles.label}>
-                                    <img src={skill.images[2]} alt="превью" className={clsx([styles.preview, styles.blur])} />
-
-                                    <button id="count" className={styles.count}>+{extraImages}</button>
-
-                                </label>
-                            </div>
-                        )} */}
                     </div>
                 </div>
             </div>

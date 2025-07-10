@@ -59,3 +59,5 @@ export const getFilterMain = (state: RootState) => state.filter.main;
 export const getFilterSubcategories = (state: RootState) =>
   state.filter.subcategories;
 export const getFilterText = (state: RootState) => state.filter.text;
+
+export const getIncomingSuggestions = (state: RootState) => state.suggestions.incoming;
