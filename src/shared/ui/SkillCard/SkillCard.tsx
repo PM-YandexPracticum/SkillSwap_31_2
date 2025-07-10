@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { ButtonUI } from '../button';
 import { LikeButtonUI } from '../like-button';
@@ -38,6 +38,8 @@ export const SkillCard: React.FC<SkillCardProps> = ({
 
   const visibleWishes = wishes.slice(0, 2);
   const extraWishesCount = wishes.length > 2 ? wishes.length - 2 : undefined;
+
+  const userSkill = { ...skills[0] };
 
   const handleToggle = () => {
     if (currentUser) {
@@ -99,9 +101,11 @@ export const SkillCard: React.FC<SkillCardProps> = ({
         </div>
       </div>
 
-      <ButtonUI type="Primary" htmlType="button" classes={styles.button}>
-        Подробнее
-      </ButtonUI>
+      <Link to={`/skill/:${userSkill.id}`} className={styles.link}>
+        <ButtonUI type="Primary" htmlType="button" classes={styles.button}>
+          Подробнее
+        </ButtonUI>
+      </Link>
     </div>
   );
 };

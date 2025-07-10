@@ -1,0 +1,112 @@
+.container {
+    width: 1020px;
+}
+
+.action {
+    display: flex;
+    justify-content: end;
+    gap: 16px;
+    margin: 32px 52px 0;
+}
+
+.card-user {
+    display: flex;
+    justify-content: space-between;
+    gap: 77px;
+    margin: 32px 52px 0;
+}
+
+.button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.content {
+    width: 399px;
+}
+
+.title {
+    font-weight: 50;
+    font-size: 32px;
+    font-family: "Jost", sans-serif;
+    line-height: 40px;
+}
+
+.category {
+    color: #69735D;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.description {
+    margin: 20px 0 28px;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 2%;
+}
+
+.offer-button {
+    width: 100%;
+}
+
+.images {
+    position: relative;
+    display: flex;
+}
+
+.page-button-right {
+    position: absolute;
+    top: 146px;
+    right: 132px;
+}
+
+.page-button-left {
+    position: absolute;
+    top: 146px;
+    left: 16px;
+}
+
+.image {
+    width: 324px;
+    height: 324px;
+    margin-right: 24px;
+    border-radius: 5%;
+    object-fit: cover;
+}
+
+.previews {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.preview {
+    width: 92px;
+    height: 92px;
+    object-fit: cover;
+    border-radius: 5%;
+    cursor: pointer;
+}
+
+.extend-image {
+    position: relative;
+}
+
+.blur {
+    opacity: 0.5;
+}
+
+.label {
+    cursor: pointer;
+}
+
+.count {
+    position: absolute;
+    top: 34px;
+    right: 35px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
