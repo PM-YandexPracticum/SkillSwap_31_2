@@ -5,7 +5,7 @@ import { SkillTagUI } from '../skillTag';
 import { MiniProfileProps } from './types';
 import styles from './mini-pforile.module.scss';
 
-import { getAgeSuffix, getTheme } from '@app/shared/lib/helpers';
+import { getAgeWord, getTheme } from '@app/shared/lib/helpers';
 import { useSelector } from '@app/services/store';
 import { getCategories } from '@app/services/selectors';
 import { TSubcategoryWithCategoryName } from '@app/entities/Categories/types';
@@ -52,7 +52,7 @@ export const MiniProfile: FC<MiniProfileProps> = ({
           <div className={styles.text}>
             <h2 className={styles.name}>{user.name}</h2>
             <p className={styles.info}>
-              {user.city}, {user.age} {getAgeSuffix(user.age!)}
+              {user.city}, {user.age} {getAgeWord(user.age!)}
             </p>
           </div>
         </div>

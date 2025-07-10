@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './skill.module.scss';
 
 import {
-  getAllSubcategories,
+  getSubCategories,
   getSkillById,
   getSkills,
   getSkillsIsLoading,
@@ -31,7 +31,7 @@ export const Skill = React.memo(() => {
   const user = useSelector(getUserById(skill ? skill.owner_id : ''));
   const users = useSelector(getUsers);
   const skills = useSelector(getSkills);
-  const subcategories = useSelector(getAllSubcategories);
+  const subcategories = useSelector(getSubCategories);
 
   // приходят с сервера 100+ предложений и ограничил до 3
   // не понятно зачем сервера возвращает такие же предложения как и сама карточка

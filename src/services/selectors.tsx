@@ -39,9 +39,6 @@ export const getSubCategory = (
 export const getAllCategories = (state: RootState) =>
   state.categories.allCategoris;
 
-export const getAllSubcategories = (state: RootState) =>
-  state.categories.subcategories;
-
 export const getIsFiltred = (state: RootState) => state.filter.is_filtred;
 export const getFilterCities = (state: RootState) => state.filter.cities;
 export const getFilterGender = (state: RootState) => state.filter.gender;

@@ -39,8 +39,7 @@ export const SkillCard: React.FC<SkillCardProps> = ({
   const visibleWishes = wishes.slice(0, 2);
   const extraWishesCount = wishes.length > 2 ? wishes.length - 2 : undefined;
 
-  const skillsList = [...skills];
-  const userSkill = { ...skillsList[0] };
+  const userSkill = { ...skills[0] };
 
   const handleToggle = () => {
     if (currentUser) {
