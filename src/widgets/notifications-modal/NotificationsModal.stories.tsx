@@ -36,6 +36,13 @@ const meta: Meta<typeof NotificationsModal> = {
                   },
                 ],
               }),
+              suggestions: () => ({
+                sent: [
+                  { id: 'suggestion-1', accepted: true },
+                  { id: 'suggestion-2', accepted: false },
+                  { id: 'suggestion-3', accepted: undefined },
+                ],
+              }),
             },
           })}
         >
@@ -51,5 +58,7 @@ export default meta;
 type Story = StoryObj<typeof NotificationsModal>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    onClose: () => {},
+  },
 };

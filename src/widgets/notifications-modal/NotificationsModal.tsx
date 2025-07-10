@@ -8,18 +8,67 @@ import { ModalUI } from '@ui/modal';
 import { NotificationData } from '@app/api/api';
 import { readNotificationsThunk } from '@features/notification/notificationSlice';
 
+type NotificationItemProps = {
+  text: string;
+};
+
+const NotificationItem: FC<NotificationItemProps> = ({ text }) => (
+  <div className={styles.item}>
+    <div className={styles.itemContent}>
+      <div className={styles.itemHeader}>
+        <span>{text}</span>
+      </div>
+    </div>
+  </div>
+);
+
+type NotificationItemWithActionProps = {
+  text: string;
+  onClick: () => void;
+};
+
+const NotificationItemWithAction: FC<NotificationItemWithActionProps> = ({
+  text,
+  onClick,
+}) => (
+  <div className={styles.item}>
+    <div className={styles.itemContent}>
+      <div className={styles.itemHeader}>
+        <span>{text}</span>
+      </div>
+      <button type="button" onClick={onClick}>
+        Перейти
+      </button>
+    </div>
+  </div>
+);
+
 export const NotificationsModal: FC<{ onClose: () => void }> = ({
   onClose,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const suggestions = useSelector((state) => state.suggestions.sent);
   const notifications = useSelector(
     (state) => state.notifications.notifications
   );
 
   const newNotifications = notifications.filter((n) => !n.is_read);
   const readNotifications = notifications.filter((n) => n.is_read);
+
+  const getNotificationText = (n: NotificationData): string => {
+    const suggestion = suggestions.find((s) => s.id === n.suggestion_id)!;
+
+    switch (suggestion.accepted) {
+      case true:
+        return `Пользователь ${n.sender_id} принял ваш обмен`;
+      case false:
+        return `Пользователь ${n.sender_id} отклонил ваш обмен`;
+      default:
+        return `Пользователь ${n.sender_id} предлагает вам обмен`;
+    }
+  };
 
   const handleReadAll = () => {
     dispatch(readNotificationsThunk({ notification_id: null }));
@@ -50,20 +99,12 @@ export const NotificationsModal: FC<{ onClose: () => void }> = ({
           <p>Нет новых уведомлений</p>
         ) : (
           <div className={styles.list}>
-            {newNotifications.map((n: NotificationData) => (
-              <div key={n.id} className={styles.item}>
-                <div className={styles.itemContent}>
-                  <div className={styles.itemHeader}>
-                    <span>Пользователь {n.sender_id} принял ваш обмен</span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => handleGoToSuggestion(n.suggestion_id)}
-                  >
-                    Перейти
-                  </button>
-                </div>
-              </div>
+            {newNotifications.map((n) => (
+              <NotificationItemWithAction
+                key={n.id}
+                text={getNotificationText(n)}
+                onClick={() => handleGoToSuggestion(n.suggestion_id)}
+              />
             ))}
           </div>
         )}
@@ -81,14 +122,8 @@ export const NotificationsModal: FC<{ onClose: () => void }> = ({
           <p>Нет просмотренных уведомлений</p>
         ) : (
           <div className={styles.list}>
-            {readNotifications.map((n: NotificationData) => (
-              <div key={n.id} className={styles.item}>
-                <div className={styles.itemContent}>
-                  <div className={styles.itemHeader}>
-                    <span>Пользователь {n.sender_id} предлагает вам обмен</span>
-                  </div>
-                </div>
-              </div>
+            {readNotifications.map((n) => (
+              <NotificationItem key={n.id} text={getNotificationText(n)} />
             ))}
           </div>
         )}
