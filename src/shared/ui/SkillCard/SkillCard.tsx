@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { ButtonUI } from '../button';
 import { LikeButtonUI } from '../like-button';
@@ -8,9 +9,6 @@ import styles from './SkillCard.module.css';
 
 import { SkillWithTheme } from '@entities/skills';
 import { TSubcategoryWithCategoryName } from '@entities/Categories/types';
-import { useSelector } from '@app/services/store';
-import { getSkillById } from '@app/services/selectors';
-import { Link, useNavigate } from 'react-router-dom';
 
 interface SkillCardProps {
   name: string | undefined;
@@ -18,7 +16,6 @@ interface SkillCardProps {
   avatar_url: string | undefined;
   skills: SkillWithTheme[];
   wishes: TSubcategoryWithCategoryName[];
-  skillId: string | null | undefined;
 }
 
 export const SkillCard: React.FC<SkillCardProps> = ({
@@ -27,13 +24,15 @@ export const SkillCard: React.FC<SkillCardProps> = ({
   avatar_url,
   skills,
   wishes,
-  skillId
 }) => {
   const visibleSkills = skills.slice(0, 2);
   const extraSkillsCount = skills.length > 2 ? skills.length - 2 : undefined;
 
   const visibleWishes = wishes.slice(0, 2);
   const extraWishesCount = wishes.length > 2 ? wishes.length - 2 : undefined;
+
+  const skillsList = [...skills];
+  const userSkill = { ...skillsList[0] };
 
   return (
     <div className={styles.card}>
@@ -77,7 +76,7 @@ export const SkillCard: React.FC<SkillCardProps> = ({
         </div>
       </div>
 
-      <Link to={`/skill/:${skillId}`} className={styles.link}>
+      <Link to={`/skill/:${userSkill.id}`} className={styles.link}>
         <ButtonUI type="Primary" htmlType="button" classes={styles.button}>
           Подробнее
         </ButtonUI>

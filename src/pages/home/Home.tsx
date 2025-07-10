@@ -6,7 +6,7 @@ import { Aside } from '@ui/aside/aside';
 import { FilterButtonsPanelUI } from '@ui/filter-buttons-panel';
 import { SkillsList } from '@pages/skills-list';
 import { skillListTypes } from '@lib/constants';
-import { getIsFiltred, getSkillById } from '@services/selectors';
+import { getIsFiltred } from '@services/selectors';
 
 export const Home = () => {
   const isFiltred = useSelector(getIsFiltred);

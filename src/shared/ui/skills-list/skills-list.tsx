@@ -6,38 +6,35 @@ import { SkillsListUIProps } from './type';
 import { SkillCard } from '@widgets/SkillCard';
 import { Preloader } from '@ui/preloader';
 import { SkillsListHeaderUI } from '@ui/skill-list-header';
-import { getUserFirstSkill } from '@app/services/selectors';
-import { useSelector } from '@app/services/store';
 
 export const SkillsListUI: FC<SkillsListUIProps> = ({
   usersWithSkills,
   title,
   isLoading,
 }) => {
-
   return (
-  <section className={styles.resultsSection}>
-    <SkillsListHeaderUI title={title} />
+    <section className={styles.resultsSection}>
+      <SkillsListHeaderUI title={title} />
 
-    {isLoading ? (
-      <Preloader />
-    ) : (
-      <ul className={styles.cardsRow}>
-        {usersWithSkills.map((user) => {
-          const skillId = useSelector(getUserFirstSkill(user.id));
-          return (
-          <SkillCard
-            key={user.id}
-            name={user.name ?? undefined}
-            city={user.city ?? undefined}
-            age={user.age ?? undefined}
-            avatar_url={user.avatar_url ?? undefined}
-            skills={user.skills}
-            wishes={user.wishes}
-            skillId={skillId}
-          />
-        )})}
-      </ul>
-    )}
-  </section>
-)};
+      {isLoading ? (
+        <Preloader />
+      ) : (
+        <ul className={styles.cardsRow}>
+          {usersWithSkills.map((user) => {
+            return (
+              <SkillCard
+                key={user.id}
+                name={user.name ?? undefined}
+                city={user.city ?? undefined}
+                age={user.age ?? undefined}
+                avatar_url={user.avatar_url ?? undefined}
+                skills={user.skills}
+                wishes={user.wishes}
+              />
+            );
+          })}
+        </ul>
+      )}
+    </section>
+  );
+};

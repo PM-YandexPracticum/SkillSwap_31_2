@@ -1,4 +1,3 @@
-import { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 
 import { TCategory, TSubcategory } from '@entities/Categories/types';
@@ -11,16 +10,14 @@ export const getAllGenders = (state: RootState) => state.auth.genders;
 
 export const getSkills = (state: RootState) => state.skills.skills;
 export const getSkillsIsLoading = (state: RootState) => state.skills.isLoading;
-export const getSkillById = (id: string) => (state: RootState) => state.skills.skills.find((skill) => skill.id === id);
+export const getSkillById = (id: string) => (state: RootState) =>
+  state.skills.skills.find((skill) => skill.id === id);
 
-export const getUserFirstSkill = (id: string) => (state: RootState) => {
-  const skill = state.auth.users.find((user) => user.id === id)?.skills_ids[0];
-  return skill;
-}
-export const getUserById = (id: string) => (state: RootState) => {
-  const user = state.auth.users.find((user) => user.id === id);
-  return user;
-}
+export const getUserFirstSkill = (id: string) => (state: RootState) =>
+  state.auth.users.find((user) => user.id === id)?.skills_ids[0];
+
+export const getUserById = (id: string) => (state: RootState) =>
+  state.auth.users.find((user) => user.id === id);
 
 export const getCategories = (state: RootState): TCategory[] =>
   state.categories.categories;
@@ -50,7 +47,8 @@ export const getSubCategory = (
 export const getAllCategories = (state: RootState) =>
   state.categories.allCategoris;
 
-export const getAllSubcategories = (state: RootState) => state.categories.subcategories;
+export const getAllSubcategories = (state: RootState) =>
+  state.categories.subcategories;
 
 export const getIsFiltred = (state: RootState) => state.filter.is_filtred;
 export const getFilterCities = (state: RootState) => state.filter.cities;
@@ -60,4 +58,5 @@ export const getFilterSubcategories = (state: RootState) =>
   state.filter.subcategories;
 export const getFilterText = (state: RootState) => state.filter.text;
 
-export const getIncomingSuggestions = (state: RootState) => state.suggestions.incoming;
+export const getIncomingSuggestions = (state: RootState) =>
+  state.suggestions.incoming;

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import { RootState, useSelector } from '@services/store';
+import { useSelector } from '@services/store';
 import { getCategories } from '@services/selectors';
 import { SkillCard as SkillCardUI } from '@ui/SkillCard';
 import { TSkill, SkillWithTheme } from '@entities/skills';
@@ -17,7 +17,6 @@ interface SkillCardProps {
   avatar_url: string | undefined;
   skills: TSkill[];
   wishes: TSubcategory[];
-  skillId: string | null | undefined;
 }
 
 export const SkillCard: React.FC<SkillCardProps> = ({
@@ -27,7 +26,6 @@ export const SkillCard: React.FC<SkillCardProps> = ({
   avatar_url,
   skills,
   wishes,
-  skillId
 }) => {
   const categories = useSelector(getCategories);
 
@@ -77,8 +75,6 @@ export const SkillCard: React.FC<SkillCardProps> = ({
       avatar_url={avatar_url}
       skills={skillTags}
       wishes={wishTags}
-      skillId={skillId}
-      
     />
   );
 };

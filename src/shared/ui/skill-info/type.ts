@@ -1,5 +1,5 @@
-import { TSkill } from "@app/entities/skills"
+import { TSkill } from '@app/entities/skills';
 
 export type TSkillInfoProps = {
-    skill: TSkill;
-}
+  skill: TSkill;
+};
