@@ -8,6 +8,9 @@ export const skillListTypes = {
   recommended: { title: 'Рекомендуем', size: 6 },
   favorites: { title: 'Избранное' },
   appropriate: { title: 'Подходящие предложения' },
+  exactly: { title: 'Точное совпадение', size: 3 },
+  newIdeas: { title: 'Новые идеи', size: 3 },
+  similar: { title: 'Похожие предложения', size: 4 },
 };
 
 // Сопоставление категории навыка с темой для отображения.
