@@ -1,4 +1,5 @@
 import { FC, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 
 import { SkillTagUI } from '../skillTag';
 import { ButtonUI } from '../button';
@@ -103,9 +104,11 @@ export const Suggestion: FC<TSuggestionProps> = ({ skillId }) => {
             )}
           </div>
         </div>
-        <ButtonUI type="Primary" classes={styles.moreButton}>
-          Подробнее
-        </ButtonUI>
+        <Link to={`/skill/:${user?.skills_ids[0]}`} className={styles.link}>
+          <ButtonUI type="Primary" classes={styles.moreButton}>
+            Подробнее
+          </ButtonUI>
+        </Link>
       </div>
     </div>
   );

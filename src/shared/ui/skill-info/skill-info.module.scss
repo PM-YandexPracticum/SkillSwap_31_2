@@ -11,19 +11,15 @@
 
 .card-user {
     display: flex;
+    justify-content: space-between;
     gap: 77px;
     margin: 32px 52px 0;
 }
 
 .button {
-    border: none;
     background: none;
+    border: none;
     cursor: pointer;
-}
-
-.card-user {
-    display: flex;
-    justify-content: space-between;
 }
 
 .content {
@@ -31,17 +27,17 @@
 }
 
 .title {
-    font-family: Jost, sans-serif;
-    font-size: 32px;
     font-weight: 50;
+    font-size: 32px;
+    font-family: "Jost", sans-serif;
     line-height: 40px;
 }
 
 .category {
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 16px;
     color: #69735D;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
 }
 
 .description {
@@ -75,9 +71,9 @@
 .image {
     width: 324px;
     height: 324px;
-    object-fit: cover;
-    border-radius: 5%;
     margin-right: 24px;
+    border-radius: 5%;
+    object-fit: cover;
 }
 
 .previews {
@@ -99,7 +95,7 @@
 }
 
 .blur {
-    opacity: 50%;
+    opacity: 0.5;
 }
 
 .label {

@@ -1,21 +1,24 @@
 .pageButton {
-    width: 32px;
-    height: 32px;
-    border: none;
-    border-radius: 50%;
-    background-color: #E4E8DF;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 32px;
+    height: 32px;
+    background-color: #E4E8DF;
+    border: none;
+    border-radius: 50%;
     cursor: pointer;
     transition: background-color 0.3s;
+
     &:hover {
         background-color: #b1bba5;
     }
 }
+
 .arrow-right {
     transform: rotate(90deg);
 }
+
 .arrow-left {
     transform: rotate(-90deg);
 }
