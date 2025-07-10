@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { ButtonUI } from '../button';
 import { LikeButtonUI } from '../like-button';
@@ -42,7 +41,7 @@ export const SkillCard: React.FC<SkillCardProps> = ({
 
   const skillsList = [...skills];
   const userSkill = { ...skillsList[0] };
-  
+
   const handleToggle = () => {
     if (currentUser) {
       dispatch(
